@@ -14,14 +14,15 @@ import {
 } from "react-icons/io";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
 import Profile from "../../assets/matra.jpg";
+import { useNavigate } from "react-router";
 
 // Navigation Component that have background white and fixed on top
 
-const NavOneCom = () => {
+const NavOneCom = ({ isLoggedIn }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state
+  const navigate = useNavigate();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -29,12 +30,14 @@ const NavOneCom = () => {
   const [cartItems, setCartItems] = useState(3);
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const handleLogin = () => setIsLoggedIn(true);
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   return (
     <>
       {/* Promotional Banner */}
-      <p className="w-full text-white text-sm bg-primary text-center py-1 fixed top-0 left-0 z-40">
+      <p className="w-full text-primary text-sm bg-primary text-center py-1 fixed top-0 left-0 z-40">
         Get 30% off when you spend over $200.
       </p>
 
@@ -44,7 +47,7 @@ const NavOneCom = () => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <a className="text-3xl font-bold leading-none" href="#">
+              <a className="text-3xl font-bold leading-none" href="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"
@@ -203,7 +206,7 @@ const NavOneCom = () => {
                   <a href="/cart" className="relative">
                     <BsCart className="text-primary text-xl hover:text-secondary" />
                     {cartItems > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5">
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-primary text-xs rounded-full px-1.5">
                         {cartItems}
                       </span>
                     )}
@@ -339,7 +342,7 @@ const NavOneCom = () => {
                 <a href="/cart" className="relative">
                   <BsCart className="text-primary text-2xl hover:text-secondary" />
                   {cartItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-primary text-xs rounded-full px-2">
                       {cartItems}
                     </span>
                   )}
@@ -422,14 +425,14 @@ const NavOneCom = () => {
                 <li className="mb-1">
                   <a
                     href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     All Products
                   </a>
                 </li>
                 <li className="mb-1 relative">
                   <div
-                    className="p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
+                    className="p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
                     onClick={toggleCategories}
                   >
                     Categories
@@ -500,7 +503,7 @@ const NavOneCom = () => {
                 <li className="mb-1">
                   <a
                     href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     Brand
                   </a>
@@ -508,7 +511,7 @@ const NavOneCom = () => {
                 <li className="mb-1">
                   <a
                     href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     Discount
                   </a>
@@ -516,7 +519,7 @@ const NavOneCom = () => {
                 <li className="mb-1">
                   <a
                     href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     About Us
                   </a>
@@ -526,7 +529,7 @@ const NavOneCom = () => {
 
             {/* Mobile Menu Footer (No Login/Cart Here Anymore) */}
             <div className="mt-auto">
-              <p className="my-4 text-xs text-center text-white">
+              <p className="my-4 text-xs text-center text-primary">
                 <span>Copyright © 2025 iShop</span>
               </p>
             </div>

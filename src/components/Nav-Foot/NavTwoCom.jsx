@@ -40,7 +40,7 @@ const NavTwoCom = () => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <a className="text-3xl font-bold leading-none" href="#">
+              <a className="text-3xl font-bold leading-none" href="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"

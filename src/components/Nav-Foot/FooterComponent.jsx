@@ -19,7 +19,7 @@ const FooterComponent = () => {
           {/* Logo Section */}
           <div className="mb-6 md:mb-0 lg:ml-[100px] md:ml-[15px]">
             <div className="flex flex-col sm:flex-row items-center gap-6">
-              <a href="#" className="flex items-center">
+              <a href="/" className="flex items-center">
                 <img
                   src={logo}
                   className="h-16 lg:h-20 me-3"

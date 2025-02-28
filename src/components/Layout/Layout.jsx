@@ -2,11 +2,11 @@ import { Outlet } from "react-router";
 import FooterComponent from "../Nav-Foot/FooterComponent";
 import NavOneCom from "../Nav-Foot/NavOneCom";
 
-export default function Layout() {
+export default function Layout({ isLoggedIn }) {
   return (
     <>
       <header>
-        <NavOneCom />
+        <NavOneCom isLoggedIn={isLoggedIn} />
       </header>
       <main>
         <Outlet />
