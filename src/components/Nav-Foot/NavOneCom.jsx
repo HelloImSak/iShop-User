@@ -37,7 +37,7 @@ const NavOneCom = ({ isLoggedIn }) => {
   return (
     <>
       {/* Promotional Banner */}
-      <p className="w-full text-primary text-sm bg-primary text-center py-1 fixed top-0 left-0 z-40">
+      <p className="w-full text-white text-sm bg-primary text-center py-1 fixed top-0 left-0 z-40">
         Get 30% off when you spend over $200.
       </p>
 
