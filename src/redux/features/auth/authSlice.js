@@ -20,7 +20,7 @@ export const authApi = createApi({
         body: { email, password },
       }),
     }),
-    userToken: builder.mutation({
+    userDataOfToken: builder.query({
       query: () => ({
         url: "/api/v1/users/me",
         method: "GET",
@@ -29,4 +29,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useGetLoginMutation, useUserTokenMutation } = authApi;
+export const { useGetLoginMutation, useUserDataOfTokenQuery } = authApi;

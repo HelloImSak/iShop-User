@@ -7,37 +7,53 @@ import Layout from "../components/Layout/Layout";
 import About from "../pages/About";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/products/ProductDetails";
-import { useUserTokenMutation } from "../redux/features/auth/authSlice"; // Import API call
+import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
+import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
 
 export default function AppRoutes() {
-  <Toaster position="top-right" />;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [getUserData] = useUserTokenMutation(); // RTK Query mutation
+  const token = localStorage.getItem("accessToken");
+  const { data: userData, error } = useUserDataOfTokenQuery(undefined, {
+    skip: !token, // ✅ Skip API call if no token
+  });
 
-  // ✅ Check if user is logged in and fetch user details
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // ✅ Set based on token presence
+  const [cartItems, setCartItems] = useState(0); // Add cartItems state
+  // Fetch cart data using the user's UUID
+  const userId = userData?.uuid; // Assuming uuid is in userData
+  const {
+    data: cartData,
+    error: cartError,
+    isLoading: cartLoading,
+  } = useGetUserCartQuery(userId, {
+    skip: !userId || !isLoggedIn, // Skip if no userId or not logged in
+  });
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-
-    if (!token) {
+    if (error) {
+      console.error("Invalid token, logging out...", error);
+      localStorage.removeItem("accessToken");
       setIsLoggedIn(false);
-      return;
+    } else if (userData) {
+      setIsLoggedIn(true);
     }
+  }, [userData, error]);
 
-    async function verifyToken() {
-      try {
-        const user = await getUserData(token).unwrap();
-        setUserData(user);
-        setIsLoggedIn(true);
-      } catch (error) {
-        console.error("Invalid token, logging out...", error);
-        localStorage.removeItem("accessToken"); // Remove invalid token
-        setIsLoggedIn(false);
-      }
+  // Update cartItems when cart data is fetched
+  useEffect(() => {
+    if (cartData?.cartItems) {
+      // Sum the quantities of all cart items
+      const totalQuantity = cartData.cartItems.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      setCartItems(totalQuantity);
+      console.log("Cart Data:", cartData);
+      console.log("Total Quantity:", totalQuantity);
     }
+    if (cartError) {
+      console.error("Failed to fetch cart:", cartError);
+    }
+  }, [cartData, cartError]);
 
-    verifyToken();
-  }, []);
   return (
     <>
       <Toaster position="top-center" /> {/* ✅ Correct placement */}
@@ -45,13 +61,35 @@ export default function AppRoutes() {
         <Routes>
           <Route
             path="/"
-            element={<Layout isLoggedIn={isLoggedIn} userData={userData} />}
+            element={
+              <Layout
+                isLoggedIn={isLoggedIn}
+                profile={userData?.profile}
+                cartItems={cartItems}
+              />
+            }
           >
             <Route
               index
-              element={<Home isLoggedIn={isLoggedIn} userData={userData} />}
+              element={
+                <Home
+                  isLoggedIn={isLoggedIn}
+                  userData={userData}
+                  cartItems={cartItems}
+                  cartLoading={cartLoading}
+                />
+              }
             />
-            <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
+            <Route
+              path="/about"
+              element={
+                <About
+                  isLoggedIn={isLoggedIn}
+                  cartItems={cartItems}
+                  cartLoading={cartLoading}
+                />
+              }
+            />
 
             {/* product */}
             <Route path="/product-details">

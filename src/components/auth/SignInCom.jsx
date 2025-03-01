@@ -33,7 +33,6 @@ const SignInCom = ({ setIsLoggedIn }) => {
         // Assuming response contains token or success message
         if (accessTokenData.accessToken) {
           localStorage.setItem("accessToken", accessTokenData.accessToken);
-          console.log("Stored Token:", localStorage.getItem("accessToken"));
           localStorage.setItem(
             "userData",
             JSON.stringify(accessTokenData.user)

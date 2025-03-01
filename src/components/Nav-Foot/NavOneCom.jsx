@@ -12,13 +12,15 @@ import {
   IoIosLaptop,
   IoIosPhonePortrait,
 } from "react-icons/io";
+
+import {useLocation} from "react-router-dom"
+import { useNavigate } from "react-router";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
 import Profile from "../../assets/matra.jpg";
-import { useNavigate } from "react-router";
 
 // Navigation Component that have background white and fixed on top
 
-const NavOneCom = ({ isLoggedIn }) => {
+const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
@@ -27,12 +29,21 @@ const NavOneCom = ({ isLoggedIn }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Placeholder data (replace with real data)
-  const [cartItems, setCartItems] = useState(3);
+
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const handleLogin = () => {
     navigate("/login");
   };
+
+  const pathNavigation = useLocation();
+  // const path = pathNavigation.pathname;
+  
+  if(pathNavigation.pathname === "/about")
+  {
+    return null;
+  }
+  else
 
   return (
     <>
@@ -166,7 +177,7 @@ const NavOneCom = ({ isLoggedIn }) => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/about"
                     className="block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
                   >
                     About Us
@@ -204,7 +215,10 @@ const NavOneCom = ({ isLoggedIn }) => {
               {isLoggedIn ? (
                 <div className="flex items-center gap-5">
                   <a href="/cart" className="relative">
-                    <BsCart className="text-primary text-xl hover:text-secondary" />
+                    <BsCart
+                      className="text-primary text-xl hover:text-secondary"
+                      onClick={() => navigate("/cart")}
+                    />
                     {cartItems > 0 && (
                       <span className="absolute -top-2 -right-2 bg-red-500 text-primary text-xs rounded-full px-1.5">
                         {cartItems}
@@ -213,9 +227,9 @@ const NavOneCom = ({ isLoggedIn }) => {
                   </a>
                   <a href="/profile">
                     <img
-                      src={Profile}
+                      src={profile ?? "no profile"}
                       alt="profile"
-                      className="w-8 h-8 rounded-full border"
+                      className="w-10 h-10 rounded-full border"
                     />
                   </a>
                 </div>
@@ -349,7 +363,7 @@ const NavOneCom = ({ isLoggedIn }) => {
                 </a>
                 <a href="/profile">
                   <img
-                    src={Profile}
+                    src={profile ?? "images/profile"}
                     alt="profile"
                     className="w-12 h-12 rounded-full border"
                   />
@@ -518,7 +532,7 @@ const NavOneCom = ({ isLoggedIn }) => {
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
+                    href="/about"
                     className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     About Us
