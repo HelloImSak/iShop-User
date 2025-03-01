@@ -25,16 +25,19 @@ const SignInCom = ({ setIsLoggedIn }) => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const accessTokenData = await getLogin({
-          email: values?.email,
-          password: values?.password,
+          email: values.email,
+          password: values.password,
         }).unwrap(); // API call
         console.log("Login Response:", accessTokenData);
 
         // Assuming response contains token or success message
-        if (accessTokenData.token) {
-          window.location.reload();
-          localStorage.setItem("accessToken", response.token.access_token);
-          localStorage.setItem("userData", JSON.stringify(response.user));
+        if (accessTokenData.accessToken) {
+          localStorage.setItem("accessToken", accessTokenData.accessToken);
+          console.log("Stored Token:", localStorage.getItem("accessToken"));
+          localStorage.setItem(
+            "userData",
+            JSON.stringify(accessTokenData.user)
+          );
 
           toast.success("Login Successful!", {
             icon: "✅",
@@ -48,8 +51,6 @@ const SignInCom = ({ setIsLoggedIn }) => {
       } catch (err) {
         console.error("Login error:", err);
         toast.error("Login failed! Check your credentials.");
-      } finally {
-        setSubmitting(false);
       }
     },
   });

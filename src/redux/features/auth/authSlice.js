@@ -4,6 +4,13 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_AUTH_ENDPOINT,
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("accessToken"); // ✅ Retrieve token from localStorage
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`); // ✅ Set Bearer token
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getLogin: builder.mutation({
@@ -14,10 +21,9 @@ export const authApi = createApi({
       }),
     }),
     userToken: builder.mutation({
-      query: (token) => ({
+      query: () => ({
         url: "/api/v1/users/me",
-        method: "POST",
-        body: { token },
+        method: "GET",
       }),
     }),
   }),

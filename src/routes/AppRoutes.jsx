@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"; // ✅ Fix: Import useState
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import SignInCom from "../components/auth/SignInCom";
+import SignOutCom from "../components/auth/SignOutCom";
 import Layout from "../components/Layout/Layout";
 import About from "../pages/About";
 import Home from "../pages/Home";
@@ -50,7 +51,7 @@ export default function AppRoutes() {
               index
               element={<Home isLoggedIn={isLoggedIn} userData={userData} />}
             />
-            <Route path="about" element={<About isLoggedIn={isLoggedIn} />} />
+            <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
 
             {/* product */}
             <Route path="/product-details">
@@ -63,6 +64,7 @@ export default function AppRoutes() {
             path="/login"
             element={<SignInCom setIsLoggedIn={setIsLoggedIn} />}
           />
+          <Route path="/profile" element={<SignOutCom />} />
         </Routes>
       </Router>
     </>
