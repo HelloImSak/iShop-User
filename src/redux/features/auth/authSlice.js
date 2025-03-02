@@ -26,7 +26,34 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
+    userRegister: builder.mutation({
+      query: ({
+        username,
+        phoneNumber,
+        email,
+        password,
+        confirmPassword,
+        address,
+        profile,
+      }) => ({
+        url: "/api/v1/users/user-signup",
+        method: "POST",
+        body: {
+          username,
+          phoneNumber,
+          email,
+          password,
+          confirmPassword,
+          address, // Should be an object like { addressLine1, addressLine2, road, linkAddress }
+          profile,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetLoginMutation, useUserDataOfTokenQuery } = authApi;
+export const {
+  useGetLoginMutation,
+  useUserDataOfTokenQuery,
+  useUserRegisterMutation,
+} = authApi;

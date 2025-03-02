@@ -54,6 +54,14 @@ const SignInCom = ({ setIsLoggedIn }) => {
     },
   });
 
+  const isFilled = (value) => {
+    return (
+      value &&
+      value.trim() !== "" &&
+      (typeof value !== "object" || value instanceof File)
+    ); // Handle file input differently
+  };
+
   return (
     <div className="font-OpenSan flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
@@ -155,6 +163,15 @@ const SignInCom = ({ setIsLoggedIn }) => {
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>
+          <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            Don’t have an account yet?{" "}
+            <a
+              href="/register"
+              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            >
+              Sign up
+            </a>
+          </p>
         </form>
       </div>
     </div>
