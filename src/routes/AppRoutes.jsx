@@ -3,7 +3,9 @@ import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import SignInCom from "../components/auth/SignInCom";
 import SignOutCom from "../components/auth/SignOutCom";
-import Layout from "../components/Layout/Layout";
+import LayoutNav1 from "../components/Layout/LayoutNav1";
+import LayoutNav2 from "../components/Layout/LayoutNav2";
+import NotFoundProductCom from "../components/NotFoundProductCom";
 import About from "../pages/About";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/products/ProductDetails";
@@ -17,7 +19,9 @@ export default function AppRoutes() {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!token); // ✅ Set based on token presence
+
   const [cartItems, setCartItems] = useState(0); // Add cartItems state
+
   // Fetch cart data using the user's UUID
   const userId = userData?.uuid; // Assuming uuid is in userData
   const {
@@ -54,42 +58,31 @@ export default function AppRoutes() {
     }
   }, [cartData, cartError]);
 
+  const storedUserData = localStorage.getItem("userData");
+  const storedProfile = storedUserData
+    ? JSON.parse(storedUserData).profile
+    : null;
+
+  const activeProfile = userData?.profile || storedProfile;
+
   return (
     <>
-      <Toaster position="top-center" /> {/* ✅ Correct placement */}
+      <Toaster position="top-center" />
       <Router>
         <Routes>
+          {/* Layout with NavOneCom */}
           <Route
-            path="/"
             element={
-              <Layout
+              <LayoutNav1
                 isLoggedIn={isLoggedIn}
-                profile={userData?.profile}
+                profile={activeProfile}
                 cartItems={cartItems}
               />
             }
           >
-            <Route
-              index
-              element={
-                <Home
-                  isLoggedIn={isLoggedIn}
-                  userData={userData}
-                  cartItems={cartItems}
-                  cartLoading={cartLoading}
-                />
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <About
-                  isLoggedIn={isLoggedIn}
-                  cartItems={cartItems}
-                  cartLoading={cartLoading}
-                />
-              }
-            />
+            <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+
+            <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
 
             {/* product */}
             <Route path="/product-details">
@@ -97,12 +90,37 @@ export default function AppRoutes() {
             </Route>
           </Route>
 
-          {/* Login / Register */}
+          {/* Layout with NavTwoCom */}
           <Route
-            path="/login"
-            element={<SignInCom setIsLoggedIn={setIsLoggedIn} />}
-          />
-          <Route path="/profile" element={<SignOutCom />} />
+            element={
+              <LayoutNav2
+                isLoggedIn={isLoggedIn}
+                profile={activeProfile}
+                cartItems={cartItems}
+              />
+            }
+          >
+            <Route
+              path="/not-found-product"
+              element={
+                <NotFoundProductCom
+                  isLoggedIn={isLoggedIn}
+                  userData={userData}
+                  cartItems={cartItems}
+                  cartLoading={cartLoading}
+                />
+              }
+            />
+          </Route>
+
+          {/* Login / Register */}
+          <Route>
+            <Route
+              path="/login"
+              element={<SignInCom setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route path="/profile" element={<SignOutCom />} />
+          </Route>
         </Routes>
       </Router>
     </>
