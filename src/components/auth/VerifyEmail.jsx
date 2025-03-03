@@ -1,15 +1,51 @@
-import React from "react";
-import { FaArrowRight } from "react-icons/fa"; 
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router";
+import * as Yup from "yup";
+import { useVerifyRegistrationMutation } from "../../redux/features/auth/authSlice";
 
 const VerifyEmail = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Verification code submitted");
-  };
+  const navigate = useNavigate();
+  const [verifyRegistration, { isLoading, isError, isSuccess, error }] =
+    useVerifyRegistrationMutation();
 
-  const handleResendCode = () => {
-    console.log("Resend code requested");
-  };
+  const [timer, setTimer] = useState(120);
+  useEffect(() => {
+    if (timer <= 0) return;
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const formik = useFormik({
+    initialValues: {
+      verificationCode: "",
+    },
+    validationSchema: Yup.object({
+      verificationCode: Yup.string()
+        .required("Verification code is required")
+        .length(6, "Code must be exactly 6 digits"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        const res = await verifyRegistration(values.verificationCode).unwrap();
+        console.log("Verification successful:", res);
+        navigate("/login");
+      } catch (err) {
+        console.error("Verification failed:", err);
+      }
+    },
+  });
+
+  // const isFilled = (value) => {
+  //   // Improved logic to handle different input types consistently
+  //   if (value === null || value === undefined) return false;
+  //   if (typeof value === "string") return value.trim() !== "";
+  //   if (value instanceof File) return true; // For file inputs
+  //   return false;
+  // };
 
   return (
     <div className="shadow-2xl flex justify-center items-center min-h-screen bg-gray-100 rounded-lg">
@@ -21,41 +57,75 @@ const VerifyEmail = () => {
         <p className="text-gray-500 text-center mt-4 text-sm dark:text-gray-400">
           Enter the 6-digit code sent to your email.
         </p>
-        <form className="mt-6" onSubmit={handleSubmit}>
+
+        <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div>
-            <div className="flex justify-between items-center">
-              <label
-                htmlFor="verificationCode"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Verification Code
-              </label>
-              <button
-                type="button"
-                onClick={handleResendCode}
-                className="text-sm text-blue-500 hover:underline dark:text-blue-500"
-              >
-                Resend Code
-              </button>
-            </div>
+            <label
+              htmlFor="verificationCode"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Verification Code
+            </label>
+
             <input
               type="text"
               id="verificationCode"
               name="verificationCode"
               placeholder="Enter verification code"
-              className="w-full mt-2 p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              value={formik.values.verificationCode}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full mt-2 p-3 border ${
+                formik.touched.verificationCode &&
+                formik.errors.verificationCode
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white`}
               required
             />
+            {formik.touched.verificationCode &&
+              formik.errors.verificationCode && (
+                <p className="text-red-500 text-sm mt-1">
+                  {formik.errors.verificationCode}
+                </p>
+              )}
           </div>
 
           <button
             type="submit"
-            className="w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300"
+            disabled={isLoading}
+            className="w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
             aria-label="Verify me"
           >
-            Verify Me <FaArrowRight />
+            {isLoading ? "Verifying..." : "Verify Me"} <FaArrowRight />
           </button>
         </form>
+
+        {/* Countdown Timer */}
+        <div className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
+          {timer > 0 ? (
+            <span>Resend code available in {timer}s</span>
+          ) : (
+            <button
+              onClick={() => setTimer(120)} // Reset the timer
+              className="text-blue-500 hover:underline"
+            >
+              Resend Code
+            </button>
+          )}
+        </div>
+
+        {/* Status messages */}
+        {isError && (
+          <p className="text-red-500 mt-4 text-center">
+            {error?.data?.message || "Verification failed."}
+          </p>
+        )}
+        {isSuccess && (
+          <p className="text-green-500 mt-4 text-center">
+            Email verified successfully!
+          </p>
+        )}
       </div>
     </div>
   );
