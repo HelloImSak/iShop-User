@@ -335,7 +335,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                 <a href="/cart" className="relative">
                   <BsCart className="text-white text-2xl hover:text-secondary" />
                   {cartItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                    <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full px-2">
                       {cartItems}
                     </span>
                   )}

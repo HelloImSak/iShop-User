@@ -1,5 +1,5 @@
 import React from "react";
-import { FaArrowRight } from "react-icons/fa"; 
+import { FaArrowRight } from "react-icons/fa";
 
 const ForgotPassword = () => {
   const handleSubmit = (e) => {
@@ -9,10 +9,10 @@ const ForgotPassword = () => {
 
   return (
     <div className="shadow flex justify-center items-center min-h-screen bg-gray-100 rounded-lg">
-  <div className="w-[400px] bg-white p-8 rounded-lg shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.1)] dark:bg-gray-800 dark:border dark:border-gray-700">
-    <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
-      Forget Password
-    </h2>
+      <div className="w-[400px] bg-white p-8 rounded-lg shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.1)] dark:bg-gray-800 dark:border dark:border-gray-700">
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
+          Forget Password
+        </h2>
         <p className="text-gray-500 text-center mt-4 text-sm dark:text-gray-400">
           Please enter your email address, and we'll send you a link
         </p>

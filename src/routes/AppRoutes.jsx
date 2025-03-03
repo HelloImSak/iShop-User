@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import ProductDetails from "../pages/products/ProductDetails";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
+import Register from "../components/auth/Register";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -120,6 +121,7 @@ export default function AppRoutes() {
               element={<SignInCom setIsLoggedIn={setIsLoggedIn} />}
             />
             <Route path="/profile" element={<SignOutCom />} />
+            <Route path="/register" element={<Register/>}/>
           </Route>
         </Routes>
       </Router>
