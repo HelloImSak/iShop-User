@@ -3,11 +3,11 @@ import { BsCart3 } from "react-icons/bs";
 
 export default function CardCom() {
   return (
-    <main className="flex items-center justify-center h-screen ">
-      <div className="w-[330px] max-w-sm bg-white border border-gray-200 rounded-[25px] shadow-lg p-5">
+    <main className="flex items-center justify-center">
+      <div className="w-[310px] max-w-sm bg-white border border-gray-200 rounded-[25px] shadow-lg p-5">
         <a href="#">
           <img
-            className="rounded-t-lg mx-auto w-[250px] "
+            className="rounded-t-lg mx-auto h-[250px] "
             src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQTR3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1687660671097"
             alt="Beats Studio Pro"
           />
