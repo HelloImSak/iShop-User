@@ -4,6 +4,9 @@ import * as Yup from "yup";
 import { useUserRegisterMutation } from "../../redux/features/auth/authSlice";
 import { useUploadImageMutation } from "../../redux/features/images/imgSlice";
 
+import Logo from "../../assets/logo/ishop-dark-logo.png";
+import ResPic from "../../assets/signup-pic.png";
+
 const Register = () => {
   const [userRegister, { isLoading, error }] = useUserRegisterMutation();
   const [uploadImage] = useUploadImageMutation();
@@ -25,10 +28,7 @@ const Register = () => {
       username: Yup.string()
         .min(3, "Username must be at least 3 characters long")
         .max(20, "Username must not exceed 20 characters")
-        .matches(
-          /^[a-zA-Z0-9_]+$/,
-          "Username can only contain letters, numbers, and underscores"
-        )
+        .matches(/^[a-zA-Z0-9_]+$/, "Username can only contain letters")
         .required("Username is required"),
       phoneNumber: Yup.string()
         .matches(/^[0-9]+$/, "Phone number must contain only digits")
@@ -102,17 +102,28 @@ const Register = () => {
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-        <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
+        <aside className="relative hidden lg:block lg:col-span-5 xl:col-span-6">
           <img
-            alt=""
-            src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-            className="absolute inset-0 h-full w-full object-cover"
+            src={ResPic}
+            alt="E-commerce Banner"
+            className="absolute inset-0 h-full w-full object-contain px-5"
           />
+          <div className="absolute inset-0 flex justify-center bg-primary bg-opacity-30">
+            <div className="text-white mt-6">
+              <img src={Logo} alt="" className="w-[200px] mx-auto" />
+              <h2 className="text-3xl font-bold mb-4 text-center">Join Us Today!</h2>
+              <p className="text-lg">
+                Sign up to explore exclusive deals and start shopping with ease.
+              </p>
+            </div>
+          </div>
         </aside>
 
-        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-          <div className="max-w-xl lg:max-w-3xl">
-            {/* ... Logo and header content ... */}
+        <main className="items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+          <div className="w-full">
+            <h1 className="text-center mt-6 text-2xl font-OpenSanBold text-gray-900 sm:text-3xl md:text-4xl">
+              Sign Up
+            </h1>
 
             <form
               onSubmit={formik.handleSubmit}
@@ -128,10 +139,17 @@ const Register = () => {
                   placeholder="Username"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.username) ? "bg-[#e8f0fe]" : ""
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.username) && !formik.errors.username
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.username && formik.touched.username && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.username}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -142,11 +160,20 @@ const Register = () => {
                   value={formik.values.phoneNumber} // Fixed from values.username
                   onChange={formik.handleChange}
                   placeholder="Phone Number"
+                  onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.phoneNumber) ? "bg-[#e8f0fe]" : ""
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.phoneNumber) &&
+                    !formik.errors.phoneNumber
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.phoneNumber && formik.touched.phoneNumber && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.phoneNumber}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6">
@@ -157,11 +184,19 @@ const Register = () => {
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   placeholder="Email"
+                  onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.email) ? "bg-[#e8f0fe]" : ""
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.email) && !formik.errors.phoneNumber
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.email && formik.touched.email && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.email}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -172,11 +207,20 @@ const Register = () => {
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   placeholder="Password"
+                  onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.password) ? "bg-[#e8f0fe]" : ""
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.password) &&
+                    !formik.errors.phoneNumber
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.password && formik.touched.password && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.password}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -187,13 +231,21 @@ const Register = () => {
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
                   placeholder="Confirm Password"
+                  onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.confirmPassword)
+                  className={`mt-1 w-full rounded-md border-gray-200  text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.confirmPassword) &&
+                    !formik.errors.phoneNumber
                       ? "bg-[#e8f0fe]"
-                      : ""
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.confirmPassword &&
+                  formik.touched.confirmPassword && (
+                    <div className="text-accent_1 text-sm">
+                      {formik.errors.confirmPassword}
+                    </div>
+                  )}
               </div>
 
               {/* Added missing address fields */}
@@ -205,11 +257,20 @@ const Register = () => {
                   value={formik.values.addressLine1}
                   onChange={formik.handleChange}
                   placeholder="Address Line 1"
+                  onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.addressLine1) ? "bg-[#e8f0fe]" : ""
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.addressLine1) &&
+                    !formik.errors.addressLine1
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.addressLine1 && formik.touched.addressLine1 && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.addressLine1}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6">
@@ -220,11 +281,20 @@ const Register = () => {
                   value={formik.values.addressLine2}
                   onChange={formik.handleChange}
                   placeholder="Address Line 2"
+                  onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs ${
-                    isFilled(formik.values.addressLine2) ? "bg-[#e8f0fe]" : ""
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.addressLine2) &&
+                    !formik.errors.addressLine2
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
                   }`}
                 />
+                {formik.errors.addressLine2 && formik.touched.addressLine2 && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.addressLine2}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -235,9 +305,19 @@ const Register = () => {
                   value={formik.values.road}
                   onChange={formik.handleChange}
                   placeholder="Road"
+                  onBlur={formik.handleBlur}
                   required
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.road) && !formik.errors.road
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
+                  }`}
                 />
+                {formik.errors.road && formik.touched.road && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.road}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -248,28 +328,46 @@ const Register = () => {
                   value={formik.values.linkAddress}
                   onChange={formik.handleChange}
                   placeholder="Link Address"
+                  onBlur={formik.handleBlur}
                   required
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
+                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                    isFilled(formik.values.linkAddress) &&
+                    !formik.errors.linkAddress
+                      ? "bg-[#e8f0fe]"
+                      : "bg-white"
+                  }`}
                 />
+                {formik.errors.linkAddress && formik.touched.linkAddress && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.linkAddress}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-6">
+                Your profile
                 <input
                   type="file"
                   id="profile"
                   name="profile"
                   onChange={handleFileChange}
+                  onBlur={formik.handleBlur}
                   required
                   className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                 />
+                {formik.errors.profile && formik.touched.profile && (
+                  <div className="text-accent_1 text-sm">
+                    {formik.errors.profile}
+                  </div>
+                )}
               </div>
 
               {/* ... Marketing checkbox and terms ... */}
 
-              <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+              <div className="col-span-6">
                 <button
                   type="submit"
-                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden"
+                  className="inline-block w-full shrink-0 rounded-md border border-primary bg-primary px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden"
                   disabled={formik.isSubmitting || isLoading} // Fixed from isSubmitting
                 >
                   {formik.isSubmitting || isLoading
@@ -277,7 +375,7 @@ const Register = () => {
                     : "Register"}
                 </button>
 
-                <p className="mt-4 text-sm text-gray-500 sm:mt-0">
+                <p className="mt-4 text-sm text-gray-500">
                   Already have an account?
                   <a href="/login" className="text-gray-700 underline">
                     Log in
