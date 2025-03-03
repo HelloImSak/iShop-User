@@ -49,10 +49,11 @@ const HomeBanner = () => {
       className="carousel"
       style={{
         backgroundColor: bgColors[activeIndex], // Dynamically changing background color
-        transition: "background-color 0.5s ease-in-out", // Smooth transition
+        transition: "background-color 0.5s ease-in-out",// Smooth transition
       }}
     >
-      <div className="list">
+      <div className="list"
+      >
         <div className="item">
           <img src={img1} alt="Slide 1" className="responsive-img1 w-auto ml-10 h-auto object-contain max-w-[420px]" />
           <div className="introduce">
@@ -64,7 +65,7 @@ const HomeBanner = () => {
           </div>
         </div>
 
-        <div className="item">
+        <div className="item ">
           <img src={img2} alt="Slide 2" className="responsive-img2 w-auto h-auto object-contain min-w-[540px] " />
           <div className="introduce w-2000">
             <div className="title">Most comfortable 2025 PS4 gaming headset</div>

@@ -26,7 +26,7 @@ const products = [
     },
   ];
   
-  export default function ProductCards() {
+  export default function PopularCategories() {
     return (
       <>
         <h1 className="text-4xl text-primary text-center font-OpenSanBold mb-6">Popular Categories</h1>
@@ -37,8 +37,8 @@ const products = [
                 key={index}
                 className="flex flex-col items-center text-center transition-transform transform duration-700 ease-in-out hover:scale-110 w-full"
               >
-                <img src={product.image} alt={product.name} className="w-full max-w-[150px] h-auto object-contain drop-shadow-lg" />
-                <h3 className="mt-2 text-gray-500 font-semibold text-lg">{product.name}</h3>
+                <img src={product.image} alt={product.name} className="relative w-full max-w-[200px] max-h-[200px] object-contain drop-shadow-lg" />
+                <h3 className="absolute bottom-0 mt-2 text-gray-500 font-semibold text-lg">{product.name}</h3>
               </div>
             ))}
           </div>
