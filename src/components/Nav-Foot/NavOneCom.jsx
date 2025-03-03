@@ -12,25 +12,29 @@ import {
   IoIosLaptop,
   IoIosPhonePortrait,
 } from "react-icons/io";
+
+import { useNavigate } from "react-router";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
-import Profile from "../../assets/matra.jpg";
 
 // Navigation Component that have background white and fixed on top
 
-const NavOneCom = () => {
+const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state
+  const navigate = useNavigate();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Placeholder data (replace with real data)
-  const [cartItems, setCartItems] = useState(3);
+
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const handleLogin = () => setIsLoggedIn(true);
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
+  
   return (
     <>
       {/* Promotional Banner */}
@@ -44,7 +48,7 @@ const NavOneCom = () => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <a className="text-3xl font-bold leading-none" href="#">
+              <a className="text-3xl font-bold leading-none" href="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"
@@ -57,7 +61,7 @@ const NavOneCom = () => {
               <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
                 <li>
                   <a
-                    href="#"
+                    href="/all-products"
                     className="block lg:font-OpenSanBold py-2 px-3 text-primary hover:text-secondary"
                   >
                     All Products
@@ -65,7 +69,9 @@ const NavOneCom = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    onClick={() => {
+                      setIsDropdownOpen(!isDropdownOpen);
+                    }}
                     className="flex items-center lg:font-OpenSanBold justify-between w-full py-2 px-3 text-primary hover:text-secondary"
                   >
                     Categories
@@ -81,7 +87,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <IoIosPhonePortrait className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2 ">
+                            <a href="/phone" className="block px-4 py-2 ">
                               Phone
                             </a>
                           </div>
@@ -90,7 +96,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <IoIosLaptop className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/laptop" className="block px-4 py-2">
                               Laptop
                             </a>
                           </div>
@@ -99,7 +105,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <IoIosDesktop className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/desktop" className="block px-4 py-2">
                               Desktop
                             </a>
                           </div>
@@ -108,7 +114,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <FaRegKeyboard className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/keyboard" className="block px-4 py-2">
                               Keyboard
                             </a>
                           </div>
@@ -117,7 +123,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <BsMouse3 className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/mouse" className="block px-4 py-2">
                               Mouse
                             </a>
                           </div>
@@ -126,7 +132,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <CiSpeaker className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/speaker" className="block px-4 py-2">
                               Speaker
                             </a>
                           </div>
@@ -135,7 +141,7 @@ const NavOneCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <GiHeadphones className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2 ">
+                            <a href="/headphone" className="block px-4 py-2 ">
                               Headphone
                             </a>
                           </div>
@@ -147,7 +153,7 @@ const NavOneCom = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/brand"
                     className="block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
                   >
                     Brand
@@ -155,7 +161,7 @@ const NavOneCom = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/discount"
                     className="block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
                   >
                     Discount
@@ -163,7 +169,7 @@ const NavOneCom = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/about"
                     className="block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
                   >
                     About Us
@@ -201,18 +207,21 @@ const NavOneCom = () => {
               {isLoggedIn ? (
                 <div className="flex items-center gap-5">
                   <a href="/cart" className="relative">
-                    <BsCart className="text-primary text-xl hover:text-secondary" />
+                    <BsCart
+                      className="text-primary text-xl hover:text-secondary"
+                      onClick={() => navigate("/cart")}
+                    />
                     {cartItems > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5">
+                      <span className="absolute -top-2 -right-3 bg-red-500 text-primary text-xs rounded-full px-1.5">
                         {cartItems}
                       </span>
                     )}
                   </a>
                   <a href="/profile">
                     <img
-                      src={Profile}
+                      src={profile ?? "no profile"}
                       alt="profile"
-                      className="w-8 h-8 rounded-full border"
+                      className="w-10 h-10 rounded-full border"
                     />
                   </a>
                 </div>
@@ -335,18 +344,18 @@ const NavOneCom = () => {
 
             {/* Desktop Login/Cart/Profile */}
             {isLoggedIn ? (
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-8">
                 <a href="/cart" className="relative">
                   <BsCart className="text-primary text-2xl hover:text-secondary" />
                   {cartItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                    <span className="absolute -top-2 -right-4 bg-red-500 text-primary text-xs rounded-full px-2">
                       {cartItems}
                     </span>
                   )}
                 </a>
                 <a href="/profile">
                   <img
-                    src={Profile}
+                    src={profile ?? "images/profile"}
                     alt="profile"
                     className="w-12 h-12 rounded-full border"
                   />
@@ -421,15 +430,15 @@ const NavOneCom = () => {
               <ul>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/all-products"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     All Products
                   </a>
                 </li>
                 <li className="mb-1 relative">
                   <div
-                    className="p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
+                    className="p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
                     onClick={toggleCategories}
                   >
                     Categories
@@ -454,43 +463,43 @@ const NavOneCom = () => {
                     <ul className="ml-4 bg-white/80 backdrop-blur-md rounded shadow-lg">
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <IoIosPhonePortrait className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/phone" className="block px-4 py-2">
                           Phone
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <IoIosLaptop className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/laptop" className="block px-4 py-2">
                           Laptop
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <IoIosDesktop className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="desktop" className="block px-4 py-2">
                           Desktop
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <FaRegKeyboard className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/keyboard" className="block px-4 py-2">
                           Keyboard
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <BsMouse3 className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/mouse" className="block px-4 py-2">
                           Mouse
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <CiSpeaker className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/speaker" className="block px-4 py-2">
                           Speaker
                         </a>
                       </li>
                       <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <GiHeadphones className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2 ">
+                        <a href="/headphone" className="block px-4 py-2 ">
                           Headphone
                         </a>
                       </li>
@@ -499,24 +508,24 @@ const NavOneCom = () => {
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/brand"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     Brand
                   </a>
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/discount"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     Discount
                   </a>
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/about"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     About Us
                   </a>
@@ -526,7 +535,7 @@ const NavOneCom = () => {
 
             {/* Mobile Menu Footer (No Login/Cart Here Anymore) */}
             <div className="mt-auto">
-              <p className="my-4 text-xs text-center text-white">
+              <p className="my-4 text-xs text-center text-primary">
                 <span>Copyright © 2025 iShop</span>
               </p>
             </div>

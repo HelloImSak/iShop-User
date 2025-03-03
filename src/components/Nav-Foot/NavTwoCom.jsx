@@ -12,26 +12,26 @@ import {
   IoIosLaptop,
   IoIosPhonePortrait,
 } from "react-icons/io";
-import Logo from "../../assets/logo/ishop-light-logo.png";
+import { useNavigate } from "react-router";
 import Logo2 from "../../assets/logo/ishop-dark-logo.png";
-import Profile from "../../assets/matra.jpg";
+import Logo from "../../assets/logo/ishop-light-logo.png";
 
 // Navigation Component that have background primary color and fixed on top
 
-const NavTwoCom = () => {
+const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state
-
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  // Placeholder data (replace with real data)
-  const [cartItems, setCartItems] = useState(3);
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const handleLogin = () => setIsLoggedIn(true);
 
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
   return (
     <>
       {/* Main Navbar Container */}
@@ -40,7 +40,7 @@ const NavTwoCom = () => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <a className="text-3xl font-bold leading-none" href="#">
+              <a className="text-3xl font-bold leading-none" href="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"
@@ -53,7 +53,7 @@ const NavTwoCom = () => {
               <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
                 <li>
                   <a
-                    href="#"
+                    href="/all-products"
                     className="block xl:font-OpenSanBold py-2 px-3 text-white hover:text-secondary"
                   >
                     All Products
@@ -77,7 +77,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <IoIosPhonePortrait className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2 ">
+                            <a href="/phone" className="block px-4 py-2 ">
                               Phone
                             </a>
                           </div>
@@ -86,7 +86,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <IoIosLaptop className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/laptop" className="block px-4 py-2">
                               Laptop
                             </a>
                           </div>
@@ -95,7 +95,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <IoIosDesktop className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/desktop" className="block px-4 py-2">
                               Desktop
                             </a>
                           </div>
@@ -104,7 +104,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <FaRegKeyboard className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/keyboard" className="block px-4 py-2">
                               Keyboard
                             </a>
                           </div>
@@ -113,7 +113,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <BsMouse3 className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/mouse" className="block px-4 py-2">
                               Mouse
                             </a>
                           </div>
@@ -122,7 +122,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <CiSpeaker className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2">
+                            <a href="/speaker" className="block px-4 py-2">
                               Speaker
                             </a>
                           </div>
@@ -131,7 +131,7 @@ const NavTwoCom = () => {
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                           <div className="flex items-center gap-2.5">
                             <GiHeadphones className="w-[26px] h-[26px]" />
-                            <a href="#" className="block px-4 py-2 ">
+                            <a href="/headphone" className="block px-4 py-2 ">
                               Headphone
                             </a>
                           </div>
@@ -143,7 +143,7 @@ const NavTwoCom = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/brand"
                     className="block py-2 px-3 xl:font-OpenSanBold text-white hover:text-secondary"
                   >
                     Brand
@@ -151,7 +151,7 @@ const NavTwoCom = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/discount"
                     className="block py-2 px-3 xl:font-OpenSanBold text-white hover:text-secondary"
                   >
                     Discount
@@ -159,7 +159,7 @@ const NavTwoCom = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/about"
                     className="block py-2 px-3 xl:font-OpenSanBold text-white hover:text-secondary"
                   >
                     About Us
@@ -199,14 +199,14 @@ const NavTwoCom = () => {
                   <a href="/cart" className="relative">
                     <BsCart className="text-white text-xl hover:text-secondary" />
                     {cartItems > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5">
+                      <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full px-1.5">
                         {cartItems}
                       </span>
                     )}
                   </a>
                   <a href="/profile">
                     <img
-                      src={Profile}
+                      src={profile ?? "images/profile"}
                       alt="profile"
                       className="w-8 h-8 rounded-full border"
                     />
@@ -342,7 +342,7 @@ const NavTwoCom = () => {
                 </a>
                 <a href="/profile">
                   <img
-                    src={Profile}
+                    src={profile}
                     alt="profile"
                     className="w-12 h-12 rounded-full border"
                   />
@@ -417,15 +417,15 @@ const NavTwoCom = () => {
               <ul>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/all-products"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     All Products
                   </a>
                 </li>
                 <li className="mb-1 relative">
                   <div
-                    className="p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
+                    className="p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
                     onClick={toggleCategories}
                   >
                     Categories
@@ -450,43 +450,43 @@ const NavTwoCom = () => {
                     <ul className="ml-4 bg-white/80 backdrop-blur-md rounded shadow-xl">
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <IoIosPhonePortrait className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/phone" className="block px-4 py-2">
                           Phone
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <IoIosLaptop className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/laptop" className="block px-4 py-2">
                           Laptop
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <IoIosDesktop className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/desktop" className="block px-4 py-2">
                           Desktop
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <FaRegKeyboard className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/keyboard" className="block px-4 py-2">
                           Keyboard
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <BsMouse3 className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/mouse" className="block px-4 py-2">
                           Mouse
                         </a>
                       </li>
                       <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <CiSpeaker className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2">
+                        <a href="/speaker" className="block px-4 py-2">
                           Speaker
                         </a>
                       </li>
                       <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                         <GiHeadphones className="w-[26px] h-[26px]" />
-                        <a href="#" className="block px-4 py-2 ">
+                        <a href="/headphone" className="block px-4 py-2 ">
                           Headphone
                         </a>
                       </li>
@@ -495,24 +495,24 @@ const NavTwoCom = () => {
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/brand"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     Brand
                   </a>
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/discount"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     Discount
                   </a>
                 </li>
                 <li className="mb-1">
                   <a
-                    href="#"
-                    className="block p-4 text-sm font-semibold text-white hover:bg-blue-50 hover:text-primary rounded"
+                    href="/about"
+                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                   >
                     About Us
                   </a>

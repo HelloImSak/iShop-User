@@ -9,17 +9,17 @@ import { RiInstagramFill } from "react-icons/ri";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
 import logo from "../../assets/logo/ishop-light-logo.png";
-import SchoolLogo from "../../assets/logo/istad.png";
+import SchoolLogo from "../../assets/logo/istad-logo.png";
 
 const FooterComponent = () => {
   return (
     <footer className="bg-primary">
-      <div className="w-full max-w-screen p-4 py-6 lg:py-8">
+      <div className="w-full max-w-screen p-4 py-6 lg:py-8 bottom-0">
         <div className="md:flex md:justify-between md:items-center  md:gap-5">
           {/* Logo Section */}
           <div className="mb-6 md:mb-0 lg:ml-[100px] md:ml-[15px]">
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <a href="#" className="flex items-center">
+            <div className="flex flex-col xl:flex-row items-center gap-6">
+              <a href="/" className="flex items-center">
                 <img
                   src={logo}
                   className="h-16 lg:h-20 me-3"
