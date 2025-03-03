@@ -6,10 +6,13 @@ import { useUploadImageMutation } from "../../redux/features/images/imgSlice";
 
 import Logo from "../../assets/logo/ishop-dark-logo.png";
 import ResPic from "../../assets/signup-pic.png";
+import { useNavigate } from "react-router";
 
 const Register = () => {
   const [userRegister, { isLoading, error }] = useUserRegisterMutation();
   const [uploadImage] = useUploadImageMutation();
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -72,12 +75,11 @@ const Register = () => {
           },
           profile: imageResponse.uri,
         }).unwrap();
-
-        console.log("Registration success:", res);
-        toast.success("Sign Up Successful!", {
+        toast.success("Please verify your Email!", {
           icon: "✅",
         });
         resetForm();
+        navigate("/verify-code");
       } catch (err) {
         console.error("Registration failed:", err);
         setErrors({ email: err?.data?.message || "Registration failed." });
