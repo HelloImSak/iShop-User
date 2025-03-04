@@ -1,0 +1,120 @@
+import React from "react";
+import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
+import Matra from "../../assets/TeamsImage/Matra.png"
+import Raksa from "../../assets/TeamsImage/Raksa.png"
+import Channim from "../../assets/TeamsImage/Channim.png"
+import Nita from "../../assets/TeamsImage/Nita.png"
+import Vanly from "../../assets/TeamsImage/Vanly.png"
+import Pisethi from "../../assets/TeamsImage/Pisethi.png"
+import Seyla from "../../assets/TeamsImage/Seyla.png"
+import Vicheka from "../../assets/TeamsImage/Vicheka.png"
+const teams = [
+  {
+    name: "Chey Somatra",
+    role: "UI/UX Design and Front-End",
+    image: Matra,
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Nov Raksa",
+    role: "UI/UX Design and Front-End",
+    image: Raksa, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Ey Channim",
+    role: "UI/UX Design and Front-End",
+    image: Channim, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Heng Nita",
+    role: "UI/UX Design and Front-End",
+    image: Nita, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Thouen Vanly",
+    role: "Java app console and Front-End",
+    image: Vanly, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Dina Pisethi",
+    role: "Java app console and Front-End",
+    image: Pisethi, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Choeun seyla",
+    role: "UI/UX Design and Front-End",
+    image: Seyla, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+  {
+    name: "Sokhem Vicheka",
+    role: "UI/UX Design and Front-End",
+    image: Vicheka, 
+    social: {
+      github: "#",
+      linkedin: "#",
+      website: "#",
+    },
+  },
+];
+
+const TeamsSection = () => {
+  return (
+    <section className="text-center py-8">
+      <h2 className="text-4xl font-bold text-primary mb-10">Meet Our Teams</h2>
+      <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-center gap-y-10 py-10">
+        {teams.map((teams, index) => (
+          <div key={index} className="flex flex-col items-center bg-white p-4 ">
+            <img
+              src={teams.image}
+              alt={teams.name}
+              className="w-50 h-48 rounded-full object-cover mb-3"
+            />
+            <h3 className="text-lg font-semibold m-1">{teams.name}</h3>
+            <p className="text-primary text-sm mb-1">{teams.role}</p>
+            <div className=" flex space-x-3 mt-2 text-gray-500">
+                <a href={teams.social.github} className="text-xl hover:text-gray-700"><FaGithub /></a>
+                <a href={teams.social.linkedin} className="text-xl hover:text-gray-700"><FaLinkedin /></a>
+                <a href={teams.social.website} className="text-xl hover:text-gray-700"><FaFacebook /></a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default TeamsSection;
