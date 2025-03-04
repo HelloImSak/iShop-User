@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import ForgotPassword from "../components/auth/ForgotPassword";
@@ -12,22 +12,30 @@ import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NotFoundProductCom from "../components/NotFoundProductCom";
 import About from "../pages/About";
 import Home from "../pages/Home";
-import ProductDetails from "../pages/products/ProductDetails";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
+import { useGetAllQuery } from "../redux/features/product/productSlice";
+import Products from "../pages/products/Products";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
   const { data: userData, error } = useUserDataOfTokenQuery(undefined, {
-    skip: !token, // ✅ Skip API call if no token
+    skip: !token, // Skip API call if no token
   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // ✅ Set based on token presence
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // Set based on token presence
 
-  const [cartItems, setCartItems] = useState(0); // Add cartItems state
+  const [cartItems, setCartItems] = useState(0);
+
+  // Fetch all products for the entire app
+  const {
+    data: products,
+    isLoading: productLoading,
+    error: productError,
+  } = useGetAllQuery();
 
   // Fetch cart data using the user's UUID
-  const userId = userData?.uuid; // Assuming uuid is in userData
+  const userId = userData?.uuid; // uuid is in userData
   const {
     data: cartData,
     error: cartError,
@@ -67,6 +75,7 @@ export default function AppRoutes() {
     ? JSON.parse(storedUserData).profile
     : null;
 
+  // get profile from stored profile
   const activeProfile = userData?.profile || storedProfile;
 
   return (
@@ -85,13 +94,11 @@ export default function AppRoutes() {
             }
           >
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
-
-            {/* product */}
-            <Route path="/product-details">
-              <Route path=":id" element={<ProductDetails />} />
-            </Route>
+            <Route
+              path="/products"
+              element={<Products products={products} />} // Pass products as prop
+            />
           </Route>
 
           {/* Layout with NavTwoCom */}
