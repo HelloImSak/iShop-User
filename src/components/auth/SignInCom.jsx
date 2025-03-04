@@ -55,11 +55,11 @@ const SignInCom = ({ setIsLoggedIn }) => {
   });
 
   const isFilled = (value) => {
-    return (
-      value &&
-      value.trim() !== "" &&
-      (typeof value !== "object" || value instanceof File)
-    ); // Handle file input differently
+    // Improved logic to handle different input types consistently
+    if (value === null || value === undefined) return false;
+    if (typeof value === "string") return value.trim() !== "";
+    if (value instanceof File) return true; // For file inputs
+    return false;
   };
 
   return (
@@ -69,7 +69,7 @@ const SignInCom = ({ setIsLoggedIn }) => {
           <h5 className="font-OpenSanBold text-h5 mb-3 text-primary">
             Welcome Back!
           </h5>
-          <a href="/">
+          <a href="">
             <img
               src={Logo}
               alt="Logo"
@@ -77,7 +77,7 @@ const SignInCom = ({ setIsLoggedIn }) => {
             />
           </a>
         </div>
-        <h2 className="text-xl font-semibold text-center mb-4">Login</h2>
+        <h2 className="text-h4 font-semibold text-center mb-4">Login</h2>
 
         <form className="space-y-7" onSubmit={formik.handleSubmit}>
           {/* Email Input */}
@@ -90,7 +90,9 @@ const SignInCom = ({ setIsLoggedIn }) => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full p-2 border rounded-md focus:ring focus:ring-blue-300"
+              className={`w-full p-2 border rounded-md focus:ring focus:ring-blue-300 ${
+                isFilled(formik.values.email) ? "bg-[#e8f0fe]" : "bg-white"
+              }`}
               placeholder="Enter your email"
               required
             />
@@ -104,7 +106,9 @@ const SignInCom = ({ setIsLoggedIn }) => {
             <label className="block text-gray-700">Password</label>
             <input
               type={passwordVisible ? "text" : "password"}
-              className="w-full p-2 border rounded-md focus:ring focus:ring-blue-300"
+              className={`w-full p-2 border rounded-md focus:ring focus:ring-blue-300 ${
+                isFilled(formik.values.password) ? "bg-[#e8f0fe]" : "bg-white"
+              }`}
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -148,7 +152,7 @@ const SignInCom = ({ setIsLoggedIn }) => {
               </div>
             </div>
             <a
-              href="#"
+              href="/forgot-password"
               className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Forgot password?
