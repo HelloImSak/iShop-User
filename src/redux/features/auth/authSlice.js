@@ -44,7 +44,7 @@ export const authApi = createApi({
           email,
           password,
           confirmPassword,
-          address, // Should be an object like { addressLine1, addressLine2, road, linkAddress }
+          address,
           profile,
         },
       }),

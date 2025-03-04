@@ -4,7 +4,10 @@ import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router";
 import * as Yup from "yup";
-import { useResetPasswordMutation } from "../../redux/features/auth/authSlice";
+import {
+  useResetPasswordMutation,
+  useSendResetCodeMutation,
+} from "../../redux/features/auth/authSlice";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -13,7 +16,16 @@ const ResetPassword = () => {
   const [resetPassword, { isLoading, isError, error }] =
     useResetPasswordMutation();
 
-  const [timer, setTimer] = useState(120); // 120 seconds timeout for resend
+  const [resendForgotPasswordCode] = useSendResetCodeMutation();
+
+
+  const [timer, setTimer] = useState(300);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
   useEffect(() => {
     if (timer <= 0) return;
@@ -56,9 +68,9 @@ const ResetPassword = () => {
 
   const handleResendCode = async () => {
     try {
-      await resetPassword({ email }).unwrap(); // Assuming you can resend via the same endpoint or a different one
-      setTimer(120);
-      toast.success("Verification code resent successfully!");
+      await resendForgotPasswordCode({ email }).unwrap();
+      setTimer(300);
+      toast.success("New verification code sent!");
     } catch (error) {
       toast.error(error?.data?.message || "Failed to resend code");
     }
@@ -71,7 +83,8 @@ const ResetPassword = () => {
           Reset Your Password
         </h2>
         <p className="text-gray-500 text-center mt-4 text-sm dark:text-gray-400">
-          Enter the 6-digit code sent to {email} and set a new password.
+          Enter the 6-digit code sent to <span className="text-accent_1">{email}</span> and set a new
+          password.
         </p>
 
         <form className="mt-6" onSubmit={formik.handleSubmit}>
@@ -172,17 +185,20 @@ const ResetPassword = () => {
         </form>
 
         <div className="mt-4 text-center">
-          {timer > 0 ? (
-            <p className="text-gray-600">Resend code available in {timer}s</p>
-          ) : (
-            <button
-              onClick={handleResendCode}
-              disabled={isLoading}
-              className="text-blue-500 hover:underline disabled:text-gray-400"
-            >
-              Resend Code
-            </button>
-          )}
+          <p>
+            {timer > 0
+              ? `Code expires in ${formatTime(timer)}`
+              : "Code expired."}
+          </p>
+
+          <button
+            onClick={handleResendCode}
+            disabled={isLoading}
+            className="text-blue-500 hover:underline disabled:text-gray-400"
+          >
+            Resend Code
+          </button>
+
           {isError && (
             <p className="mt-2 text-red-500 text-sm">
               {error?.data?.message || "An error occurred"}
