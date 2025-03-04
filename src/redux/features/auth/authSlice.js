@@ -49,6 +49,12 @@ export const authApi = createApi({
         },
       }),
     }),
+    verifyRegistration: builder.mutation({
+      query: (token) => ({
+        url: `/api/v1/users/verify-email?token=${token}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -56,4 +62,5 @@ export const {
   useGetLoginMutation,
   useUserDataOfTokenQuery,
   useUserRegisterMutation,
+  useVerifyRegistrationMutation,
 } = authApi;

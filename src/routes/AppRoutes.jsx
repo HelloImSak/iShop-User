@@ -12,6 +12,7 @@ import ProductDetails from "../pages/products/ProductDetails";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
 import Register from "../components/auth/Register";
+import VerifyEmail from "../components/auth/VerifyEmail";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -114,7 +115,7 @@ export default function AppRoutes() {
             />
           </Route>
 
-          {/* Login / Register */}
+          {/* Login / Register / Verify code and Forgot Password */}
           <Route>
             <Route
               path="/login"
@@ -122,6 +123,7 @@ export default function AppRoutes() {
             />
             <Route path="/profile" element={<SignOutCom />} />
             <Route path="/register" element={<Register/>}/>
+            <Route path="/verify-code" element={<VerifyEmail />} />
           </Route>
         </Routes>
       </Router>
