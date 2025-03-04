@@ -4,9 +4,9 @@ import * as Yup from "yup";
 import { useUserRegisterMutation } from "../../redux/features/auth/authSlice";
 import { useUploadImageMutation } from "../../redux/features/images/imgSlice";
 
+import { useNavigate } from "react-router";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
 import ResPic from "../../assets/signup-pic.png";
-import { useNavigate } from "react-router";
 
 const Register = () => {
   const [userRegister, { isLoading, error }] = useUserRegisterMutation();
@@ -43,6 +43,10 @@ const Register = () => {
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .max(20, "Password must be less than 20 characters")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+          "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@$!%*?&)"
+        )
         .required("Password is required"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -82,8 +86,16 @@ const Register = () => {
         navigate("/verify-code");
       } catch (err) {
         console.error("Registration failed:", err);
-        setErrors({ email: err?.data?.message || "Registration failed." });
-        toast.error("Sign Up failed. Please try again.");
+
+        const errorMessage =
+          err?.data?.error?.description || "Registration failed.";
+
+        if (errorMessage.includes("Email or username already exists")) {
+          setErrors({ email: errorMessage });
+          toast.error(errorMessage);
+        } else {
+          toast.error(errorMessage);
+        }
       } finally {
         setSubmitting(false);
       }
@@ -113,7 +125,9 @@ const Register = () => {
           <div className="absolute inset-0 flex justify-center bg-primary bg-opacity-30">
             <div className="text-white mt-6">
               <img src={Logo} alt="" className="w-[200px] mx-auto" />
-              <h2 className="text-3xl font-bold mb-4 text-center">Join Us Today!</h2>
+              <h2 className="text-3xl font-bold mb-4 text-center">
+                Join Us Today!
+              </h2>
               <p className="text-lg">
                 Sign up to explore exclusive deals and start shopping with ease.
               </p>
@@ -123,7 +137,7 @@ const Register = () => {
 
         <main className="items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="w-full">
-            <h1 className="text-center mt-6 text-2xl font-OpenSanBold text-gray-900 sm:text-3xl md:text-4xl">
+            <h1 className="text-center mt-6 text-h1 font-OpenSanBold text-gray-900 sm:text-h2 md:text-h1">
               Sign Up
             </h1>
 

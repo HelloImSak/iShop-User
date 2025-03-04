@@ -34,17 +34,16 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
     navigate("/login");
   };
 
-  
   return (
     <>
       {/* Promotional Banner */}
-      <p className="w-full text-white text-sm bg-primary text-center py-1 fixed top-0 left-0 z-40">
+      <p className="fixed top-0 w-full text-white text-sm bg-primary text-center py-1 z-50">
         Get 30% off when you spend over $200.
       </p>
 
       {/* Main Navbar Container */}
-      <div className="fixed top-7 left-0 w-full z-40 bg-white">
-        <nav className="relative py-2 flex justify-between items-center bg-white mx-[20px] md:mx-[50px] lg:mx-[100px]">
+      <div className="fixed top-[calc(theme(spacing.6))] w-full bg-white z-40">
+        <nav className="relative py-2 flex justify-between items-center mx-[20px] md:mx-[50px] lg:mx-[100px]">
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>

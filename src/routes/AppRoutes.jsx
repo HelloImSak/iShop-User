@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react"; // ✅ Fix: Import useState
+import { useEffect, useState } from "react"; 
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
+import ForgotPassword from "../components/auth/ForgotPassword";
+import Register from "../components/auth/Register";
+import ResetPassword from "../components/auth/ResetPassword";
 import SignInCom from "../components/auth/SignInCom";
 import SignOutCom from "../components/auth/SignOutCom";
+import VerifyEmail from "../components/auth/VerifyEmail";
 import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NotFoundProductCom from "../components/NotFoundProductCom";
@@ -11,8 +15,6 @@ import Home from "../pages/Home";
 import ProductDetails from "../pages/products/ProductDetails";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
-import Register from "../components/auth/Register";
-import VerifyEmail from "../components/auth/VerifyEmail";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -122,8 +124,10 @@ export default function AppRoutes() {
               element={<SignInCom setIsLoggedIn={setIsLoggedIn} />}
             />
             <Route path="/profile" element={<SignOutCom />} />
-            <Route path="/register" element={<Register/>}/>
+            <Route path="/register" element={<Register />} />
             <Route path="/verify-code" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </Router>
