@@ -42,7 +42,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
       </p>
 
       {/* Main Navbar Container */}
-      <div className="fixed top-[calc(theme(spacing.6))] w-full bg-white z-40">
+      <div className="fixed top-[calc(theme(spacing.6))] w-full bg-white/50 backdrop-blur-md z-40">
         <nav className="relative py-2 flex justify-between items-center mx-[20px] md:mx-[50px] lg:mx-[100px]">
           {/* Logo */}
           <div className="flex items-center gap-5">
