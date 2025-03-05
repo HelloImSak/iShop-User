@@ -1,14 +1,22 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
-import { useVerifyRegistrationMutation } from "../../redux/features/auth/authSlice";
+import {
+  useResendCodeMutation,
+  useVerifyRegistrationMutation,
+} from "../../redux/features/auth/authSlice";
 
-const VerifyEmail = () => {
+const VerifyEmail = ({ email, oldToken }) => {
   const navigate = useNavigate();
   const [verifyRegistration, { isLoading, isError, isSuccess, error }] =
     useVerifyRegistrationMutation();
+  const [
+    resendCode,
+    { isLoading: resendLoading, isError: resendIsError, error: resendError },
+  ] = useResendCodeMutation();
 
   const [timer, setTimer] = useState(120);
   useEffect(() => {
@@ -32,20 +40,42 @@ const VerifyEmail = () => {
       try {
         const res = await verifyRegistration(values.verificationCode).unwrap();
         console.log("Verification successful:", res);
+        toast.success("Register Account Successful!", {
+          icon: "✅",
+        });
         navigate("/login");
       } catch (err) {
         console.error("Verification failed:", err);
+        toast.error(err?.data?.message || "Verification failed");
       }
     },
   });
 
-  // const isFilled = (value) => {
-  //   // Improved logic to handle different input types consistently
-  //   if (value === null || value === undefined) return false;
-  //   if (typeof value === "string") return value.trim() !== "";
-  //   if (value instanceof File) return true; // For file inputs
-  //   return false;
-  // };
+  const handleResendCode = async () => {
+    try {
+      console.log("Attempting to resend code with:", { email, oldToken });
+      const response = await resendCode({ email, oldToken }).unwrap();
+      console.log("Resend response:", response);
+      setTimer(120);
+      toast.success("Verification code resent successfully!");
+    } catch (error) {
+      console.error("Resend error:", error);
+      if (error.status === 404) {
+        toast.error(
+          "Resend endpoint not found. Please check the API configuration."
+        );
+      } else {
+        toast.error(error?.data?.message || "Failed to resend code");
+      }
+    }
+  };
+
+  const isFilled = (value) => {
+    if (value === null || value === undefined) return false;
+    if (typeof value === "string") return value.trim() !== "";
+    if (value instanceof File) return true;
+    return false;
+  };
 
   return (
     <div className="shadow-2xl flex justify-center items-center min-h-screen bg-gray-100 rounded-lg">
@@ -80,7 +110,11 @@ const VerifyEmail = () => {
                 formik.errors.verificationCode
                   ? "border-red-500"
                   : "border-gray-300"
-              } bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white`}
+              } ${
+                isFilled(formik.values.verificationCode)
+                  ? "bg-[#e8f0fe]"
+                  : "bg-white"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:text-white`}
               required
             />
             {formik.touched.verificationCode &&
@@ -102,30 +136,27 @@ const VerifyEmail = () => {
         </form>
 
         {/* Countdown Timer */}
-        <div className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
+        <div className="mt-4 text-center">
           {timer > 0 ? (
-            <span>Resend code available in {timer}s</span>
+            <p className="text-gray-600">Resend available in {timer}s</p>
           ) : (
             <button
-              onClick={() => setTimer(120)} // Reset the timer
-              className="text-blue-500 hover:underline"
+              onClick={handleResendCode}
+              disabled={resendLoading}
+              className="text-blue-500 hover:underline disabled:text-gray-400"
             >
-              Resend Code
+              {resendLoading ? "Sending..." : "Resend Code"}
             </button>
           )}
-        </div>
 
-        {/* Status messages */}
-        {isError && (
-          <p className="text-red-500 mt-4 text-center">
-            {error?.data?.message || "Verification failed."}
-          </p>
-        )}
-        {isSuccess && (
-          <p className="text-green-500 mt-4 text-center">
-            Email verified successfully!
-          </p>
-        )}
+          {(isError || resendIsError) && (
+            <p className="mt-2 text-red-500 text-sm">
+              {error?.data?.message ||
+                resendError?.data?.message ||
+                "An error occurred"}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

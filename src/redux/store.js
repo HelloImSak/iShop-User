@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { productApi } from "./service/productService";
 import { authApi } from "./features/auth/authSlice";
 import { cartApi } from "./features/cart/cartSlice";
 import { imageApi } from "./features/images/imgSlice";
+import { productApi } from "./features/product/productSlice";
 
 export const store = configureStore({
   reducer: {
