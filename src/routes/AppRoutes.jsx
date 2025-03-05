@@ -132,7 +132,7 @@ export default function AppRoutes() {
             />
             <Route path="/profile" element={<SignOutCom />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/verify-code" element={<VerifyEmail />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>

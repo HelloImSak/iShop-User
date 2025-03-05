@@ -2,15 +2,23 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import * as Yup from "yup";
 import {
   useResendCodeMutation,
   useVerifyRegistrationMutation,
 } from "../../redux/features/auth/authSlice";
 
-const VerifyEmail = ({ email, oldToken }) => {
+const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const emailFromUrl = searchParams.get("email");
+  const oldTokenFromUrl = searchParams.get("oldToken");
+
+  const email = emailFromUrl || propEmail;
+  const oldToken = oldTokenFromUrl || propOldToken;
+
   const [verifyRegistration, { isLoading, isError, isSuccess, error }] =
     useVerifyRegistrationMutation();
   const [
@@ -18,8 +26,18 @@ const VerifyEmail = ({ email, oldToken }) => {
     { isLoading: resendLoading, isError: resendIsError, error: resendError },
   ] = useResendCodeMutation();
 
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(300);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   useEffect(() => {
+    if (timer === 0) {
+      toast.error("Verification code expired. Please resend the code.");
+    }
     if (timer <= 0) return;
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
@@ -52,21 +70,26 @@ const VerifyEmail = ({ email, oldToken }) => {
   });
 
   const handleResendCode = async () => {
+    const oldToken = formik.values.verificationCode; // ✅ get the code from formik values
+
+    if (!email || !oldToken) {
+      toast.error("Email or verification code (old token) is missing.");
+      return;
+    }
+
     try {
-      console.log("Attempting to resend code with:", { email, oldToken });
-      const response = await resendCode({ email, oldToken }).unwrap();
+      console.log("Resending code with:", { email, oldToken });
+      const response = await resendCode({
+        email,
+        oldToken,
+      }).unwrap();
+
       console.log("Resend response:", response);
-      setTimer(120);
+      setTimer(300);
       toast.success("Verification code resent successfully!");
     } catch (error) {
       console.error("Resend error:", error);
-      if (error.status === 404) {
-        toast.error(
-          "Resend endpoint not found. Please check the API configuration."
-        );
-      } else {
-        toast.error(error?.data?.message || "Failed to resend code");
-      }
+      toast.error(error?.data?.message || "Failed to resend code");
     }
   };
 
@@ -127,35 +150,23 @@ const VerifyEmail = ({ email, oldToken }) => {
 
           <button
             type="submit"
+            className="btn w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
             disabled={isLoading}
-            className="w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
-            aria-label="Verify me"
           >
-            {isLoading ? "Verifying..." : "Verify Me"} <FaArrowRight />
+            {isLoading ? "Verifying..." : "Verify Code"} <FaArrowRight />
           </button>
         </form>
 
         {/* Countdown Timer */}
         <div className="mt-4 text-center">
-          {timer > 0 ? (
-            <p className="text-gray-600">Resend available in {timer}s</p>
-          ) : (
-            <button
-              onClick={handleResendCode}
-              disabled={resendLoading}
-              className="text-blue-500 hover:underline disabled:text-gray-400"
-            >
-              {resendLoading ? "Sending..." : "Resend Code"}
-            </button>
-          )}
-
-          {(isError || resendIsError) && (
-            <p className="mt-2 text-red-500 text-sm">
-              {error?.data?.message ||
-                resendError?.data?.message ||
-                "An error occurred"}
-            </p>
-          )}
+          <p>
+            {timer > 0
+              ? `Code expires in ${formatTime(timer)}`
+              : "Code expired."}
+          </p>
+          <button onClick={handleResendCode} disabled={resendLoading}>
+            {resendLoading ? "Resending..." : "Resend Code"}
+          </button>
         </div>
       </div>
     </div>

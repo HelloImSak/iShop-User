@@ -5,8 +5,8 @@ import { useUserRegisterMutation } from "../../redux/features/auth/authSlice";
 import { useUploadImageMutation } from "../../redux/features/images/imgSlice";
 
 import { useNavigate } from "react-router";
+import ResPic from "../../assets/auth/register.png";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
-import ResPic from "../../assets/signup-pic.png";
 
 const Register = () => {
   const [userRegister, { isLoading, error }] = useUserRegisterMutation();
@@ -65,7 +65,7 @@ const Register = () => {
         const imageResponse = await uploadImage(formData).unwrap();
         console.log("Image uploaded successfully:", imageResponse);
 
-        const res = await userRegister({
+        await userRegister({
           username: values.username,
           phoneNumber: values.phoneNumber,
           email: values.email,
@@ -83,7 +83,7 @@ const Register = () => {
           icon: "✅",
         });
         resetForm();
-        navigate("/verify-code");
+        navigate(`/verify-email?email=${values.email}`);
       } catch (err) {
         console.error("Registration failed:", err);
 
