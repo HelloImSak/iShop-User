@@ -13,7 +13,7 @@ import {
   IoIosPhonePortrait,
 } from "react-icons/io";
 
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
 
 // Navigation Component that have background white and fixed on top
@@ -47,24 +47,24 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <a className="text-3xl font-bold leading-none" href="/">
+              <NavLink className="text-3xl font-bold leading-none" to="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"
                   className="h-10 md:h-12 lg:h-16"
                 />
-              </a>
+              </NavLink>
             </div>
             <div>
               {/* Desktop Menu */}
               <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
                 <li>
-                  <a
-                    href="/all-products"
-                    className="block lg:font-OpenSanBold py-2 px-3 text-primary hover:text-secondary"
+                  <NavLink
+                    to="/all-products"
+                    className="block lg:font-OpenSanBold py-2 px-3 text-primary hover:text-secondary active:text-secondary"
                   >
                     All Products
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
                   <button
@@ -167,12 +167,16 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/about"
-                    className="block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
+                  <NavLink
+                    to="/about"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-secondary block py-2 px-3 lg:font-OpenSanBold"
+                        : "block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
+                    }
                   >
                     About Us
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>

@@ -76,6 +76,13 @@ export const authApi = createApi({
         body: { email, newPassword, confirmPassword },
       }),
     }),
+    resendResetPasswordCode: builder.mutation({
+      query: ({ email, oldToken }) => ({
+        url: "/api/v1/users/resend-password-reset-token",
+        method: "POST",
+        body: { email, oldToken },
+      }),
+    }),
   }),
 });
 
@@ -87,4 +94,5 @@ export const {
   useResendCodeMutation,
   useSendResetCodeMutation,
   useResetPasswordMutation,
+  useResendResetPasswordCodeMutation,
 } = authApi;
