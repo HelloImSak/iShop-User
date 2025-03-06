@@ -184,7 +184,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6 sm:col-span-3">
-              <label className="block text-gray-700">PhoneNumber</label>
+              <label className="block text-gray-700">Phone Number</label>
               <input
                 type="text"
                 id="phoneNumber"
@@ -306,7 +306,7 @@ const Register = () => {
 
             {/* Added missing address fields */}
             <div className="col-span-6">
-              <label className="block text-gray-700">Address Line 1</label>
+              <label className="block text-gray-700">Address 1</label>
               <input
                 type="text"
                 id="addressLine1"
@@ -331,7 +331,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6">
-              <label className="block text-gray-700">Address Line 2</label>
+              <label className="block text-gray-700">Address 2</label>
               <input
                 type="text"
                 id="addressLine2"
