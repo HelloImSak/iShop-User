@@ -138,7 +138,6 @@ export default function DiscountPage() {
                   "Sony",
                   "Vivo",
                   "Oppo",
-                  ,
                   "Beat",
                   "JBL",
                   "Sharper",

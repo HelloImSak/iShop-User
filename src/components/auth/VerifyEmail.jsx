@@ -1,17 +1,43 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import * as Yup from "yup";
-import { useVerifyRegistrationMutation } from "../../redux/features/auth/authSlice";
+import {
+  useResendCodeMutation,
+  useVerifyRegistrationMutation,
+} from "../../redux/features/auth/authSlice";
 
-const VerifyEmail = () => {
+const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const emailFromUrl = searchParams.get("email");
+  const oldTokenFromUrl = searchParams.get("oldToken");
+
+  const email = emailFromUrl || propEmail;
+  const oldToken = oldTokenFromUrl || propOldToken;
+
   const [verifyRegistration, { isLoading, isError, isSuccess, error }] =
     useVerifyRegistrationMutation();
+  const [
+    resendCode,
+    { isLoading: resendLoading, isError: resendIsError, error: resendError },
+  ] = useResendCodeMutation();
 
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(300);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   useEffect(() => {
+    if (timer === 0) {
+      toast.error("Verification code expired. Please resend the code.");
+    }
     if (timer <= 0) return;
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
@@ -32,20 +58,47 @@ const VerifyEmail = () => {
       try {
         const res = await verifyRegistration(values.verificationCode).unwrap();
         console.log("Verification successful:", res);
+        toast.success("Register Account Successful!", {
+          icon: "✅",
+        });
         navigate("/login");
       } catch (err) {
         console.error("Verification failed:", err);
+        toast.error(err?.data?.message || "Verification failed");
       }
     },
   });
 
-  // const isFilled = (value) => {
-  //   // Improved logic to handle different input types consistently
-  //   if (value === null || value === undefined) return false;
-  //   if (typeof value === "string") return value.trim() !== "";
-  //   if (value instanceof File) return true; // For file inputs
-  //   return false;
-  // };
+  const handleResendCode = async () => {
+    const oldToken = formik.values.verificationCode; // ✅ get the code from formik values
+
+    if (!email || !oldToken) {
+      toast.error("Email or verification code (old token) is missing.");
+      return;
+    }
+
+    try {
+      console.log("Resending code with:", { email, oldToken });
+      const response = await resendCode({
+        email,
+        oldToken,
+      }).unwrap();
+
+      console.log("Resend response:", response);
+      setTimer(300);
+      toast.success("Verification code resent successfully!");
+    } catch (error) {
+      console.error("Resend error:", error);
+      toast.error(error?.data?.message || "Failed to resend code");
+    }
+  };
+
+  const isFilled = (value) => {
+    if (value === null || value === undefined) return false;
+    if (typeof value === "string") return value.trim() !== "";
+    if (value instanceof File) return true;
+    return false;
+  };
 
   return (
     <div className="shadow-2xl flex justify-center items-center min-h-screen bg-gray-100 rounded-lg">
@@ -80,7 +133,11 @@ const VerifyEmail = () => {
                 formik.errors.verificationCode
                   ? "border-red-500"
                   : "border-gray-300"
-              } bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white`}
+              } ${
+                isFilled(formik.values.verificationCode)
+                  ? "bg-[#e8f0fe]"
+                  : "bg-white"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:text-white`}
               required
             />
             {formik.touched.verificationCode &&
@@ -93,39 +150,24 @@ const VerifyEmail = () => {
 
           <button
             type="submit"
+            className="btn w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
             disabled={isLoading}
-            className="w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
-            aria-label="Verify me"
           >
-            {isLoading ? "Verifying..." : "Verify Me"} <FaArrowRight />
+            {isLoading ? "Verifying..." : "Verify Code"} <FaArrowRight />
           </button>
         </form>
 
         {/* Countdown Timer */}
-        <div className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
-          {timer > 0 ? (
-            <span>Resend code available in {timer}s</span>
-          ) : (
-            <button
-              onClick={() => setTimer(120)} // Reset the timer
-              className="text-blue-500 hover:underline"
-            >
-              Resend Code
-            </button>
-          )}
+        <div className="mt-4 text-center">
+          <p>
+            {timer > 0
+              ? `Code expires in ${formatTime(timer)}`
+              : "Code expired."}
+          </p>
+          <button onClick={handleResendCode} disabled={resendLoading}>
+            {resendLoading ? "Resending..." : "Resend Code"}
+          </button>
         </div>
-
-        {/* Status messages */}
-        {isError && (
-          <p className="text-red-500 mt-4 text-center">
-            {error?.data?.message || "Verification failed."}
-          </p>
-        )}
-        {isSuccess && (
-          <p className="text-green-500 mt-4 text-center">
-            Email verified successfully!
-          </p>
-        )}
       </div>
     </div>
   );

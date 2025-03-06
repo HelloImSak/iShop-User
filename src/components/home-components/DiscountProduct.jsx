@@ -12,61 +12,75 @@ const products = [
         image: phone,
         brand: "Beats",
         price: "$38.00",
+        discount: "10%",
       },
     {
       name: "Beats Studio Pro",
       image: laptop,
       brand: "Beats",
       price: "$38.00",
+      discount: "10%",
     },
     {
       name: "HeadpBeats Studio Pro",
       image: headphone,
       brand: "Beats",
       price: "$38.00",
+      discount: "10%",
     },
     {
       name: "Beats Studio Pro",
       image: mouse,
       brand: "Beats",
       price: "$38.00",
+      discount: "10%",
     },
     {
       name: "Beats Studio Pro",
       image: keyboard,
       brand: "Beats",
       price: "$38.00",
+      discount: "10%",
     },
     {
       name: "Beats Studio Pro",
       image: phone,
       brand: "Beats",
       price: "$38.00",
+      discount: "10%",
     },
   {
     name: "Beats Studio Pro",
     image: laptop,
     brand: "Beats",
     price: "$38.00",
+    discount: "10%",
   },
   {
     name: "HeadpBeats Studio Pro",
     image: headphone,
     brand: "Beats",
     price: "$38.00",
+    discount: "10%",
   },
   ];
   
-  export default function NewArrivals() {
+  export default function DiscountProduct() {
     return (
       <>
-        <h1 className="text-4xl text-primary text-center font-OpenSanBold mb-10">New Arrivals Products</h1>
-        <div className="grid justify-items-center  gap-y-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-10">
+        <h1 className="text-4xl text-primary text-center font-OpenSanBold mb-10">Discount Products</h1>
+        <div className="grid justify-items-center  gap-y-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-10 ">
       {products.map((product) => (
+        
         <div
           key={product.id}
-          className=" w-[270px] h-[200] border border-b-gray-200 rounded-3xl p-4 transition-all duration-300 ease-out hover:scale-101 hover:shadow-[0px_0px_8px_rgba(229,231,235,1)]"
+          className="relative w-[270px] h-[200] border border-b-gray-200 rounded-3xl p-4 transition-all duration-300 ease-out hover:scale-101 hover:shadow-[0px_0px_8px_rgba(229,231,235,1)]"
         >
+            <div className="absolute top-5 left-5">
+          <span className="bg-red-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-full">
+            {product.discount}
+          </span>
+        </div>
           <img
             src={product.image}
             alt={product.name}
@@ -95,4 +109,3 @@ const products = [
     );
 
   }
-  

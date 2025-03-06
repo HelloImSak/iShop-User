@@ -2,14 +2,26 @@ import React from "react";
 import HomeBanner from "../components/home-components/HomeBanner"
 import AssuranceSection from "../components/home-components/AssuranceSection";
 import PopularCategories from "../components/home-components/PopularCategories"
-import NewArrivals from "../components/home-components/NewArrivals"
-import CardCom from "../components/cart/CardCom";
+import DiscountProduct from "../components/home-components/DiscountProduct"
+import NewArrivals from "../components/home-components/NewArrivals";
+
+
 export default function Home() {
-  return <>
+  return <main>
+  <div className="pt-40">
   <HomeBanner/>
+  </div>
+  <div className="pt-10">
   <AssuranceSection/>
+  </div>
+  <div className="pt-10">
   <PopularCategories/>
-  <NewArrivals/>
-  <CardCom/>
-  </>
+  </div>
+  <div className="pt-10">
+    <NewArrivals/>
+  </div>
+  <div className="pt-10">
+    <DiscountProduct/>
+  </div>
+  </main>
 }

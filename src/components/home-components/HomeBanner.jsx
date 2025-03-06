@@ -55,7 +55,7 @@ const HomeBanner = () => {
       <div className="list"
       >
         <div className="item">
-          <img src={img1} alt="Slide 1" className="responsive-img1 w-auto ml-10 h-auto object-contain max-w-[420px]" />
+          <img src={img1} alt="Slide 1" className="responsive-img1 w-auto ml-10 h-auto object-contain " />
           <div className="introduce">
             <div className="title">Most comfortable 2025 PS4 gaming headset</div>
             <div className="topic">HeadPhone</div>
@@ -66,7 +66,7 @@ const HomeBanner = () => {
         </div>
 
         <div className="item ">
-          <img src={img2} alt="Slide 2" className="responsive-img2 w-auto h-auto object-contain min-w-[540px] " />
+          <img src={img2} alt="Slide 2" className="responsive-img2 w-auto h-auto object-contain " />
           <div className="introduce w-2000">
             <div className="title">Most comfortable 2025 PS4 gaming headset</div>
             <div className="topic">HeadPhone</div>
@@ -77,7 +77,7 @@ const HomeBanner = () => {
         </div>
 
         <div className="item">
-          <img src={img3} alt="Slide 3" className="responsive-img3 w-auto h-auto object-contain min-w-[560px] ]" />
+          <img src={img3} alt="Slide 3" className="responsive-img3 h-auto w-huto object-contain  " />
           <div className="introduce">
             <div className="title">Most comfortable 2025 PS4 gaming headset</div>
             <div className="topic">HeadPhone</div>
@@ -89,7 +89,7 @@ const HomeBanner = () => {
 
         <div className="item">
           <div className="w-full flex justify-center">
-          <img src={img4} alt="Slide 4" className="responsive-img4 w-auto ml-10 h-auto object-contain max-w-[320px] " />
+          <img src={img4} alt="Slide 4" className="responsive-img4 w-auto ml-10 h-auto object-contain  " />
           </div>
           <div className="introduce">
             <div className="title">Most comfortable 2025 PS4 gaming headset</div>
