@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 
 import logo from "../../assets/logo/ishop-light-logo.png";
 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Ill from "../../assets/auth/register.png";
 
 const Register = () => {
@@ -122,6 +123,8 @@ const Register = () => {
     return false;
   };
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-5xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
@@ -157,6 +160,7 @@ const Register = () => {
             className="mt-8 grid grid-cols-6 gap-6"
           >
             <div className="col-span-6 sm:col-span-3">
+              <label className="block text-gray-700">Username</label>
               <input
                 type="text"
                 id="username"
@@ -180,6 +184,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6 sm:col-span-3">
+              <label className="block text-gray-700">PhoneNumber</label>
               <input
                 type="text"
                 id="phoneNumber"
@@ -204,6 +209,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6">
+              <label className="block text-gray-700">Email</label>
               <input
                 type="email"
                 id="email"
@@ -226,9 +232,10 @@ const Register = () => {
               )}
             </div>
 
-            <div className="col-span-6 sm:col-span-3">
+            <div className="col-span-6 sm:col-span-3 relative">
+              <label className="block text-gray-700">Password</label>
               <input
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 id="password"
                 name="password"
                 value={formik.values.password}
@@ -242,6 +249,17 @@ const Register = () => {
                     : "bg-white"
                 }`}
               />
+              <button
+                type="button"
+                className="absolute right-2 top-9 text-gray-500"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? (
+                  <FaEyeSlash size={20} />
+                ) : (
+                  <FaEye size={20} />
+                )}
+              </button>
               {formik.errors.password && formik.touched.password && (
                 <div className="text-accent_1 text-sm">
                   {formik.errors.password}
@@ -249,9 +267,10 @@ const Register = () => {
               )}
             </div>
 
-            <div className="col-span-6 sm:col-span-3">
+            <div className="col-span-6 sm:col-span-3 relative">
+              <label className="block text-gray-700">Confirm Password</label>
               <input
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formik.values.confirmPassword}
@@ -266,6 +285,17 @@ const Register = () => {
                     : "bg-white"
                 }`}
               />
+              <button
+                type="button"
+                className="absolute right-2 top-9 text-gray-500"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? (
+                  <FaEyeSlash size={20} />
+                ) : (
+                  <FaEye size={20} />
+                )}
+              </button>
               {formik.errors.confirmPassword &&
                 formik.touched.confirmPassword && (
                   <div className="text-accent_1 text-sm">
@@ -276,6 +306,7 @@ const Register = () => {
 
             {/* Added missing address fields */}
             <div className="col-span-6">
+              <label className="block text-gray-700">Address Line 1</label>
               <input
                 type="text"
                 id="addressLine1"
@@ -300,6 +331,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6">
+              <label className="block text-gray-700">Address Line 2</label>
               <input
                 type="text"
                 id="addressLine2"
@@ -324,6 +356,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6 sm:col-span-3">
+              <label className="block text-gray-700">The Road</label>
               <input
                 type="text"
                 id="road"
@@ -347,6 +380,7 @@ const Register = () => {
             </div>
 
             <div className="col-span-6 sm:col-span-3">
+              <label className="block text-gray-700">Google Map</label>
               <input
                 type="text"
                 id="linkAddress"
@@ -370,7 +404,7 @@ const Register = () => {
               )}
             </div>
 
-            <div className="col-span-3 ml-3">
+            <div className="col-span-3">
               <label
                 htmlFor="profile"
                 className="block text-sm font-medium text-gray-700"
