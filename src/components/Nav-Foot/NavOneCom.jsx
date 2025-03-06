@@ -63,7 +63,7 @@ const navLinks = [
     ],
   },
   { to: "/brand", label: "Brand" },
-  { to: "/discount", label: "Discount" },
+  { to: "/discount-products", label: "Discount" },
   { to: "/about", label: "About Us" },
 ];
 
@@ -389,9 +389,12 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
           ></div>
           <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white/50 backdrop-blur-md border-r overflow-y-auto z-50">
             <div className="flex items-center mb-8">
-              <a className="mr-auto text-3xl font-bold leading-none" href="#">
+              <NavLink
+                className="mr-auto text-3xl font-bold leading-none"
+                to="/"
+              >
                 <img src={Logo} alt="iShop Logo" className="h-9 ml-3" />
-              </a>
+              </NavLink>
               <button className="navbar-close" onClick={toggleMenu}>
                 <svg
                   className="h-6 w-6 text-primary cursor-pointer hover:text-gray-500"

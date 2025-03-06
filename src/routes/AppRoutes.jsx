@@ -7,15 +7,16 @@ import ResetPassword from "../components/auth/ResetPassword";
 import SignInCom from "../components/auth/SignInCom";
 import SignOutCom from "../components/auth/SignOutCom";
 import VerifyEmail from "../components/auth/VerifyEmail";
+import DiscountPage from "../components/DiscountPageCom/DiscountPage";
 import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NotFoundProductCom from "../components/NotFoundProductCom";
 import About from "../pages/About";
 import Home from "../pages/Home";
+import Products from "../pages/products/Products";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
 import { useGetAllQuery } from "../redux/features/product/productSlice";
-import Products from "../pages/products/Products";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -99,6 +100,7 @@ export default function AppRoutes() {
               path="/products"
               element={<Products products={products} />} // Pass products as prop
             />
+            <Route path="/discount-products" element={<DiscountPage />} />
           </Route>
 
           {/* Layout with NavTwoCom */}
