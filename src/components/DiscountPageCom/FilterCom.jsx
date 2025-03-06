@@ -2,6 +2,7 @@ import React, { useState } from "react";
 export default function FilterCom() {
   const [price, setPrice] = useState(4950);
   const proList = [
+    "Phone",
     "Laptop",
     "Desktop",
     "Keyboard",
