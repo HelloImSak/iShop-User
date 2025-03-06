@@ -1,5 +1,5 @@
 import "flowbite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCart, BsMouse3 } from "react-icons/bs";
 import { CiSpeaker } from "react-icons/ci";
 import { FaRegKeyboard } from "react-icons/fa";
@@ -22,6 +22,8 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+
+  const [isBlurred, setIsBlurred] = useState(false);
   const navigate = useNavigate();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -34,16 +36,37 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      // Only update isBlurred if the sidebar is not open
+      if (!isMenuOpen) {
+        setIsBlurred(scrollPosition > 50);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMenuOpen]);
+
   return (
     <>
       {/* Promotional Banner */}
-      <p className="fixed top-0 w-full text-white text-sm bg-primary text-center py-1 z-40">
+      <p className="fixed top-0 w-full text-white text-sm bg-primary text-center py-1 z-20">
         Get 30% off when you spend over $200.
       </p>
 
       {/* Main Navbar Container */}
-      <div className="fixed top-[calc(theme(spacing.6))] w-full bg-white z-40">
-        <nav className="relative py-2 flex justify-between items-center mx-[20px] md:mx-[50px] lg:mx-[100px]">
+      <div
+        className={`fixed top-[calc(theme(spacing.6)+theme(spacing.1))] w-full max-w-screen ${
+          isMenuOpen
+            ? "bg-white"
+            : isBlurred
+            ? "bg-white/50 backdrop-blur-md"
+            : "bg-white"
+        } z-50`}
+      >
+        <nav className="relative py-2 flex justify-between items-center mx-4 sm:mx-6 md:mx-10 lg:mx-20">
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
@@ -81,7 +104,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                     )}
                   </button>
                   {isDropdownOpen && (
-                    <div className="z-10 absolute bg-white/50 backdrop-blur-md divide-y w-[400px] divide-gray-100 rounded-lg shadow-sm mt-[20px">
+                    <div className="z-10 absolute bg-white/50 backdrop-blur-md divide-y w-[400px] divide-gray-100 rounded-lg shadow-sm mt-[20px]">
                       <ul className="py-2 text-sm text-primary">
                         <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
                           <div className="flex items-center gap-2.5">
@@ -239,7 +262,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
             </div>
             {/* Mobile Search Popup */}
             {isSearchOpen && (
-              <div className="fixed top-6 left-0 right-0 z-50 p-4 bg-white shadow-md">
+              <div className="fixed left-0 right-0 z-50 p-4 bg-white shadow-md">
                 <div className="flex items-center">
                   <form onSubmit={(e) => e.preventDefault()} className="flex-1">
                     <div className="relative">

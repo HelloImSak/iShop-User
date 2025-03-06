@@ -14,7 +14,7 @@ import SchoolLogo from "../../assets/logo/istad-logo.png";
 const FooterComponent = () => {
   return (
     <footer className="bg-primary">
-      <div className="w-full max-w-screen p-4 py-6 lg:py-8 bottom-0">
+      <div className="w-full max-w-screen p-4 pt-6 lg:pt-8">
         <div className="md:flex md:justify-between md:items-center  md:gap-5">
           {/* Logo Section */}
           <div className="mb-6 md:mb-0 lg:ml-[100px] md:ml-[15px]">
@@ -126,7 +126,7 @@ const FooterComponent = () => {
           </div>
         </div>
 
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <hr className="my-1 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-1" />
 
         <div className="text-center">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">

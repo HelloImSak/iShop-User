@@ -155,7 +155,7 @@ const Register = () => {
                   placeholder="Username"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.username) && !formik.errors.username
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
@@ -178,7 +178,7 @@ const Register = () => {
                   placeholder="Phone Number"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.phoneNumber) &&
                     !formik.errors.phoneNumber
                       ? "bg-[#e8f0fe]"
@@ -202,7 +202,7 @@ const Register = () => {
                   placeholder="Email"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.email) && !formik.errors.phoneNumber
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
@@ -225,7 +225,7 @@ const Register = () => {
                   placeholder="Password"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.password) &&
                     !formik.errors.phoneNumber
                       ? "bg-[#e8f0fe]"
@@ -249,7 +249,7 @@ const Register = () => {
                   placeholder="Confirm Password"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200  text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200  text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.confirmPassword) &&
                     !formik.errors.phoneNumber
                       ? "bg-[#e8f0fe]"
@@ -275,7 +275,7 @@ const Register = () => {
                   placeholder="Address Line 1"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.addressLine1) &&
                     !formik.errors.addressLine1
                       ? "bg-[#e8f0fe]"
@@ -299,7 +299,7 @@ const Register = () => {
                   placeholder="Address Line 2"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.addressLine2) &&
                     !formik.errors.addressLine2
                       ? "bg-[#e8f0fe]"
@@ -323,7 +323,7 @@ const Register = () => {
                   placeholder="Road"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.road) && !formik.errors.road
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
@@ -346,7 +346,7 @@ const Register = () => {
                   placeholder="Link Address"
                   onBlur={formik.handleBlur}
                   required
-                  className={`mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
+                  className={`mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 text-sm text-gray-700 shadow-xs ${
                     isFilled(formik.values.linkAddress) &&
                     !formik.errors.linkAddress
                       ? "bg-[#e8f0fe]"
@@ -360,7 +360,7 @@ const Register = () => {
                 )}
               </div>
 
-              <div className="col-span-6">
+              <div className="col-span-6 ml-3">
                 Your profile
                 <input
                   type="file"
@@ -369,7 +369,7 @@ const Register = () => {
                   onChange={handleFileChange}
                   onBlur={formik.handleBlur}
                   required
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
+                  className="mt-1 w-full h-[40px] lg:h-[45px] rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                 />
                 {formik.errors.profile && formik.touched.profile && (
                   <div className="text-accent_1 text-sm">
