@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaArrowRight } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router";
 import * as Yup from "yup";
 import {
@@ -153,7 +152,7 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
             className="btn w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
             disabled={isLoading}
           >
-            {isLoading ? "Verifying..." : "Verify Code"} <FaArrowRight />
+            {isLoading ? "Register..." : "Register"}
           </button>
         </form>
 

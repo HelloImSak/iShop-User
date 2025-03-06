@@ -1,23 +1,22 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaArrowRight } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router";
 import * as Yup from "yup";
 import {
+  useResendResetPasswordCodeMutation,
   useResetPasswordMutation,
-  useSendResetCodeMutation,
 } from "../../redux/features/auth/authSlice";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email") || "";
+
   const [resetPassword, { isLoading, isError, error }] =
     useResetPasswordMutation();
 
-  const [resendForgotPasswordCode] = useSendResetCodeMutation();
-
+  const [resendResetPasswordCode] = useResendResetPasswordCodeMutation();
 
   const [timer, setTimer] = useState(300);
 
@@ -67,8 +66,15 @@ const ResetPassword = () => {
   });
 
   const handleResendCode = async () => {
+    if (!formik.values.code) {
+      toast.error("Please enter your expired code first.");
+      return;
+    }
     try {
-      await resendForgotPasswordCode({ email }).unwrap();
+      await resendResetPasswordCode({
+        email,
+        oldToken: formik.values.code,
+      }).unwrap();
       setTimer(300);
       toast.success("New verification code sent!");
     } catch (error) {
@@ -83,8 +89,8 @@ const ResetPassword = () => {
           Reset Your Password
         </h2>
         <p className="text-gray-500 text-center mt-4 text-sm dark:text-gray-400">
-          Enter the 6-digit code sent to <span className="text-accent_1">{email}</span> and set a new
-          password.
+          Enter the 6-digit code sent to{" "}
+          <span className="text-accent_1">{email}</span> and set a new password.
         </p>
 
         <form className="mt-6" onSubmit={formik.handleSubmit}>
@@ -180,7 +186,7 @@ const ResetPassword = () => {
             className="w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
             aria-label="Reset Password"
           >
-            {isLoading ? "Resetting..." : "Reset Password"} <FaArrowRight />
+            {isLoading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
 
@@ -193,7 +199,7 @@ const ResetPassword = () => {
 
           <button
             onClick={handleResendCode}
-            disabled={isLoading}
+            disabled={isLoading || !formik.values.code}
             className="text-blue-500 hover:underline disabled:text-gray-400"
           >
             Resend Code

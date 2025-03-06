@@ -9,7 +9,7 @@ export default function LayoutNav1({ isLoggedIn, profile, cartItems }) {
         <NavOneCom
           isLoggedIn={isLoggedIn}
           profile={profile}
-          cartItems={cartItems} // Pass cartItems to NavOneCom
+          cartItems={cartItems}
         />
       </header>
       <main>
