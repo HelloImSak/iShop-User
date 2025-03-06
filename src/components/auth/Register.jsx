@@ -107,27 +107,24 @@ const Register = () => {
   };
 
   const isFilled = (value) => {
-    // Improved logic to handle different input types consistently
     if (value === null || value === undefined) return false;
     if (typeof value === "string") return value.trim() !== "";
-    if (value instanceof File) return true; // For file inputs
+    if (value instanceof File) return true;
     return false;
   };
   return (
-    <section className="bg-white">
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-        <aside className="relative hidden lg:block lg:col-span-5 xl:col-span-6">
+    <main className="min-h-screen lg:backdrop-blur-md xl:backdrop-blur-md 2xl:backdrop-blur-md">
+      <div className="max-w-[80%] mx-auto h-[90vh] flex flex-col lg:grid lg:grid-cols-12 lg:items-center">
+        <aside className="relative hidden lg:block lg:col-span-5 xl:col-span-6 h-full">
           <img
             src={ResPic}
-            alt="E-commerce Banner"
-            className="absolute inset-0 h-full w-full object-contain px-5"
+            alt="Register Image"
+            className="absolute inset-0 w-full h-full object-contain px-5"
           />
-          <div className="absolute inset-0 flex justify-center bg-primary bg-opacity-30">
-            <div className="text-white mt-6">
-              <img src={Logo} alt="" className="w-[200px] mx-auto" />
-              <h2 className="text-3xl font-bold mb-4 text-center">
-                Join Us Today!
-              </h2>
+          <div className="absolute inset-0 flex justify-center mt-10">
+            <div className="text-primary text-center">
+              <img src={Logo} alt="iShop Logo" className="w-[200px] mx-auto" />
+              <h2 className="text-3xl font-bold mb-4">Join Us Today!</h2>
               <p className="text-lg">
                 Sign up to explore exclusive deals and start shopping with ease.
               </p>
@@ -135,8 +132,13 @@ const Register = () => {
           </div>
         </aside>
 
-        <main className="items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+        <section className="items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="w-full">
+            <img
+              src={Logo}
+              alt="iShop Logo"
+              className="w-[200px] mx-auto visible 2xl:hidden xl:hidden lg:hidden"
+            />
             <h1 className="text-center mt-6 text-h1 font-OpenSanBold text-gray-900 sm:text-h2 md:text-h1">
               Sign Up
             </h1>
@@ -401,9 +403,9 @@ const Register = () => {
               </div>
             </form>
           </div>
-        </main>
+        </section>
       </div>
-    </section>
+    </main>
   );
 };
 
