@@ -12,10 +12,59 @@ import {
   IoIosLaptop,
   IoIosPhonePortrait,
 } from "react-icons/io";
-import { useNavigate } from "react-router";
-import Logo2 from "../../assets/logo/ishop-dark-logo.png";
+import { NavLink, useNavigate } from "react-router";
 import Logo from "../../assets/logo/ishop-light-logo.png";
 
+const navLinks = [
+  {
+    to: "/all-products",
+    label: "All Products",
+  },
+  {
+    label: "Categories",
+    isDropdown: true,
+    subItems: [
+      {
+        to: "/phone",
+        label: "Phone",
+        icon: <IoIosPhonePortrait className="w-[26px] h-[26px]" />,
+      },
+      {
+        to: "/laptop",
+        label: "Laptop",
+        icon: <IoIosLaptop className="w-[26px] h-[26px]" />,
+      },
+      {
+        to: "/desktop",
+        label: "Desktop",
+        icon: <IoIosDesktop className="w-[26px] h-[26px]" />,
+      },
+      {
+        to: "/keyboard",
+        label: "Keyboard",
+        icon: <FaRegKeyboard className="w-[26px] h-[26px]" />,
+      },
+      {
+        to: "/mouse",
+        label: "Mouse",
+        icon: <BsMouse3 className="w-[26px] h-[26px]" />,
+      },
+      {
+        to: "/speaker",
+        label: "Speaker",
+        icon: <CiSpeaker className="w-[26px] h-[26px]" />,
+      },
+      {
+        to: "/headphone",
+        label: "Headphone",
+        icon: <GiHeadphones className="w-[26px] h-[26px]" />,
+      },
+    ],
+  },
+  { to: "/brand", label: "Brand" },
+  { to: "/discount-products", label: "Discount" },
+  { to: "/about", label: "About Us" },
+];
 // Navigation Component that have background primary color and fixed on top
 
 const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
@@ -40,131 +89,70 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <a className="text-3xl font-bold leading-none" href="/">
+              <NavLink className="text-3xl font-bold leading-none" to="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"
                   className="h-10 md:h-12 xl:h-16"
                 />
-              </a>
+              </NavLink>
             </div>
             <div>
               {/* Desktop Menu */}
               <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
-                <li>
-                  <a
-                    href="/all-products"
-                    className="block xl:font-OpenSanBold py-2 px-3 text-white hover:text-secondary"
-                  >
-                    All Products
-                  </a>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center xl:font-OpenSanBold justify-between w-full py-2 px-3 text-white hover:text-secondary"
-                  >
-                    Categories
-                    {isDropdownOpen ? (
-                      <IoIosArrowUp className="w-5 h-5 ms-2.5 transition-transform duration-300" />
-                    ) : (
-                      <IoIosArrowDown className="w-5 h-5 ms-2.5 transition-transform duration-300" />
-                    )}
-                  </button>
-                  {isDropdownOpen && (
-                    <div className="z-10 absolute bg-white/50 backdrop-blur-md divide-y w-[400px] divide-gray-100 rounded-xl shadow-sm mt-[20px]">
-                      <ul className="py-2 text-sm text-primary">
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <IoIosPhonePortrait className="w-[26px] h-[26px]" />
-                            <a href="/phone" className="block px-4 py-2 ">
-                              Phone
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px]" />
-                        </li>
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <IoIosLaptop className="w-[26px] h-[26px]" />
-                            <a href="/laptop" className="block px-4 py-2">
-                              Laptop
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px]" />
-                        </li>
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <IoIosDesktop className="w-[26px] h-[26px]" />
-                            <a href="/desktop" className="block px-4 py-2">
-                              Desktop
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px]" />
-                        </li>
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <FaRegKeyboard className="w-[26px] h-[26px]" />
-                            <a href="/keyboard" className="block px-4 py-2">
-                              Keyboard
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px]" />
-                        </li>
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <BsMouse3 className="w-[26px] h-[26px]" />
-                            <a href="/mouse" className="block px-4 py-2">
-                              Mouse
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px]" />
-                        </li>
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between  hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <CiSpeaker className="w-[26px] h-[26px]" />
-                            <a href="/speaker" className="block px-4 py-2">
-                              Speaker
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px]" />
-                        </li>
-                        <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                          <div className="flex items-center gap-2.5">
-                            <GiHeadphones className="w-[26px] h-[26px]" />
-                            <a href="/headphone" className="block px-4 py-2 ">
-                              Headphone
-                            </a>
-                          </div>
-                          <IoIosArrowForward className="w-[18px] h-[18px] hover:text-secondary" />
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </li>
-                <li>
-                  <a
-                    href="/brand"
-                    className="block py-2 px-3 xl:font-OpenSanBold text-white hover:text-secondary"
-                  >
-                    Brand
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/discount"
-                    className="block py-2 px-3 xl:font-OpenSanBold text-white hover:text-secondary"
-                  >
-                    Discount
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/about"
-                    className="block py-2 px-3 xl:font-OpenSanBold text-white hover:text-secondary"
-                  >
-                    About Us
-                  </a>
-                </li>
+                {navLinks.map((link, index) =>
+                  link.isDropdown ? (
+                    <li key={index} className="relative">
+                      <button
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="flex items-center lg:font-OpenSanBold justify-between w-full py-2 px-3 text-white hover:text-secondary"
+                      >
+                        {link.label}
+                        {isDropdownOpen ? (
+                          <IoIosArrowUp className="w-5 h-5 ms-2.5 transition-transform duration-300" />
+                        ) : (
+                          <IoIosArrowDown className="w-5 h-5 ms-2.5 transition-transform duration-300" />
+                        )}
+                      </button>
+                      {isDropdownOpen && (
+                        <div className="z-40 absolute bg-white/70 backdrop-blur-md divide-y w-[400px] divide-gray-100 rounded-lg shadow-sm mt-[20px]">
+                          <ul className="py-2 text-sm text-primary">
+                            {link.subItems.map((subItem, subIndex) => (
+                              <li
+                                key={subIndex}
+                                className="hover:bg-gray-100 hover:text-secondary"
+                              >
+                                <NavLink
+                                  to={subItem.to}
+                                  className="flex items-center gap-2.5 px-4 py-2 justify-between w-full"
+                                >
+                                  <div className="flex items-center gap-2.5">
+                                    {subItem.icon}
+                                    <span>{subItem.label}</span>
+                                  </div>
+                                  <IoIosArrowForward className="w-[18px] h-[18px]" />
+                                </NavLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  ) : (
+                    <li key={index}>
+                      <NavLink
+                        to={link.to}
+                        className={({ isActive }) =>
+                          isActive
+                            ? "text-secondary block py-2 px-3 lg:font-OpenSanBold"
+                            : "block py-2 px-3 lg:font-OpenSanBold text-white hover:text-secondary"
+                        }
+                      >
+                        {link.label}
+                      </NavLink>
+                    </li>
+                  )
+                )}
               </ul>
             </div>
           </div>
@@ -214,7 +202,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                 </div>
               ) : (
                 <button
-                  className="text-white text-sm border border-white rounded-xl px-3 py-1 hover:bg-primary hover:text-white"
+                  className="text-white text-sm border border-white rounded-lg px-3 py-1 hover:bg-primary hover:text-white"
                   onClick={handleLogin}
                 >
                   Login
@@ -369,9 +357,12 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
           ></div>
           <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white/50 backdrop-blur-md border-r overflow-y-auto z-50">
             <div className="flex items-center mb-8">
-              <a className="mr-auto text-3xl font-bold leading-none" href="#">
-                <img src={Logo2} alt="iShop Logo" className="h-9 ml-3" />
-              </a>
+              <NavLink
+                className="mr-auto text-3xl font-bold leading-none"
+                to="/"
+              >
+                <img src={Logo} alt="iShop Logo" className="h-9 ml-3" />
+              </NavLink>
               <button className="navbar-close" onClick={toggleMenu}>
                 <svg
                   className="h-6 w-6 text-primary cursor-pointer hover:text-gray-500"
@@ -415,108 +406,61 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
             {/* Mobile Menu Links */}
             <div>
               <ul>
-                <li className="mb-1">
-                  <a
-                    href="/all-products"
-                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
-                  >
-                    All Products
-                  </a>
-                </li>
-                <li className="mb-1 relative">
-                  <div
-                    className="p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
-                    onClick={toggleCategories}
-                  >
-                    Categories
-                    <svg
-                      className={`w-4 h-4 transform transition-transform ${
-                        isCategoriesOpen ? "rotate-180" : ""
-                      }`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-                  {isCategoriesOpen && (
-                    <ul className="ml-4 bg-white/80 backdrop-blur-md rounded shadow-xl">
-                      <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <IoIosPhonePortrait className="w-[26px] h-[26px]" />
-                        <a href="/phone" className="block px-4 py-2">
-                          Phone
-                        </a>
-                      </li>
-                      <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <IoIosLaptop className="w-[26px] h-[26px]" />
-                        <a href="/laptop" className="block px-4 py-2">
-                          Laptop
-                        </a>
-                      </li>
-                      <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <IoIosDesktop className="w-[26px] h-[26px]" />
-                        <a href="/desktop" className="block px-4 py-2">
-                          Desktop
-                        </a>
-                      </li>
-                      <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <FaRegKeyboard className="w-[26px] h-[26px]" />
-                        <a href="/keyboard" className="block px-4 py-2">
-                          Keyboard
-                        </a>
-                      </li>
-                      <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <BsMouse3 className="w-[26px] h-[26px]" />
-                        <a href="/mouse" className="block px-4 py-2">
-                          Mouse
-                        </a>
-                      </li>
-                      <li className="flex items-center rounded gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <CiSpeaker className="w-[26px] h-[26px]" />
-                        <a href="/speaker" className="block px-4 py-2">
-                          Speaker
-                        </a>
-                      </li>
-                      <li className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 justify-between hover:text-secondary">
-                        <GiHeadphones className="w-[26px] h-[26px]" />
-                        <a href="/headphone" className="block px-4 py-2 ">
-                          Headphone
-                        </a>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-                <li className="mb-1">
-                  <a
-                    href="/brand"
-                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
-                  >
-                    Brand
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a
-                    href="/discount"
-                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
-                  >
-                    Discount
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a
-                    href="/about"
-                    className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
-                  >
-                    About Us
-                  </a>
-                </li>
+                {navLinks.map((link, index) =>
+                  link.isDropdown ? (
+                    <li key={index} className="mb-1 relative">
+                      <div
+                        className="p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
+                        onClick={toggleCategories}
+                      >
+                        {link.label}
+                        <svg
+                          className={`w-4 h-4 transform transition-transform ${
+                            isCategoriesOpen ? "rotate-180" : ""
+                          }`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                      {isCategoriesOpen && (
+                        <ul className="ml-4 bg-white/80 backdrop-blur-md rounded shadow-lg">
+                          {link.subItems.map((subItem, subIndex) => (
+                            <li
+                              key={subIndex}
+                              className="hover:bg-gray-100 hover:text-secondary"
+                            >
+                              <NavLink
+                                to={subItem.to}
+                                className="flex items-center rounded gap-2.5 px-4 py-2 justify-between w-full"
+                              >
+                                {subItem.icon}
+                                <span>{subItem.label}</span>
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ) : (
+                    <li key={index} className="mb-1">
+                      <NavLink
+                        to={link.to}
+                        className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
+                      >
+                        {link.label}
+                      </NavLink>
+                    </li>
+                  )
+                )}
               </ul>
             </div>
 

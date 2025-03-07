@@ -109,6 +109,3 @@ const products = [
     );
 
   }
-  
-
-
