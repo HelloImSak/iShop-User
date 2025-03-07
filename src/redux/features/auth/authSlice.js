@@ -5,7 +5,7 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_AUTH_ENDPOINT,
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("accessToken"); 
+      const token = localStorage.getItem("accessToken");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -83,6 +83,20 @@ export const authApi = createApi({
         body: { email, oldToken },
       }),
     }),
+    updatePassword: builder.mutation({
+      query: ({ uuid, oldPassword, newPassword, confirmPassword }) => ({
+        url: `/api/v1/users/update-password/${uuid}`,
+        method: "PUT",
+        body: { oldPassword, newPassword, confirmPassword },
+      }),
+    }),
+    updateProfile: builder.mutation({
+      query: ({ uuid, username, phoneNumber, address, profile }) => ({
+        url: `/api/v1/users/${uuid}`,
+        method: "PUT",
+        body: { username, phoneNumber, address, profile },
+      }),
+    }),
   }),
 });
 
@@ -95,4 +109,6 @@ export const {
   useSendResetCodeMutation,
   useResetPasswordMutation,
   useResendResetPasswordCodeMutation,
+  useUpdatePasswordMutation,
+  useUpdateProfileMutation,
 } = authApi;
