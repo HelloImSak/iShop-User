@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import ForgotPassword from "../components/auth/ForgotPassword";
-import Register from "../components/auth/Register";
 import ResetPassword from "../components/auth/ResetPassword";
-import SignInCom from "../components/auth/SignInCom";
 import SignOutCom from "../components/auth/SignOutCom";
 import VerifyEmail from "../components/auth/VerifyEmail";
 import DiscountPage from "../components/DiscountPageCom/DiscountPage";
 import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
+import NoInternet from "../components/NoInternet";
 import NotFoundProductCom from "../components/NotFoundProductCom";
 import About from "../pages/About";
+import LoginForm from "../pages/auth/LoginForm";
+import RegisterForm from "../pages/auth/RegisterForm";
 import Home from "../pages/Home";
 import Products from "../pages/products/Products";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
@@ -79,6 +80,23 @@ export default function AppRoutes() {
   // get profile from stored profile
   const activeProfile = userData?.profile || storedProfile;
 
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  if (!isOnline) return <NoInternet />;
+
   return (
     <>
       <Toaster position="top-center" />
@@ -130,10 +148,10 @@ export default function AppRoutes() {
           <Route>
             <Route
               path="/login"
-              element={<SignInCom setIsLoggedIn={setIsLoggedIn} />}
+              element={<LoginForm setIsLoggedIn={setIsLoggedIn} />}
             />
             <Route path="/profile" element={<SignOutCom />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<RegisterForm />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
