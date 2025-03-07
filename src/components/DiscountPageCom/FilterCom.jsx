@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useGetAllBrandQuery } from "../../redux/features/brand/brandSlice";
+
 export default function FilterCom() {
   const [price, setPrice] = useState(4950);
+  const { data: brandData, isLoading, isError } = useGetAllBrandQuery();
+
   const proList = [
     "Phone",
     "Laptop",
@@ -10,23 +14,13 @@ export default function FilterCom() {
     "Speaker",
     "Headphone",
   ];
-  const brandList = [
-    "Apple",
-    "Asus",
-    "Msi",
-    "Samsung",
-    "Acer",
-    "Lenovo",
-    "Asus",
-    "Microsoft",
-    "Sony",
-    "Vivo",
-    "Oppo",
-    "Beat",
-    "JBL",
-    "Sharper",
-    "TECKNET",
-  ];
+
+  // Handle loading and error states
+  if (isLoading) return <aside className="w-1/4 rounded-lg">Loading...</aside>;
+  if (isError) return <aside className="w-1/4 rounded-lg">Error loading brands</aside>;
+
+  // Log to check if component re-renders unexpectedly
+  console.log("FilterCom rendered");
 
   return (
     <aside className="w-1/4 rounded-lg">
@@ -50,14 +44,14 @@ export default function FilterCom() {
         Product Brands
       </h3>
       <ul className="space-y-2 text-[16px] text-gray-600">
-        {brandList.map((brand) => (
-          <li key={brand} className="flex items-center">
+        {brandData?.content?.map((brand) => (
+          <li key={brand.uuid} className="flex items-center">
             <input
-              type="checkbox"
-              id={brand}
+              type="checkbox" 
+              id={brand.uuid}
               className="mr-2 appearance-none h-4 w-4 bg-white checked:bg-blue-500 checked:ring-transparent"
             />
-            <label htmlFor={brand}>{brand}</label>
+            <label htmlFor={brand.uuid}>{brand.name}</label>
           </li>
         ))}
       </ul>

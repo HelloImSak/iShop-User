@@ -20,37 +20,6 @@ export default function DiscountPage() {
             {/* Sidebar Filter */}
             <FilterCom />
 
-<<<<<<< HEAD
-              <h3 className="font-semibold  text-[20px] text-primary mt-5 mb-3">
-                Product Brands
-              </h3>
-              <ul className="space-y-2 text-[16px] text-gray-600">
-                {[
-                  "Apple",
-                  "Asus",
-                  "Msi",
-                  "Samsung",
-                  "Acer",
-                  "Lenovo",
-                  "Asus",
-                  "Microsoft",
-                  "Sony",
-                  "Vivo",
-                  "Oppo",
-                  "Beat",
-                  "JBL",
-                  "Sharper",
-                  "TECKNET",
-                ].map((brand) => (
-                  <li key={brand}>
-                    <input
-                      type="checkbox"
-                      id={brand}
-                      className="mr-[10px] mt-2 w-[17px]"
-                    />
-                    <label htmlFor={brand}>{brand}</label>
-                  </li>
-=======
             {/* Product Grid */}
             <div className="w-full lg:w-3/4">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -67,7 +36,6 @@ export default function DiscountPage() {
                       (e.priceOut * e.discount) / 100
                     ).toFixed(2)}
                   />
->>>>>>> 875fb0faff22803dd341ade2a0c8ea061420d342
                 ))}
               </div>
             </div>
