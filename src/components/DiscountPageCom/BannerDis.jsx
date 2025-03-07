@@ -2,7 +2,7 @@ import React from "react";
 
 export default function BannerDis() {
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center ">
 
       <section className="mt-9 w-full max-w-[1340px] max-md:max-w-full ">
         <div className="flex gap-5 max-md:flex-col">
