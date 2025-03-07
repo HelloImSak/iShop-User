@@ -9,7 +9,7 @@ export default function CardCom({ thumbnail, name, brand, price }) {
           <img
             className="rounded-t-lg mx-auto object-contain "
             src={thumbnail}
-            alt="product image"
+            alt={name}
           />
         </a>
         <div className="px-1 pb-3 text-left ">
