@@ -2,9 +2,10 @@ import React from "react";
 import HomeBanner from "../components/home-components/HomeBanner";
 import AssuranceSection from "../components/home-components/AssuranceSection";
 import PopularCategories from "../components/home-components/PopularCategories";
-import DiscountProduct from "../components/home-components/DiscountProduct";
 import NewArrivals from "../components/home-components/NewArrivals";
 import BestSelling from "../components/home-components/BestSelling";
+import DiscountProduct from "../components/home-components/DiscountProduct";
+import DiscountPage from "../components/DiscountPageCom/DiscountPage";
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
       </section>
       <BestSelling/>
       <section>
-        <DiscountProduct />
+        <DiscountProduct/>
       </section>
     </main>
   );
