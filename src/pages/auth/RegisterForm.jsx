@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import {
   useGetLoginMutation,
-  useUserRegisterGoogleMutation,
   useUserRegisterMutation,
 } from "../../redux/features/auth/authSlice";
 
@@ -18,14 +17,13 @@ import Ill from "../../assets/auth/register.png";
 
 const RegisterForm = () => {
   const [userRegister, { isLoading, isError }] = useUserRegisterMutation();
-  const [userRegisterGoogle] = useUserRegisterGoogleMutation();
 
   const [getLogin] = useGetLoginMutation();
   const navigate = useNavigate();
 
   // handle login with google
 
-  const googleLogin = useGoogleLogin({
+  const googleRegister = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       if (tokenResponse) {
         const accessToken = tokenResponse.access_token;
@@ -54,18 +52,15 @@ const RegisterForm = () => {
                 import.meta.env.VITE_SECRET_KEY
               }`,
               profile: userData.picture,
+              emailVerified: true, // Pass emailVerified as true
             };
 
             console.log("Submit Value for Google Register:", submitValue);
 
             try {
-              // Step 1: Register the user (emailVerified=true via query URL)
-              const registerResponse = await userRegisterGoogle(
-                submitValue
-              ).unwrap();
+              const registerResponse = await userRegister(submitValue).unwrap();
               console.log("Google Register Response:", registerResponse);
 
-              // Step 2: Log the user in
               const loginResponse = await getLogin({
                 email: userData.email,
                 password: `${userData.given_name}${
@@ -74,7 +69,6 @@ const RegisterForm = () => {
               }).unwrap();
               console.log("Login Response:", loginResponse);
 
-              // Step 3: Store token and user data
               localStorage.setItem("accessToken", loginResponse.accessToken);
               localStorage.setItem(
                 "userData",
@@ -84,7 +78,8 @@ const RegisterForm = () => {
               toast.success("Registration and Login Successful!", {
                 icon: "✅",
               });
-              navigate("/"); // Redirect to home page, skipping verification
+              navigate("/");
+              window.location.reload();
             } catch (error) {
               console.error("Google Registration or Login Error:", error);
               toast.error(
@@ -103,6 +98,7 @@ const RegisterForm = () => {
       toast.error("Google login failed");
     },
   });
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -140,7 +136,11 @@ const RegisterForm = () => {
     }),
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        await userRegister(values).unwrap();
+        const submissionValues = {
+          ...values,
+          emailVerified: false, // Explicitly set to false for form signup
+        };
+        await userRegister(submissionValues).unwrap();
         toast.success("Please verify your Email!", {
           icon: "✅",
         });
@@ -148,10 +148,8 @@ const RegisterForm = () => {
         navigate(`/verify-email?email=${values.email}`);
       } catch (err) {
         console.error("Registration failed:", err);
-
         const errorMessage =
           err?.data?.error?.description || "Registration failed.";
-
         if (errorMessage.includes("Email or username already exists")) {
           setErrors({ email: errorMessage });
           toast.error(errorMessage);
@@ -474,7 +472,7 @@ const RegisterForm = () => {
           <div className="flex items-center justify-center">
             <button
               type="submit"
-              onClick={googleLogin}
+              onClick={googleRegister}
               className="w-[200px] flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
             >
               <svg

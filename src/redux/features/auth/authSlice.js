@@ -37,32 +37,9 @@ export const authApi = createApi({
         confirmPassword,
         address,
         profile,
+        emailVerified,
       }) => ({
-        url: "/api/v1/users/user-signup?emailVerified=true",
-        method: "POST",
-        body: {
-          username,
-          phoneNumber,
-          email,
-          password,
-          confirmPassword,
-          address,
-          profile,
-        },
-      }),
-    }),
-
-    userRegisterGoogle: builder.mutation({
-      query: ({
-        username,
-        phoneNumber,
-        email,
-        password,
-        confirmPassword,
-        address,
-        profile,
-      }) => ({
-        url: "/api/v1/users/user-signup?emailVerified=true",
+        url: `/api/v1/users/user-signup?emailVerified=${emailVerified}`, // Use the passed emailVerified value
         method: "POST",
         body: {
           username,
@@ -137,7 +114,6 @@ export const {
   useGetLoginMutation,
   useUserDataOfTokenQuery,
   useUserRegisterMutation,
-  useUserRegisterGoogleMutation,
   useVerifyRegistrationMutation,
   useResendCodeMutation,
   useSendResetCodeMutation,
