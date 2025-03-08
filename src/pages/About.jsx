@@ -1,9 +1,27 @@
 import React from "react";
 import MentorsSection from "../components/aboutUs-components/MentorsSection"
 import TeamsSection from "../components/aboutUs-components/TeamsSection";
+import TestimonialSection from "../components/aboutUs-components/TestimonialSection";
+import AssuranceSection from "../components/home-components/AssuranceSection"
+import Banner from "../components/aboutUs-components/Banner";
 export default function About() {
   return <>
-  <MentorsSection/>
-  <TeamsSection/>
+  <main className="pt-40 space-y-10">
+    <section>
+      <Banner/>
+    </section>
+    <section>
+      <AssuranceSection/>
+    </section>
+    <section>
+      <MentorsSection/>
+    </section>
+    <section>
+      <TeamsSection/>
+    </section>
+    <section>
+      <TestimonialSection/>
+    </section>
+  </main>
   </>
 }

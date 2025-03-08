@@ -94,10 +94,10 @@ const teams = [
 const TeamsSection = () => {
   return (
     <section className="text-center py-8">
-      <h2 className="text-4xl font-bold text-primary mb-10">Meet Our Teams</h2>
-      <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-center gap-y-10 py-10">
+      <h2 className=" flex justify-center text-4xl font-bold text-primary mb-10">Meet Our Teams</h2>
+      <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-10 py-10 max-w-auto">
         {teams.map((teams, index) => (
-          <div key={index} className="flex flex-col items-center bg-white p-4 ">
+          <div key={index} className="flex flex-col items-center bg-white ">
             <img
               src={teams.image}
               alt={teams.name}

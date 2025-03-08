@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { BsCart3 } from "react-icons/bs";
 
 export default function CardCom({ thumbnail, name, brand, price }) {
@@ -24,7 +24,7 @@ export default function CardCom({ thumbnail, name, brand, price }) {
             </button>
           </div>
 
-          <p className="text-gray-600 text-[14px]mt-1">{brand}</p>
+          <p className="text-gray-600 text-[14px] mt-1">{brand}</p>
           <div className="flex items-center justify-between mt-2">
             <span className="text-[17px] font-bold text-gray-900">
               ${price}
