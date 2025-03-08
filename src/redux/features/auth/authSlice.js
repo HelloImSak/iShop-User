@@ -20,12 +20,14 @@ export const authApi = createApi({
         body: { email, password },
       }),
     }),
+
     userDataOfToken: builder.query({
       query: () => ({
         url: "/api/v1/users/me",
         method: "GET",
       }),
     }),
+
     userRegister: builder.mutation({
       query: ({
         username,
@@ -36,7 +38,7 @@ export const authApi = createApi({
         address,
         profile,
       }) => ({
-        url: "/api/v1/users/user-signup",
+        url: "/api/v1/users/user-signup?emailVerified=true",
         method: "POST",
         body: {
           username,
@@ -49,12 +51,38 @@ export const authApi = createApi({
         },
       }),
     }),
+
+    userRegisterGoogle: builder.mutation({
+      query: ({
+        username,
+        phoneNumber,
+        email,
+        password,
+        confirmPassword,
+        address,
+        profile,
+      }) => ({
+        url: "/api/v1/users/user-signup?emailVerified=true",
+        method: "POST",
+        body: {
+          username,
+          phoneNumber,
+          email,
+          password,
+          confirmPassword,
+          address,
+          profile,
+        },
+      }),
+    }),
+
     verifyRegistration: builder.mutation({
       query: (token) => ({
         url: `/api/v1/users/verify-email?token=${token}`,
         method: "POST",
       }),
     }),
+
     resendCode: builder.mutation({
       query: ({ email, oldToken }) => ({
         url: "/api/v1/users/resend-email-verification",
@@ -62,6 +90,7 @@ export const authApi = createApi({
         body: { email, oldToken },
       }),
     }),
+
     sendResetCode: builder.mutation({
       query: (email) => ({
         url: "/api/v1/users/forgot-password",
@@ -69,6 +98,7 @@ export const authApi = createApi({
         body: { email },
       }),
     }),
+
     resetPassword: builder.mutation({
       query: ({ email, code, newPassword, confirmPassword }) => ({
         url: `/api/v1/users/set-new-password?token=${code}`,
@@ -76,6 +106,7 @@ export const authApi = createApi({
         body: { email, newPassword, confirmPassword },
       }),
     }),
+
     resendResetPasswordCode: builder.mutation({
       query: ({ email, oldToken }) => ({
         url: "/api/v1/users/resend-password-reset-token",
@@ -83,6 +114,7 @@ export const authApi = createApi({
         body: { email, oldToken },
       }),
     }),
+
     updatePassword: builder.mutation({
       query: ({ uuid, oldPassword, newPassword, confirmPassword }) => ({
         url: `/api/v1/users/update-password/${uuid}`,
@@ -90,6 +122,7 @@ export const authApi = createApi({
         body: { oldPassword, newPassword, confirmPassword },
       }),
     }),
+
     updateProfile: builder.mutation({
       query: ({ uuid, username, phoneNumber, address, profile }) => ({
         url: `/api/v1/users/${uuid}`,
@@ -104,6 +137,7 @@ export const {
   useGetLoginMutation,
   useUserDataOfTokenQuery,
   useUserRegisterMutation,
+  useUserRegisterGoogleMutation,
   useVerifyRegistrationMutation,
   useResendCodeMutation,
   useSendResetCodeMutation,

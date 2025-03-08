@@ -1,20 +1,108 @@
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
-import { useUserRegisterMutation } from "../../redux/features/auth/authSlice";
+import {
+  useGetLoginMutation,
+  useUserRegisterGoogleMutation,
+  useUserRegisterMutation,
+} from "../../redux/features/auth/authSlice";
 
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import logo from "../../assets/logo/ishop-light-logo.png";
 
+import { useGoogleLogin } from "@react-oauth/google";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Ill from "../../assets/auth/register.png";
 
 const RegisterForm = () => {
-  const [userRegister, { isLoading, error }] = useUserRegisterMutation();
+  const [userRegister, { isLoading, isError }] = useUserRegisterMutation();
+  const [userRegisterGoogle] = useUserRegisterGoogleMutation();
+
+  const [getLogin] = useGetLoginMutation();
   const navigate = useNavigate();
 
+  // handle login with google
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      if (tokenResponse) {
+        const accessToken = tokenResponse.access_token;
+        try {
+          const userData = await fetch(
+            "https://www.googleapis.com/oauth2/v1/userinfo",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                Accept: "application/json",
+              },
+            }
+          ).then((data) => data.json());
+          console.log("Google User Info:", userData);
+
+          if (userData) {
+            const submitValue = {
+              email: userData.email,
+              username: userData.given_name,
+              phoneNumber: "",
+              address: {},
+              password: `${userData.given_name}${
+                import.meta.env.VITE_SECRET_KEY
+              }`,
+              confirmPassword: `${userData.given_name}${
+                import.meta.env.VITE_SECRET_KEY
+              }`,
+              profile: userData.picture,
+            };
+
+            console.log("Submit Value for Google Register:", submitValue);
+
+            try {
+              // Step 1: Register the user (emailVerified=true via query URL)
+              const registerResponse = await userRegisterGoogle(
+                submitValue
+              ).unwrap();
+              console.log("Google Register Response:", registerResponse);
+
+              // Step 2: Log the user in
+              const loginResponse = await getLogin({
+                email: userData.email,
+                password: `${userData.given_name}${
+                  import.meta.env.VITE_SECRET_KEY
+                }`,
+              }).unwrap();
+              console.log("Login Response:", loginResponse);
+
+              // Step 3: Store token and user data
+              localStorage.setItem("accessToken", loginResponse.accessToken);
+              localStorage.setItem(
+                "userData",
+                JSON.stringify(loginResponse.user)
+              );
+
+              toast.success("Registration and Login Successful!", {
+                icon: "✅",
+              });
+              navigate("/"); // Redirect to home page, skipping verification
+            } catch (error) {
+              console.error("Google Registration or Login Error:", error);
+              toast.error(
+                error?.data?.message || "Google registration or login failed"
+              );
+            }
+          }
+        } catch (error) {
+          console.error("Google Fetch Error:", error);
+          toast.error("Failed to fetch Google user info");
+        }
+      }
+    },
+    onError: (errorResponse) => {
+      console.error("Google Auth Error:", errorResponse);
+      toast.error("Google login failed");
+    },
+  });
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -304,7 +392,7 @@ const RegisterForm = () => {
                    peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 
                    peer-valid:top-2 peer-valid:-translate-y-4 peer-valid:scale-75"
                 >
-                Confirm Password
+                  Confirm Password
                 </label>
 
                 {/* Eye Toggle */}
@@ -381,9 +469,12 @@ const RegisterForm = () => {
             <span className="text-gray-300 font-normal">or</span>
             <span className="h-px w-16 bg-gray-100"></span>
           </div>
+
+          {/* google */}
           <div className="flex items-center justify-center">
             <button
               type="submit"
+              onClick={googleLogin}
               className="w-[200px] flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
             >
               <svg

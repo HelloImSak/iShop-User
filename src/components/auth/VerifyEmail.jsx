@@ -69,7 +69,7 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
   });
 
   const handleResendCode = async () => {
-    const oldToken = formik.values.verificationCode; // ✅ get the code from formik values
+    const oldToken = formik.values.verificationCode;
 
     if (!email || !oldToken) {
       toast.error("Email or verification code (old token) is missing.");

@@ -194,9 +194,12 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                   </a>
                   <a href="/profile">
                     <img
-                      src={profile ?? "images/profile"}
+                      src={
+                        profile ??
+                        "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                      }
                       alt="profile"
-                      className="w-8 h-8 rounded-full border"
+                      className="w-10 h-10 rounded-full border"
                     />
                   </a>
                 </div>
@@ -330,9 +333,12 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                 </a>
                 <a href="/profile">
                   <img
-                    src={profile}
+                    src={
+                      profile ??
+                      "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                    }
                     alt="profile"
-                    className="w-12 h-12 rounded-full border"
+                    className="w-10 h-10 rounded-full border"
                   />
                 </a>
               </div>
