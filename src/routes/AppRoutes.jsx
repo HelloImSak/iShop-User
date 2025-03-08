@@ -18,6 +18,7 @@ import Products from "../pages/products/Products";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
 import { useGetAllQuery } from "../redux/features/product/productSlice";
+import Category from "../pages/Category";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -119,6 +120,7 @@ export default function AppRoutes() {
               element={<Products products={products} />} // Pass products as prop
             />
             <Route path="/discount-products" element={<DiscountPage />} />
+            <Route path="/phone" element={<Category/>} />
           </Route>
 
           {/* Layout with NavTwoCom */}
