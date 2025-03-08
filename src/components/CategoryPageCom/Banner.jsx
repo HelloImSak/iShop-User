@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function Banner() {
   return (
-<main className='flex justify-center mx-[50px]'>
-<main lassName=" flex-col items-start px-16 pt-16 pb-5 mt-12 w-full rounded-xl bg-blue-950 max-w-[1340px] max-md:px-5 max-md:mt-10 max-md:max-w-full  mx-[100px]">
+<main className='flex justify-center mx-[100px] pt-[32px] '>
+<div lassName=" flex items-start px-16 pt-16 pb-5 mt-12 w-full rounded-xl bg-blue-950 max-w-[1340px] max-md:px-5 max-md:mt-10 max-md:max-w-full  ">
     <div className="bg-primary w-full max-w-[1300px] max-md:max-w-full p-[30px] rounded-[20px] ">
       <div className="flex gap-5 max-md:flex-col">
         <div className="w-6/12 max-md:ml-0 max-md:w-full">
@@ -44,7 +44,7 @@ export default function Banner() {
       </div>
     </div>
       
-    </main>
+    </div>
 </main>
   )
 }
