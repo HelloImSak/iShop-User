@@ -18,7 +18,7 @@ export default function PopularCategories() {
       <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">
         Popular Categories
       </h1>
-      <div className=" flex justify-center w-full">
+      <div className=" flex justify-center w-full px-[100px]">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-10 w-full ">
           {products.map((product, index) => (
             <div

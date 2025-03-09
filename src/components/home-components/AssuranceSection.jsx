@@ -25,7 +25,7 @@ const features = [
 
 export default function AssuranceSection() {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap:2 px-10">
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap:2">
       {features.map((feature, index) => (
         <div
           key={index}

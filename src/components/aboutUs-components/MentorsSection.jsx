@@ -30,7 +30,7 @@ const MentorsSection = () => {
   return (
     <section className="text-center py-12 ">
       <h2 className="text-4xl font-bold text-primary mb-10">Meet Our Mentors</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 p-10 lg:grid-cols-2 justify-center max-w-5xl mx-auto gap-y-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 p-10 lg:grid-cols-2 justify-center max-w-4xl mx-auto gap-y-10">
         {mentors.map((mentor, index) => (
           <div 
             key={index} 
@@ -39,7 +39,7 @@ const MentorsSection = () => {
             <img
               src={mentor.image}
               alt={mentor.name}
-              className="w-40 h-40 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full object-cover mb-4"
+              className="w-50 h-48 rounded-full object-cover mb-3"
             />
             <h3 className="text-xl font-semibold">{mentor.name}</h3>
             <p className="text-primary text-sm mb-2">{mentor.role}</p>

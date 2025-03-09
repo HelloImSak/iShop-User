@@ -6,8 +6,8 @@ import AssuranceSection from "../components/home-components/AssuranceSection"
 import Banner from "../components/aboutUs-components/Banner";
 export default function About() {
   return <>
-  <main className="pt-40 space-y-10">
-    <section>
+  <main className="pt-40 space-y-10 ">
+    <section >
       <Banner/>
     </section>
     <section>

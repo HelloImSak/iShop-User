@@ -219,7 +219,7 @@
     .carousel .list {
         height: 100%;
         font-size: smaller;
-        transform: translate(-50%, -25%);
+        transform: translate(-55%, -25%);
         display: flex;
         align-items: center;
         gap: 30px; /* Reduce this value */
@@ -229,8 +229,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 40px; /* Reduce the gap */
-        width: 80%; /* Ensure the content is not too spread out */
+        gap: 80px; /* Reduce the gap */
+        width: 100%; /* Ensure the content is not too spread out */
     }
 
     .carousel .list .item .introduce {
@@ -308,14 +308,97 @@
         align-items: center;
         justify-content: space-between;
         gap: 20px; /* Reduce the gap */
-        width: 70%; /* Ensure the content is not too spread out */
-    } 
-    
-    .carousel .list{
+        width: 80%; /* Ensure the content is not too spread out */
+    }
+    .carousel .list {
         height: 100%;
         font-size: smaller;
-        transform: translate(-40%, -5%);
+        transform: translate(-45%, -15%);
+        display: flex;
+        align-items: center;
+        gap: 30px; /* Reduce this value */
+    } 
+    .carousel .list .item .introduce {
+        width: 60%; /* Reduce text width */
+        margin-left: -20%; /* Shift text to the left */
+        margin-top: 10%;
     }
+    .carousel .list .item .introduce .title{
+        font-size:x-large;
+        font-style: Regular;
+        line-height: 1em;
+        width:100%;
+    }
+    .carousel .list .item .introduce .topic{
+        font-size:xx-large;
+        font-weight: 500;
+    }
+    .responsive-img1 {
+        max-width: 340px;
+        padding-bottom: 170px;
+    }
+    .responsive-img2 {
+        min-width: 350px;
+        padding-bottom: 150px;
+    }
+    .responsive-img4 {
+        max-width: 240px;
+        padding-bottom: 150px;
+    }
+    .responsive-img3 {
+        min-width: 400px;
+        padding-bottom: 150px;
+
+    }
+    .carousel .list .item:nth-child(2) .introduce .des{
+        font-size: smaller;
+        height: 100px;
+        overflow: auto;
+
+        
+    }
+    .arrows{
+        position: absolute;
+        bottom: 30px;
+        width: 1140px;
+        max-width: 15%;
+        display: flex;
+        justify-content: space-around;
+        left: 88%;
+        transform: translateX(-50%);
+    }
+    #prev,
+#next{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-family: monospace;
+    border: 1px solid #5555;
+    font-size: large;
+    bottom: 20%;
+    left: 10%;
+}
+}
+@media screen and (max-width: 1300px){
+    /* ipad */
+    .carousel{
+        height: 550px;
+    }   
+    .carousel .list .item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px; /* Reduce the gap */
+        width: 65%; /* Ensure the content is not too spread out */
+    }
+    .carousel .list {
+        height: 100%;
+        font-size: smaller;
+        transform: translate(-38%, -15%);
+        display: flex;
+        align-items: center;
+        gap: 30px; /* Reduce this value */
+    } 
     .carousel .list .item .introduce {
         width: 60%; /* Reduce text width */
         margin-left: -20%; /* Shift text to the left */
@@ -387,7 +470,15 @@
         align-items: center;
         justify-content: space-between;
         gap: 20px; /* Reduce the gap */
-        width: 60%; /* Ensure the content is not too spread out */
+        width: 70%; /* Ensure the content is not too spread out */
+    } 
+    .carousel .list {
+        height: 100%;
+        font-size: smaller;
+        transform: translate(-45%, -15%);
+        display: flex;
+        align-items: center;
+        gap: 30px; /* Reduce this value */
     } 
     .carousel .list .item:nth-child(2) .introduce{
         font-size: smaller;
