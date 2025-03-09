@@ -257,7 +257,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 </button>
               </div>
 
-              {/* Fixed height error message area */}
+             
               <div className="h-[20px] mt-1">
                 {formik.errors.password && formik.touched.password && (
                   <div className="text-red-500 text-sm">
@@ -272,7 +272,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
               </div>
             </div>
 
-            {/* Remember me Checkbox and Forgot Password */}
+            
             <div className="flex items-center justify-between">
               <div className="flex items-start">
                 <div className="flex items-center h-5">

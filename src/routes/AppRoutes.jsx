@@ -27,6 +27,7 @@ export default function AppRoutes() {
   const { data: userData, error } = useUserDataOfTokenQuery(undefined, {
     skip: !token, // Skip API call if no token
   });
+  console.log("userdata: ", userData);
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!token); // Set based on token presence
 
@@ -125,8 +126,10 @@ export default function AppRoutes() {
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/phone" element={<Category />} />
 
-            <Route path="/profile-setting" element={<Profile />} />
-            <Route path="/sign-out" element={<SignOutCom />} />
+            <Route
+              path="/profile-setting"
+              element={<Profile user={userData} />}
+            />
           </Route>
 
           {/* Layout with NavTwoCom */}

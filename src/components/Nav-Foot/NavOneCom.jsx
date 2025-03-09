@@ -15,6 +15,7 @@ import {
 
 import { NavLink, useNavigate } from "react-router";
 import Logo from "../../assets/logo/ishop-dark-logo.png";
+import toast from "react-hot-toast";
 
 const navLinks = [
   {
@@ -98,6 +99,14 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMenuOpen]);
 
+  const handleSignOut = () => {
+    toast.success("Log-Out Successful!", {
+      icon: "✅",
+    });
+    localStorage.removeItem("accessToken");
+    navigate("/");
+    window.location.reload();
+  };
   return (
     <>
       {/* Promotional Banner */}
@@ -263,12 +272,12 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                           </li>
 
                           <li>
-                            <NavLink
-                              to="/"
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            <div
+                              onClick={handleSignOut}
+                              className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                             >
                               Sign out
-                            </NavLink>
+                            </div>
                           </li>
                         </ul>
                       </div>
@@ -441,12 +450,12 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                         </li>
 
                         <li>
-                          <NavLink
-                            to="/sign-out"
+                          <div
+                            onClick={handleSignOut}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
                             Sign out
-                          </NavLink>
+                          </div>
                         </li>
                       </ul>
                     </div>
