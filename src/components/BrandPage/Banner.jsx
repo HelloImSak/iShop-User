@@ -1,8 +1,8 @@
 import React from "react";  
-import Allphone from "../../assets/logo/Apple/AllApple.png";
-import LogoApple from "../../assets/logo/Apple/Logo-Apple.png";
-import HeadPhone from "../../assets/logo/Apple/HeadPhone.png";
-import MacBook from "../../assets/logo/Apple/MacBook.png";
+import Allphone from "../../assets/Apple/AllApple.png";
+import LogoApple from "../../assets/Apple/Logo-Apple.png";
+import HeadPhone from "../../assets/Apple/HeadPhone.png";
+import MacBook from "../../assets/Apple/MacBook.png";
 
 const SectionTitle = ({ children }) => (
   <h1 className="mb-2 text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white text-center">
@@ -54,7 +54,7 @@ const Banner = () => {
   ];
 
   return (
-    <section className="relative p-4 sm:p-6 md:p-8 rounded-3xl bg-[#0E1F48] min-h-[400px] sm:min-h-[450px] md:min-h-[430px] flex flex-col items-center">
+    <section className="relative p-4 sm:p-6 md:p-8 rounded-3xl bg-[#0E1F48] min-h-[400px] sm:min-h-[450px] md:min-h-[430px] flex flex-col px-[32px] mx-[100px] items-center">
       <div className="w-full max-w-[1200px]">
         <header className="text-center">
           <SectionTitle>Find Your Perfect Laptop</SectionTitle>
@@ -66,7 +66,7 @@ const Banner = () => {
           <AppleSection />
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12">
             {cardData.map((card, index) => (
-              <ShopCard key={index} image={card.image} altText={card.altText} title={card.title} />
+              <ShopCard key={index} image={card.image} altText={card.altText} title={card.title} /> 
             ))}
           </div>
         </div>
@@ -76,3 +76,6 @@ const Banner = () => {
 };
 
 export default Banner;
+
+
+
