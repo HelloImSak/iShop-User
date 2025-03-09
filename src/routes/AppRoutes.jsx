@@ -20,6 +20,7 @@ import { useGetUserCartQuery } from "../redux/service/cart/cartSlice";
 import { useGetAllQuery } from "../redux/service/product/productSlice";
 import Category from "../pages/Category";
 import Profile from "../components/user/Profile";
+import AllProductPage from "../components/AllProductCom/AllProductPage";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -115,6 +116,7 @@ export default function AppRoutes() {
             }
           >
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+            <Route path="/all-products" element={<AllProductPage/>} />
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
             <Route
               path="/products"

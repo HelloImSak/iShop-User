@@ -2,7 +2,7 @@ import React from "react";
 import BannerAllPro from "./BannerAllPro";
 import CardCom from "../cart/CardCom";
 import FilterDis from "./FilterDis";
-import { useGetAllQuery } from "../../redux/features/product/productSlice";
+import { useGetAllQuery } from "../../redux/service/product/productSlice";
 
 export default function AllProductPage() {
   const { data: proAll, isLoading, isError } = useGetAllQuery();

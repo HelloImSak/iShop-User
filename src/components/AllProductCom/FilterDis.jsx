@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGetAllQuery } from "../../redux/features/product/productSlice";
+import { useGetAllQuery } from "../../redux/service/product/productSlice";
 
 export default function FilterDis() {
   const [price, setPrice] = useState(4950);
