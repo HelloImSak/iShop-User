@@ -78,6 +78,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
   const navigate = useNavigate();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -224,16 +225,55 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                       </span>
                     )}
                   </a>
-                  <a href="/profile">
-                    <img
-                      src={
-                        profile ??
-                        "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                      }
-                      alt="profile"
-                      className="w-10 h-10 rounded-full border"
-                    />
-                  </a>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        src={
+                          profile ??
+                          "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                        }
+                        alt="profile"
+                        className="w-10 h-10 rounded-full border"
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
+                        <div className="px-4 py-3">
+                          <span className="block text-sm text-gray-900 dark:text-white">
+                            Chey Somatra
+                          </span>
+                          <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                            name@flowbite.com
+                          </span>
+                        </div>
+                        <ul className="py-2">
+                          <li>
+                            <a
+                              href="/profile-setting"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            >
+                              Settings
+                            </a>
+                          </li>
+
+                          <li>
+                            <NavLink
+                              to="/"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            >
+                              Sign out
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <button
@@ -363,16 +403,55 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                     </span>
                   )}
                 </a>
-                <a href="/profile">
-                  <img
-                    src={
-                      profile ??
-                      "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                    }
-                    alt="profile"
-                    className="w-12 h-12 rounded-full border"
-                  />
-                </a>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      src={
+                        profile ??
+                        "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                      }
+                      alt="profile"
+                      className="w-12 h-12 rounded-full border"
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
+                      <div className="px-4 py-3">
+                        <span className="block text-sm text-gray-900 dark:text-white">
+                          Bonnie Green
+                        </span>
+                        <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                          name@flowbite.com
+                        </span>
+                      </div>
+                      <ul className="py-2">
+                        <li>
+                          <a
+                            href="/profile-setting"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            Settings
+                          </a>
+                        </li>
+
+                        <li>
+                          <NavLink
+                            to="/"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            Sign out
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <button

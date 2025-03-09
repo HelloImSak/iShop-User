@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetAllQuery } from "../../redux/features/product/productSlice";
+import { useGetAllQuery } from "../../redux/service/product/productSlice";
 import CardCom from "../cart/CardCom";
 
 export default function NewArrivals() {

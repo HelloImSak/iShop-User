@@ -1,7 +1,7 @@
 import React from "react";
 import FilterCom from "./FilterCom";
 import CardDisCom from "../cart/CardDisCom";
-import { useGetAllQuery } from "../../redux/features/product/productSlice";
+import { useGetAllQuery } from "../../redux/service/product/productSlice";
 import BannerDis from "./BannerDis";
 export default function DiscountPage() {
   const { data: proDis, isLoading, isError } = useGetAllQuery();

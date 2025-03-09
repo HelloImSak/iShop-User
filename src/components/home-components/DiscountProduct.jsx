@@ -1,7 +1,7 @@
 
 import React from 'react'
 import CardDisCom from '../cart/CardDisCom';
-import { useGetAllQuery } from '../../redux/features/product/productSlice';
+import { useGetAllQuery } from '../../redux/service/product/productSlice';
 
   
   export default function DiscountProduct() {

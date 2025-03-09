@@ -16,9 +16,10 @@ import RegisterForm from "../pages/auth/RegisterForm";
 import Home from "../pages/Home";
 import Products from "../pages/products/Products";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
-import { useGetUserCartQuery } from "../redux/features/cart/cartSlice";
-import { useGetAllQuery } from "../redux/features/product/productSlice";
+import { useGetUserCartQuery } from "../redux/service/cart/cartSlice";
+import { useGetAllQuery } from "../redux/service/product/productSlice";
 import Category from "../pages/Category";
+import Profile from "../components/user/Profile";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -121,6 +122,8 @@ export default function AppRoutes() {
             />
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/phone" element={<Category/>} />
+
+            <Route path="/profile-setting" element={<Profile/>} />
           </Route>
 
           {/* Layout with NavTwoCom */}
