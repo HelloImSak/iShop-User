@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
+import AllProductPage from "../components/AllProductCom/AllProductPage";
 import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
 import SignOutCom from "../components/auth/SignOutCom";
@@ -10,17 +11,16 @@ import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NoInternet from "../components/NoInternet";
 import NotFoundProductCom from "../components/NotFoundProductCom";
+import Profile from "../components/user/Profile";
 import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
+import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Products from "../pages/products/Products";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/service/cart/cartSlice";
 import { useGetAllQuery } from "../redux/service/product/productSlice";
-import Category from "../pages/Category";
-import Profile from "../components/user/Profile";
-import AllProductPage from "../components/AllProductCom/AllProductPage";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -116,16 +116,17 @@ export default function AppRoutes() {
             }
           >
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-            <Route path="/all-products" element={<AllProductPage/>} />
+            <Route path="/all-products" element={<AllProductPage />} />
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
             <Route
               path="/products"
               element={<Products products={products} />} // Pass products as prop
             />
             <Route path="/discount-products" element={<DiscountPage />} />
-            <Route path="/phone" element={<Category/>} />
+            <Route path="/phone" element={<Category />} />
 
-            <Route path="/profile-setting" element={<Profile/>} />
+            <Route path="/profile-setting" element={<Profile />} />
+            <Route path="/sign-out" element={<SignOutCom />} />
           </Route>
 
           {/* Layout with NavTwoCom */}
