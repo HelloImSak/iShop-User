@@ -12,7 +12,8 @@ import { useNavigate } from "react-router";
 import logo from "../../assets/logo/ishop-light-logo.png";
 
 import { useGoogleLogin } from "@react-oauth/google";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
 import Ill from "../../assets/auth/register.png";
 
 const RegisterForm = () => {
@@ -99,7 +100,7 @@ const RegisterForm = () => {
     },
   });
 
-  const formik = useFormik({
+  const fieldRegister = useFormik({
     initialValues: {
       username: "",
       phoneNumber: "",
@@ -138,7 +139,7 @@ const RegisterForm = () => {
       try {
         const submissionValues = {
           ...values,
-          emailVerified: false, // Explicitly set to false for form signup
+          emailVerified: false, 
         };
         await userRegister(submissionValues).unwrap();
         toast.success("Please verify your Email!", {
@@ -175,11 +176,11 @@ const RegisterForm = () => {
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-7xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
         {/* Left side - Illustration */}
-        <div className="w-full md:w-2/5 bg-indigo-800 p-6 flex items-center justify-center min-h-[200px] md:min-h-full">
+        <div className="w-full md:w-2/5 bg-indigo-800 p-6 flex items-center justify-center min-h-[300px] md:min-h-full">
           <div className="relative w-full h-full max-h-96 md:max-h-full">
-            <div className="absolute top-0 left-0 ">
+            <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:top-10 md:top-10 top-3">
               <div className="flex items-center">
-                <img src={logo} alt="logo" className="md:w-[200px] w-[100px]" />
+                <img src={logo} alt="logo" className="md:w-[200px] w-[150px]" />
               </div>
             </div>
 
@@ -187,7 +188,7 @@ const RegisterForm = () => {
               <img
                 src={Ill}
                 alt=""
-                className="w-[200px] md:w-[300px] lg:[350px]"
+                className="w-[200px] md:w-[300px] lg:[350px] mt-10"
               />
             </div>
           </div>
@@ -197,14 +198,14 @@ const RegisterForm = () => {
         <div className="md:w-3/5 p-6 md:p-8">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-h1 font-OpenSanBold text-gray-800">
+              <h2 className="text-h1 font-OpenSanBold text-primary">
                 Registration
               </h2>
               <div className="w-12 h-1 bg-primary mt-2"></div>
             </div>
           </div>
           <form
-            onSubmit={formik.handleSubmit}
+            onSubmit={fieldRegister.handleSubmit}
             className="mt-8 grid grid-cols-6 gap-6"
           >
             <div className="col-span-6 sm:col-span-3">
@@ -213,20 +214,21 @@ const RegisterForm = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value={formik.values.username}
-                  onChange={formik.handleChange}
+                  value={fieldRegister.values.username}
+                  onChange={fieldRegister.handleChange}
                   placeholder=" "
-                  onBlur={formik.handleBlur}
+                  onBlur={fieldRegister.handleBlur}
                   required
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border border-gray-200 text-[18px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
-                    isFilled(formik.values.username) && !formik.errors.username
+                  className={`peer w-full h-[45px] lg:h-[50px] rounded-md border border-gray-200 text-[15px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
+                    isFilled(fieldRegister.values.username) &&
+                    !fieldRegister.errors.username
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
                   }`}
                 />
                 <label
                   htmlFor="username"
-                  className="absolute text-[18px] text-gray-500 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
+                  className="absolute text-caption lg:text-[18px] text-gray-300 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
                peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 
                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 
                peer-valid:top-2 peer-valid:-translate-y-4 peer-valid:scale-75"
@@ -235,11 +237,12 @@ const RegisterForm = () => {
                 </label>
               </div>
               <div className="h-[10px] ml-1">
-                {formik.errors.username && formik.touched.username && (
-                  <div className="text-accent_1 text-sm">
-                    {formik.errors.username}
-                  </div>
-                )}
+                {fieldRegister.errors.username &&
+                  fieldRegister.touched.username && (
+                    <div className="text-accent_1 lg:text-sm text-tiny">
+                      {fieldRegister.errors.username}
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -249,21 +252,21 @@ const RegisterForm = () => {
                   type="text"
                   id="phoneNumber"
                   name="phoneNumber"
-                  value={formik.values.phoneNumber}
-                  onChange={formik.handleChange}
+                  value={fieldRegister.values.phoneNumber}
+                  onChange={fieldRegister.handleChange}
                   placeholder=" "
-                  onBlur={formik.handleBlur}
+                  onBlur={fieldRegister.handleBlur}
                   required
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border border-gray-200 text-[18px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
-                    isFilled(formik.values.phoneNumber) &&
-                    !formik.errors.phoneNumber
+                  className={`peer w-full h-[45px] lg:h-[50px] rounded-md border border-gray-200 text-[15px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
+                    isFilled(fieldRegister.values.phoneNumber) &&
+                    !fieldRegister.errors.phoneNumber
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
                   }`}
                 />
                 <label
                   htmlFor="phoneNumber"
-                  className="absolute text-[18px] text-gray-500 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
+                  className="absolute text-caption lg:text-[18px] text-gray-300 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
                peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 
                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 
                peer-valid:top-2 peer-valid:-translate-y-4 peer-valid:scale-75"
@@ -272,11 +275,12 @@ const RegisterForm = () => {
                 </label>
               </div>
               <div className="h-[10px] ml-1">
-                {formik.errors.phoneNumber && formik.touched.phoneNumber && (
-                  <div className="text-accent_1 text-sm">
-                    {formik.errors.phoneNumber}
-                  </div>
-                )}
+                {fieldRegister.errors.phoneNumber &&
+                  fieldRegister.touched.phoneNumber && (
+                    <div className="text-accent_1 lg:text-sm text-tiny">
+                      {fieldRegister.errors.phoneNumber}
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -286,20 +290,21 @@ const RegisterForm = () => {
                   type="text"
                   id="email"
                   name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
+                  value={fieldRegister.values.email}
+                  onChange={fieldRegister.handleChange}
                   placeholder=" "
-                  onBlur={formik.handleBlur}
+                  onBlur={fieldRegister.handleBlur}
                   required
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border border-gray-200 text-[18px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
-                    isFilled(formik.values.email) && !formik.errors.email
+                  className={`peer w-full h-[45px] lg:h-[50px] rounded-md border border-gray-200 text-[15px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
+                    isFilled(fieldRegister.values.email) &&
+                    !fieldRegister.errors.email
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
                   }`}
                 />
                 <label
                   htmlFor="email"
-                  className="absolute text-[18px] text-gray-500 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
+                  className="absolute text-caption lg:text-[18px] text-gray-300 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
                peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 
                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 
                peer-valid:top-2 peer-valid:-translate-y-4 peer-valid:scale-75"
@@ -308,9 +313,9 @@ const RegisterForm = () => {
                 </label>
               </div>
               <div className="h-[10px] ml-1">
-                {formik.errors.email && formik.touched.email && (
-                  <div className="text-accent_1 text-sm">
-                    {formik.errors.email}
+                {fieldRegister.errors.email && fieldRegister.touched.email && (
+                  <div className="text-accent_1 lg:text-sm text-tiny">
+                    {fieldRegister.errors.email}
                   </div>
                 )}
               </div>
@@ -322,20 +327,21 @@ const RegisterForm = () => {
                   type={passwordVisible ? "text" : "password"}
                   id="password"
                   name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
+                  value={fieldRegister.values.password}
+                  onChange={fieldRegister.handleChange}
                   placeholder=" "
-                  onBlur={formik.handleBlur}
+                  onBlur={fieldRegister.handleBlur}
                   required
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border border-gray-200 text-[18px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
-                    isFilled(formik.values.password) && !formik.errors.password
+                  className={`peer w-full h-[45px] lg:h-[50px] rounded-md border border-gray-200 text-[15px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
+                    isFilled(fieldRegister.values.password) &&
+                    !fieldRegister.errors.password
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
                   }`}
                 />
                 <label
                   htmlFor="password"
-                  className="absolute text-[18px] text-gray-500 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
+                  className="absolute text-caption lg:text-[18px] text-gray-300 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
                    peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 
                    peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 
                    peer-valid:top-2 peer-valid:-translate-y-4 peer-valid:scale-75"
@@ -346,22 +352,23 @@ const RegisterForm = () => {
                 {/* Eye Toggle */}
                 <button
                   type="button"
-                  className="absolute right-3 lg:top-7 md:top-7 top-[27px] transform -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-6 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setPasswordVisible(!passwordVisible)}
                 >
                   {passwordVisible ? (
-                    <FaEyeSlash size={20} />
+                    <FaRegEyeSlash size={20} />
                   ) : (
-                    <FaEye size={20} />
+                    <IoEyeOutline size={20} />
                   )}
                 </button>
               </div>
               <div className="h-[10px] ml-1 mb-7">
-                {formik.errors.password && formik.touched.password && (
-                  <div className="text-accent_1 text-sm">
-                    {formik.errors.password}
-                  </div>
-                )}
+                {fieldRegister.errors.password &&
+                  fieldRegister.touched.password && (
+                    <div className="text-accent_1 lg:text-sm text-tiny">
+                      {fieldRegister.errors.password}
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -371,21 +378,21 @@ const RegisterForm = () => {
                   type={passwordVisible ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
-                  value={formik.values.confirmPassword}
-                  onChange={formik.handleChange}
+                  value={fieldRegister.values.confirmPassword}
+                  onChange={fieldRegister.handleChange}
                   placeholder=" "
-                  onBlur={formik.handleBlur}
+                  onBlur={fieldRegister.handleBlur}
                   required
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border border-gray-200 text-[18px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
-                    isFilled(formik.values.confirmPassword) &&
-                    !formik.errors.confirmPassword
+                  className={`peer w-full h-[45px] lg:h-[50px] rounded-md border border-gray-200 text-[15px] text-gray-700 shadow-xs focus:outline-none focus:border-blue-500 ${
+                    isFilled(fieldRegister.values.confirmPassword) &&
+                    !fieldRegister.errors.confirmPassword
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
                   }`}
                 />
                 <label
                   htmlFor="confirmPassword"
-                  className="absolute text-[18px] text-gray-500 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
+                  className="absolute text-caption lg:text-[18px] text-gray-300 dark:text-gray-400 duration-300 transform top-1/2 -translate-y-1/2 left-2 bg-white dark:bg-gray-900 px-2 
                    peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 
                    peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 
                    peer-valid:top-2 peer-valid:-translate-y-4 peer-valid:scale-75"
@@ -396,32 +403,32 @@ const RegisterForm = () => {
                 {/* Eye Toggle */}
                 <button
                   type="button"
-                  className="absolute right-3 lg:top-7 md:top-7 top-[27px] transform -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-6 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setPasswordVisible(!passwordVisible)}
                 >
                   {passwordVisible ? (
-                    <FaEyeSlash size={20} />
+                    <FaRegEyeSlash size={20} />
                   ) : (
-                    <FaEye size={20} />
+                    <IoEyeOutline size={20} />
                   )}
                 </button>
               </div>
               <div className="h-[10px] ml-1">
-                {formik.errors.confirmPassword &&
-                  formik.touched.confirmPassword && (
-                    <div className="text-accent_1 text-sm">
-                      {formik.errors.confirmPassword}
+                {fieldRegister.errors.confirmPassword &&
+                  fieldRegister.touched.confirmPassword && (
+                    <div className="text-accent_1 lg:text-sm text-tiny">
+                      {fieldRegister.errors.confirmPassword}
                     </div>
                   )}
               </div>
             </div>
-            <div className="col-span-6 space-y-2">
-              <div className="flex items-center justify-between">
+            <div className="col-span-6 space-y-3">
+              <div className="flex items-center justify-between mb-3 mt-2">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
-                      id="remember"
-                      aria-describedby="remember"
+                      id="agree"
+                      aria-describedby="agree"
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       required
@@ -443,14 +450,14 @@ const RegisterForm = () => {
               <button
                 type="submit"
                 className="inline-block w-full shrink-0 rounded-md border border-primary bg-blue-800 px-12 py-3 text-sm font-medium text-white transition hover:bg-primary hover:text-white focus:ring-3 focus:outline-hidden"
-                disabled={formik.isSubmitting || isLoading} // Fixed from isSubmitting
+                disabled={fieldRegister.isSubmitting || isLoading} // Fixed from isSubmitting
               >
-                {formik.isSubmitting || isLoading
+                {fieldRegister.isSubmitting || isLoading
                   ? "Loading..."
-                  : "Next Step 👉"}
+                  : "Register"}
               </button>
 
-              <p className="mt-4 text-sm text-gray-500">
+              <p className="text-sm text-gray-500 text-center">
                 Already have an account?
                 <a
                   href="/login"
@@ -462,9 +469,9 @@ const RegisterForm = () => {
               </p>
             </div>
           </form>
-          <div className="flex items-center justify-center space-x-2 my-5">
+          <div className="flex items-center justify-center space-x-2 my-4">
             <span className="h-px w-16 bg-gray-100"></span>
-            <span className="text-gray-300 font-normal">or</span>
+            <span className="text-gray-300 font-normal">Or Sign-Up with</span>
             <span className="h-px w-16 bg-gray-100"></span>
           </div>
 
@@ -473,7 +480,7 @@ const RegisterForm = () => {
             <button
               type="submit"
               onClick={googleRegister}
-              className="w-[200px] flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
+              className="w-[200px] flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-primary  text-sm text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
             >
               <svg
                 className="w-4 mr-2"

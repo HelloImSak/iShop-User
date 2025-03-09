@@ -1,7 +1,9 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
+
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import logo from "../../assets/logo/ishop-light-logo.png";
@@ -84,51 +86,78 @@ const LoginForm = ({ setIsLoggedIn }) => {
           console.log("Google User Info:", userData);
 
           if (userData) {
-            const submitValue = {
+            const loginCredentials = {
               email: userData.email,
-              username: userData.given_name,
-              phoneNumber: "",
-              address: {},
               password: `${userData.given_name}${
                 import.meta.env.VITE_SECRET_KEY
               }`,
-              confirmPassword: `${userData.given_name}${
-                import.meta.env.VITE_SECRET_KEY
-              }`,
-              profile: userData.picture,
-              emailVerified: true, // Pass emailVerified as true
             };
 
-            console.log("Submit Value for Google Register:", submitValue);
-
             try {
-              const registerResponse = await userRegister(submitValue).unwrap();
-              console.log("Google Register Response:", registerResponse);
+              // Try logging in first
+              const loginResponse = await getLogin(loginCredentials).unwrap();
+              console.log("Login Successful:", loginResponse);
 
-              const loginResponse = await getLogin({
-                email: userData.email,
-                password: `${userData.given_name}${
-                  import.meta.env.VITE_SECRET_KEY
-                }`,
-              }).unwrap();
-              console.log("Login Response:", loginResponse);
-
+              // Store login details
               localStorage.setItem("accessToken", loginResponse.accessToken);
               localStorage.setItem(
                 "userData",
                 JSON.stringify(loginResponse.user)
               );
 
-              toast.success("Registration and Login Successful!", {
-                icon: "✅",
-              });
+              toast.success("Login Successful!", { icon: "✅" });
               navigate("/");
               window.location.reload();
-            } catch (error) {
-              console.error("Google Registration or Login Error:", error);
-              toast.error(
-                error?.data?.message || "Google registration or login failed"
-              );
+            } catch (loginError) {
+              console.log("User not found, proceeding with registration...");
+              const submitValue = {
+                email: userData.email,
+                username: userData.given_name,
+                phoneNumber: "",
+                address: {},
+                password: `${userData.given_name}${
+                  import.meta.env.VITE_SECRET_KEY
+                }`,
+                confirmPassword: `${userData.given_name}${
+                  import.meta.env.VITE_SECRET_KEY
+                }`,
+                profile: userData.picture,
+                emailVerified: true, // Pass emailVerified as true
+              };
+              console.log("Submit Value for Google Register:", submitValue);
+
+              try {
+                const registerResponse = await userRegister(
+                  submitValue
+                ).unwrap();
+                console.log("Google Register Response:", registerResponse);
+
+                // After registration, attempt login
+                const loginAfterRegister = await getLogin(
+                  loginCredentials
+                ).unwrap();
+                console.log("Login after Register:", loginAfterRegister);
+
+                localStorage.setItem(
+                  "accessToken",
+                  loginAfterRegister.accessToken
+                );
+                localStorage.setItem(
+                  "userData",
+                  JSON.stringify(loginAfterRegister.user)
+                );
+
+                toast.success("Registration and Login Successful!", {
+                  icon: "✅",
+                });
+                navigate("/");
+                window.location.reload();
+              } catch (registerError) {
+                console.error("Google Registration Error:", registerError);
+                toast.error(
+                  registerError?.data?.message || "Google registration failed"
+                );
+              }
             }
           }
         } catch (error) {
@@ -154,11 +183,12 @@ const LoginForm = ({ setIsLoggedIn }) => {
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-5xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
         {/* Image Section - Top on small screens, Right on medium+ */}
-        <div className="order-1 md:order-last w-full md:w-2/5 bg-indigo-800 p-6 flex items-center justify-center min-h-[200px] md:min-h-full">
+        <div className="order-1 md:order-last w-full md:w-2/5 bg-primary p-6 flex items-center justify-center min-h-[200px] md:min-h-full">
           <div className="relative w-full h-full max-h-96 md:max-h-full">
-            <div className="absolute top-0 left-0">
+            <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:top-10 md:top-10 -top-2">
               <img src={logo} alt="Logo" className="w-[100px] md:w-[200px]" />
             </div>
+
             <div className="w-full h-full flex justify-center items-center">
               <img
                 src={Ill}
@@ -172,10 +202,10 @@ const LoginForm = ({ setIsLoggedIn }) => {
         {/* Form Section - Bottom on small screens, Left on medium+ */}
         <div className="order-2 md:order-first md:w-3/5 p-6 md:p-8">
           <div className="mb-10">
-            <h2 className="text-h2 font-OpenSanBold text-gray-800">Login</h2>
+            <h2 className="text-h2 font-OpenSanBold text-primary">Login</h2>
             <div className="w-12 h-1 bg-primary mt-2"></div>
           </div>
-          <form className="space-y-6" onSubmit={formik.handleSubmit}>
+          <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
             {/* Email Input */}
             <div className="relative">
               <div className="flex flex-col">
@@ -188,7 +218,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     placeholder=" "
-                    className={`peer w-full h-[50px] lg:h-[55px] rounded-md border-gray-200 text-[18px] text-gray-700 shadow-xs ${
+                    className={`peer w-full h-[50px] lg:h-[55px] rounded-md border-primary text-[18px] text-gray-700 shadow-xs ${
                       isFilled(formik.values.email) && !formik.errors.email
                         ? "bg-[#e8f0fe]"
                         : "bg-white"
@@ -197,7 +227,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute text-[18px] rounded-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                    className="absolute text-[18px] rounded-md text-gray-200 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                   >
                     Email
                   </label>
@@ -206,12 +236,14 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 {/* Fixed height box for the error message */}
                 <div className="h-[10px]">
                   {formik.errors.email && formik.touched.email && (
-                    <div className="text-red-500 text-sm">
+                    <div className="text-red-500 text-caption">
                       {formik.errors.email}
                     </div>
                   )}
                   {loginError && !formik.errors.email && (
-                    <div className="text-red-500 text-sm">{loginError}</div>
+                    <div className="text-red-500 text-caption">
+                      {loginError}
+                    </div>
                   )}
                 </div>
               </div>
@@ -228,7 +260,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder=" "
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border-gray-200 text-[18px] text-gray-700 shadow-xs pr-10 ${
+                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border-gray-400 text-[18px] text-gray-700 shadow-xs pr-10 ${
                     isFilled(formik.values.password) && !formik.errors.password
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
@@ -238,7 +270,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 {/* Floating Label */}
                 <label
                   htmlFor="password"
-                  className="absolute left-3 text-[18px] rounded-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                  className="absolute left-3 text-[18px] rounded-md text-gray-300 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                 >
                   Password
                 </label>
@@ -246,43 +278,43 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 {/* Eye Toggle */}
                 <button
                   type="button"
-                  className="absolute right-3 lg:top-7 md:top-[26px] top-[27px] transform -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-4 text-gray-500 hover:text-gray-700"
                   onClick={() => setPasswordVisible(!passwordVisible)}
                 >
                   {passwordVisible ? (
-                    <FaEyeSlash size={20} />
+                    <FaRegEyeSlash size={20} />
                   ) : (
-                    <FaEye size={20} />
+                    <IoEyeOutline size={20} />
                   )}
                 </button>
               </div>
 
-             
               <div className="h-[20px] mt-1">
                 {formik.errors.password && formik.touched.password && (
-                  <div className="text-red-500 text-sm">
+                  <div className="text-red-500 text-caption">
                     {formik.errors.password}
                   </div>
                 )}
                 {loginError &&
                   !formik.errors.email &&
                   !formik.errors.password && (
-                    <div className="text-red-500 text-sm">{loginError}</div>
+                    <div className="text-red-500 text-caption">
+                      {loginError}
+                    </div>
                   )}
               </div>
             </div>
 
-            
             <div className="flex items-center justify-between">
-              <div className="flex items-start">
-                <div className="flex items-center h-5">
+              <div className="flex items-center">
+                <div className="flex items-center">
                   <input
                     id="remember"
                     type="checkbox"
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
                   />
                 </div>
-                <div className="ml-3 text-sm">
+                <div className="ml-3 text-caption">
                   <label htmlFor="remember" className="text-gray-500">
                     Remember me
                   </label>
@@ -290,7 +322,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
               </div>
               <a
                 href="/forgot-password"
-                className="text-sm font-medium text-primary-600 hover:underline"
+                className="text-caption font-medium text-red-400 underline"
               >
                 Forgot password?
               </a>
@@ -306,7 +338,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
             </button>
 
             {/* Sign Up Link */}
-            <p className="text-sm text-gray-500">
+            <p className="text-caption text-gray-500 text-center">
               Don’t have an account yet?{" "}
               <a href="/register" className="text-blue-600 underline">
                 Sign up
@@ -314,9 +346,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
             </p>
           </form>
           {/* google */}
-          <div className="flex items-center justify-center space-x-2 my-5">
+          <div className="flex items-center justify-center space-x-2 my-4">
             <span className="h-px w-16 bg-gray-100"></span>
-            <span className="text-gray-300 font-normal">or</span>
+            <span className="text-gray-300 font-normal">Or continue with</span>
             <span className="h-px w-16 bg-gray-100"></span>
           </div>
           {/* google */}
@@ -324,7 +356,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
             <button
               type="submit"
               onClick={googleLogin}
-              className="w-[200px] flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
+              className="w-[200px] flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-primary text-caption text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
             >
               <svg
                 className="w-4 mr-2"

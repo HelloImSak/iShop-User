@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
+import logo from "../../assets/logo/ishop-dark-logo.png";
 import { useSendResetCodeMutation } from "../../redux/features/auth/authSlice";
 
 const ForgotPassword = () => {
@@ -22,13 +24,16 @@ const ForgotPassword = () => {
       navigate(`/reset-password?email=${encodeURIComponent(email)}`);
     } catch (error) {
       console.error("API Error:", error);
-      toast.error(error?.data?.message || "Failed to send reset code");
+      toast.error(error?.data?.message || "Email not register yet");
     }
   };
-  
+
   return (
     <div className="shadow flex justify-center items-center min-h-screen bg-gray-100 rounded-lg">
       <div className="w-[400px] bg-white p-8 rounded-lg shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.1)] dark:bg-gray-800 dark:border dark:border-gray-700">
+        <div className="flex justify-center items-center py-3">
+          <img src={logo} alt="logo" className="w-[150px]" />
+        </div>
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
           Forget Password
         </h2>

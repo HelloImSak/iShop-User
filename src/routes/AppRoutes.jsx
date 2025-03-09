@@ -4,7 +4,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router";
 import AllProductPage from "../components/AllProductCom/AllProductPage";
 import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
-import SignOutCom from "../components/auth/SignOutCom";
 import VerifyEmail from "../components/auth/VerifyEmail";
 import DiscountPage from "../components/DiscountPageCom/DiscountPage";
 import LayoutNav1 from "../components/Layout/LayoutNav1";
@@ -111,6 +110,7 @@ export default function AppRoutes() {
             element={
               <LayoutNav1
                 isLoggedIn={isLoggedIn}
+                user={userData}
                 profile={activeProfile}
                 cartItems={cartItems}
               />
@@ -138,6 +138,7 @@ export default function AppRoutes() {
               <LayoutNav2
                 isLoggedIn={isLoggedIn}
                 profile={activeProfile}
+                user={userData}
                 cartItems={cartItems}
               />
             }
@@ -161,7 +162,6 @@ export default function AppRoutes() {
               path="/login"
               element={<LoginForm setIsLoggedIn={setIsLoggedIn} />}
             />
-            <Route path="/profile" element={<SignOutCom />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

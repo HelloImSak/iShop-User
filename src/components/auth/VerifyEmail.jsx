@@ -8,6 +8,8 @@ import {
   useVerifyRegistrationMutation,
 } from "../../redux/features/auth/authSlice";
 
+import logo from "../../assets/logo/ishop-dark-logo.png";
+
 const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
   const navigate = useNavigate();
 
@@ -44,6 +46,9 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
     return () => clearInterval(interval);
   }, [timer]);
 
+  // Create a state to hold the individual digits
+  const [digits, setDigits] = useState(Array(6).fill(""));
+
   const formik = useFormik({
     initialValues: {
       verificationCode: "",
@@ -68,9 +73,29 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
     },
   });
 
-  const handleResendCode = async () => {
-    const oldToken = formik.values.verificationCode;
+  // Update the verification code when digits change
+  useEffect(() => {
+    formik.setFieldValue("verificationCode", digits.join(""));
+  }, [digits]);
 
+  const handleDigitChange = (index, value) => {
+    if (/^\d?$/.test(value)) {
+      const newDigits = [...digits];
+      newDigits[index] = value;
+      setDigits(newDigits);
+
+      // Auto-focus next input if a digit was entered
+      if (value && index < 5) {
+        document.getElementById(`digit-${index + 1}`).focus();
+      }
+      // Move focus to previous input if backspace was pressed on empty input
+      else if (value === "" && index > 0) {
+        document.getElementById(`digit-${index - 1}`).focus();
+      }
+    }
+  };
+
+  const handleResendCode = async () => {
     if (!email || !oldToken) {
       toast.error("Email or verification code (old token) is missing.");
       return;
@@ -99,9 +124,47 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
     return false;
   };
 
+  // Handle paste event to distribute digits across inputs
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text");
+    const pastedDigits = pastedData.replace(/\D/g, "").slice(0, 6).split("");
+
+    const newDigits = [...digits];
+    pastedDigits.forEach((digit, index) => {
+      if (index < 6) {
+        newDigits[index] = digit;
+      }
+    });
+
+    setDigits(newDigits);
+
+    // Focus the next empty input or the last input
+    const nextEmptyIndex = newDigits.findIndex((digit) => digit === "");
+    if (nextEmptyIndex !== -1) {
+      document.getElementById(`digit-${nextEmptyIndex}`).focus();
+    } else if (pastedDigits.length < 6) {
+      document.getElementById(`digit-${pastedDigits.length}`).focus();
+    }
+  };
+
+  // Handle keydown for arrow navigation and backspace
+  const handleKeyDown = (index, e) => {
+    if (e.key === "ArrowLeft" && index > 0) {
+      document.getElementById(`digit-${index - 1}`).focus();
+    } else if (e.key === "ArrowRight" && index < 5) {
+      document.getElementById(`digit-${index + 1}`).focus();
+    } else if (e.key === "Backspace" && digits[index] === "" && index > 0) {
+      document.getElementById(`digit-${index - 1}`).focus();
+    }
+  };
+
   return (
     <div className="shadow-2xl flex justify-center items-center min-h-screen bg-gray-100 rounded-lg">
-      <div className="w-[400px] bg-white p-8 rounded-lg shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.1)] dark:bg-gray-800 dark:border dark:border-gray-700">
+      <div className="md:w-[400px] w-[350px] bg-white p-8 rounded-lg shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.1)]">
+        <div className="flex justify-center items-center py-3">
+          <img src={logo} alt="logo" className="w-[150px]" />
+        </div>
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
           Verify Your Email Address
         </h2>
@@ -111,49 +174,58 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
         </p>
 
         <form className="mt-6" onSubmit={formik.handleSubmit}>
-          <div>
+          <div className="flex flex-col space-y-6">
             <label
               htmlFor="verificationCode"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300 text-center"
             >
-              Verification Code
+              Enter Verification Code
             </label>
 
-            <input
-              type="text"
-              id="verificationCode"
-              name="verificationCode"
-              placeholder="Enter verification code"
-              value={formik.values.verificationCode}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`w-full mt-2 p-3 border ${
-                formik.touched.verificationCode &&
-                formik.errors.verificationCode
-                  ? "border-red-500"
-                  : "border-gray-300"
-              } ${
-                isFilled(formik.values.verificationCode)
-                  ? "bg-[#e8f0fe]"
-                  : "bg-white"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:text-white`}
-              required
-            />
+            {/* Input boxes for each digit */}
+            <div
+              className="flex justify-center space-x-4"
+              onPaste={handlePaste}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  maxLength="1"
+                  id={`digit-${index}`}
+                  name={`digit-${index}`}
+                  value={digits[index]}
+                  onChange={(e) => handleDigitChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  className={`md:w-12 md:h-12 w-10 h:10 text-center text-xl border 
+                    ${
+                      formik.errors.verificationCode &&
+                      formik.touched.verificationCode
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-lg focus:ring-2 focus:ring-blue-500`}
+                />
+              ))}
+            </div>
+
             {formik.touched.verificationCode &&
               formik.errors.verificationCode && (
-                <p className="text-red-500 text-sm mt-1">
+                <div className="text-red-500 text-sm text-center">
                   {formik.errors.verificationCode}
-                </p>
+                </div>
               )}
-          </div>
 
-          <button
-            type="submit"
-            className="btn w-full mt-6 flex justify-center items-center gap-2 bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition duration-300 disabled:opacity-50"
-            disabled={isLoading}
-          >
-            {isLoading ? "Register..." : "Register"}
-          </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full mt-6 py-3 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800 transition duration-300 disabled:opacity-50"
+              disabled={
+                isLoading || formik.values.verificationCode.length !== 6
+              }
+            >
+              {isLoading ? "Verifying..." : "Verify Code"}
+            </button>
+          </div>
         </form>
 
         {/* Countdown Timer */}
@@ -163,7 +235,13 @@ const VerifyEmail = ({ email: propEmail, oldToken: propOldToken }) => {
               ? `Code expires in ${formatTime(timer)}`
               : "Code expired."}
           </p>
-          <button onClick={handleResendCode} disabled={resendLoading}>
+          <button
+            onClick={handleResendCode}
+            disabled={resendLoading || timer > 0}
+            className={`underline ${
+              timer > 0 ? "text-gray-400" : "text-blue-700"
+            }`}
+          >
             {resendLoading ? "Resending..." : "Resend Code"}
           </button>
         </div>
