@@ -99,7 +99,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
             </div>
             <div>
               {/* Desktop Menu */}
-              <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
+              <ul className="hidden lg:hidden xl:flex xl:items-center xl:space-x-6 xl:ml-10">
                 {navLinks.map((link, index) =>
                   link.isDropdown ? (
                     <li key={index} className="relative">
@@ -295,12 +295,12 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
             {/* Desktop Search Form */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="w-[400px] px-2"
+              className="xl:w-[400px] lg:w-[300px] px-2"
             >
-              <div className="relative">
+              <div className="relative flex justify-end ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="absolute top-0 bottom-0 w-5 h-5 my-auto text-black_50 left-3"
+                  className="absolute  top-0 bottom-0 w-5 h-5 my-auto text-black_50 xl:left-[10px] lg:left-3"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -315,7 +315,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                 <input
                   type="text"
                   placeholder="Search your product..."
-                  className="w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
+                  className="lg:w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
                 />
               </div>
             </form>

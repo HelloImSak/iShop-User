@@ -110,7 +110,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
   return (
     <>
       {/* Promotional Banner */}
-      <p className="fixed top-0 w-full text-white text-sm bg-primary text-center py-1 z-20">
+      <p className="fixed top-0 w-full text-white text-caption bg-primary text-center py-1 z-20">
         Get 30% off when you spend over $200.
       </p>
 
@@ -128,7 +128,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
-              <NavLink className="text-3xl font-bold leading-none" to="/">
+              <NavLink to="/">
                 <img
                   src={Logo}
                   alt="iShop Logo"
@@ -138,7 +138,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
             </div>
             <div>
               {/* Desktop Menu */}
-              <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
+              <ul className="hidden lg:hidden xl:flex xl:items-center xl:space-x-6 xl:ml-10">
                 {navLinks.map((link, index) =>
                   link.isDropdown ? (
                     <li key={index} className="relative">
@@ -155,7 +155,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                       </button>
                       {isDropdownOpen && (
                         <div className="z-40 absolute bg-white/70 backdrop-blur-md divide-y w-[400px] divide-gray-100 rounded-lg shadow-sm mt-[20px]">
-                          <ul className="py-2 text-sm text-primary">
+                          <ul className="py-2 text-caption text-primary">
                             {link.subItems.map((subItem, subIndex) => (
                               <li
                                 key={subIndex}
@@ -237,7 +237,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                   <div className="relative">
                     <button
                       type="button"
-                      className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                      className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                       onClick={() => setIsOpen(!isOpen)}
                     >
                       <span className="sr-only">Open user menu</span>
@@ -254,10 +254,10 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                     {isOpen && (
                       <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
                         <div className="px-4 py-3">
-                          <span className="block text-sm text-gray-900 dark:text-white">
+                          <span className="block text-caption text-gray-900 dark:text-white">
                             Chey Somatra
                           </span>
-                          <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                          <span className="block text-caption text-gray-500 truncate dark:text-gray-400">
                             name@flowbite.com
                           </span>
                         </div>
@@ -265,7 +265,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                           <li>
                             <a
                               href="/profile-setting"
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                              className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                             >
                               Settings
                             </a>
@@ -274,7 +274,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                           <li>
                             <div
                               onClick={handleSignOut}
-                              className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                              className="cursor-pointer block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                             >
                               Sign out
                             </div>
@@ -286,7 +286,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                 </div>
               ) : (
                 <button
-                  className="text-primary text-sm border border-primary rounded-lg px-3 py-1 hover:bg-primary hover:text-white"
+                  className="text-primary text-caption border border-primary rounded-lg px-3 py-1 hover:bg-primary hover:text-white"
                   onClick={handleLogin}
                 >
                   Login
@@ -365,7 +365,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
           {/* Desktop Login/Cart/Profile */}
           <div className="hidden lg:flex lg:items-center lg:gap-6">
             {/* explore text when screen xl */}
-            <div className="2xl:hidden">
+            <div className="xl:hidden">
               <button
                 className="navbar-burger flex items-center text-primary font-OpenSanBold p-3"
                 onClick={toggleMenu}
@@ -376,12 +376,12 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
             {/* Desktop Search Form */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="w-[400px] px-2"
+              className="xl:w-[400px] lg:w-[300px] px-2"
             >
-              <div className="relative">
+              <div className="relative flex justify-end">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="absolute top-0 bottom-0 w-5 h-5 my-auto text-black_50 left-3"
+                  className="absolute  top-0 bottom-0 w-5 h-5 my-auto text-black_50 xl:left-[10px] lg:left-3"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -396,14 +396,14 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                 <input
                   type="text"
                   placeholder="Search your product..."
-                  className="w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
+                  className="lg:w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
                 />
               </div>
             </form>
 
             {/* Desktop Login/Cart/Profile */}
             {isLoggedIn ? (
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-7">
                 <a href="/cart" className="relative">
                   <BsCart className="text-primary text-2xl hover:text-secondary" />
                   {cartItems > 0 && (
@@ -415,7 +415,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                 <div className="relative">
                   <button
                     type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                     onClick={() => setIsOpen(!isOpen)}
                   >
                     <span className="sr-only">Open user menu</span>
@@ -432,10 +432,10 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                   {isOpen && (
                     <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
                       <div className="px-4 py-3">
-                        <span className="block text-sm text-gray-900 dark:text-white">
+                        <span className="block text-caption text-gray-900 dark:text-white">
                           Bonnie Green
                         </span>
-                        <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                        <span className="block text-caption text-gray-500 truncate dark:text-gray-400">
                           name@flowbite.com
                         </span>
                       </div>
@@ -443,7 +443,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                         <li>
                           <a
                             href="/profile-setting"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
                             Settings
                           </a>
@@ -452,7 +452,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                         <li>
                           <div
                             onClick={handleSignOut}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                           >
                             Sign out
                           </div>
@@ -525,7 +525,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                 <input
                   type="text"
                   placeholder="Search your product..."
-                  className="w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-sm border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
+                  className="w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-caption border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
                 />
               </div>
             </form>
@@ -536,7 +536,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                   link.isDropdown ? (
                     <li key={index} className="mb-1 relative">
                       <div
-                        className="p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
+                        className="p-4 text-caption font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
                         onClick={toggleCategories}
                       >
                         {link.label}
@@ -580,7 +580,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems }) => {
                     <li key={index} className="mb-1">
                       <NavLink
                         to={link.to}
-                        className="block p-4 text-sm font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
+                        className="block p-4 text-caption font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
                       >
                         {link.label}
                       </NavLink>
