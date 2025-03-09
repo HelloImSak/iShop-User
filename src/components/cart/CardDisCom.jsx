@@ -11,7 +11,7 @@ export default function CardDisCom(
 ) {
   return (
     <main className="flex items-center justify-center">
-      <div className="w-[310px] max-w-sm bg-white border  rounded-[25px]  p-5 relative hover:shadow-lg">
+      <div className="w-[310px] max-w-sm bg-white border  rounded-[25px]  p-5 relative hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
         <div className="absolute top-5 left-5">
           <span className="bg-red-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-full">
             {dis}%
@@ -21,7 +21,7 @@ export default function CardDisCom(
           <img
             className="rounded-t-lg mx-auto object-contain "
             src={thumbnail}
-            alt="Not found"
+            alt="product image"
           />
         </a>
         <div className="px-1 pb-3 text-left ">
