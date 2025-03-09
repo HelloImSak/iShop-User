@@ -10,7 +10,7 @@ import { useGetAllQuery } from '../../redux/features/product/productSlice';
     return (
       <>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">Discount Products</h1>
-        <div className="w-full px-[100px]">
+        <div className="w-full px-[50px]">
                       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8">
                         {proDis?.content?.map((e) => (
                           <CardDisCom

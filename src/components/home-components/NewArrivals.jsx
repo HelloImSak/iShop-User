@@ -20,7 +20,7 @@ export default function NewArrivals() {
     );
   }
   return (
-    <main className="px-[100px]">
+    <main className="px-[50px]">
       <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">
         New Arrivals Products
       </h1>
