@@ -20,11 +20,11 @@ export default function NewArrivals() {
     );
   }
   return (
-    <main >
-      <h1 className="text-4xl text-primary text-center font-OpenSanBold mb-10">
+    <main className="px-[50px]">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">
         New Arrivals Products
       </h1>
-      <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 mx-28 gap-5">
+      <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 ">
         {data?.content?.map((e) => (
           <CardCom
             key={e?.uuid}

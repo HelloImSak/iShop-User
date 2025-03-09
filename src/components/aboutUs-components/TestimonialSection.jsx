@@ -49,7 +49,7 @@ export default function TestimonialSlider() {
     <div className="flex flex-col items-center justify-center min-h-[300px] p-8">
       <div className="w-full max-w-3xl lg:max-w-4xl relative">
         <h3 className="text-gray-600 text-center uppercase text-2xl">Testimonials</h3>
-        <h2 className="text-4xl text-center font-bold text-gray-900 mb-4">What Customers Say About Us.</h2>
+        <h2 className="text-4xl text-center font-bold text-gray-900 mt-4">What Customers Say About Us.</h2>
         <div className="relative h-[300px] sm:h-[350px] lg:h-[450px] flex items-center justify-center">
           {testimonials.map((testimonial, i) => (
             <div

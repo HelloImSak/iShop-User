@@ -9,9 +9,9 @@ import { useGetAllQuery } from '../../redux/service/product/productSlice';
       console.log("Data:", proDis);
     return (
       <>
-        <h1 className="text-4xl text-primary text-center font-OpenSanBold mb-10">Discount Products</h1>
-        <div className="w-full lg:w-3/4">
-                      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 mx-28 gap-5">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">Discount Products</h1>
+        <div className="w-full px-[50px]">
+                      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8">
                         {proDis?.content?.map((e) => (
                           <CardDisCom
                             key={e?.uuid}
