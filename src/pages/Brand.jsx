@@ -1,11 +1,14 @@
+
 import React from "react";
-import { useGetAllQuery } from "../redux/features/product/productSlice";
+import { useGetAllQuery } from "../redux/service/product/productSlice";
+import { useGetAllBrandQuery } from "../redux/features/brand/brandSlice";
 import Banner from "../components/BrandPage/Banner";
 import FilterCom from "../components/DiscountPageCom/FilterCom";
-import CardDisCom from "../components/cart/CardDisCom";
 import CardCom from "../components/cart/CardCom";
+import CardDisCom from "../components/cart/CardDisCom";
 
 function Brand() {
+  const {data : ProductBrand } = useGetAllBrandQuery();
   const { data: product, isLoading, isError } = useGetAllQuery();
 
   // Handling loading and error states
@@ -34,6 +37,7 @@ function Brand() {
             {/* Product Grid */}
             <div className="w-full lg:w-3/4 mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+              {/* <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5"> */}
                 {/* Regular Products */}
                 {product?.content?.map((e) => (
                   <div key={e?.uuid} className="flex justify-center">
@@ -70,10 +74,10 @@ function Brand() {
                 </div>
 
                 {/* Additional Products */}
-                {product?.content?.map((e) => (
+                {ProductBrand?.content?.map((e) => (
                   <div key={e?.uuid} className="flex justify-center">
                     <CardCom
-                      thumbnail={e?.thumbnail}
+                      thumbnail={e?.brandLogo}
                       name={e?.name}
                       brand={e?.brand?.name}
                       price={e?.priceOut}
