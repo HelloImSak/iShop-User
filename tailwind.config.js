@@ -3,6 +3,13 @@ const flowbite = require("flowbite-react/tailwind");
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
   theme: {
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1350px",
+      "2xl": "1540px",
+    },
     extend: {
       // Fonts
       fontFamily: {
@@ -12,8 +19,8 @@ export default {
       },
       // Colors
       colors: {
-        primary: "#0E1F48", // Maps to --color-primary
-        secondary: "#C96727", // Maps to --color-secondary
+        primary: "#193370", // Maps to --color-primary
+        secondary: "#FF8233", // Maps to --color-secondary
         accent_1: "#FF0800", // Maps to --color-accent_1
         accent_2: "#16A561", // Maps to --color-accent_2
         accent_3: "#B3B3B3", // Maps to --color-accent_3

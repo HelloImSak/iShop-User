@@ -2,7 +2,8 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaBars, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { FaBars, FaRegEyeSlash, FaTimes } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import {
@@ -114,7 +115,7 @@ function Profile({ user }) {
         console.log("Update response:", response);
 
         toast.success("Profile Updated Successfully");
-        navigate("/");
+        navigate("/profile-setting");
       } catch (err) {
         console.error("Update profile error:", err);
         // Handle specific field errors from the server
@@ -185,7 +186,7 @@ function Profile({ user }) {
 
         toast.success("Password updated successfully!");
         passwordFormik.resetForm();
-        navigate("/");
+        navigate("/profile-setting");
       } catch (err) {
         console.error("Update password error:", err);
         // Handle specific error messages from the server
@@ -256,15 +257,19 @@ function Profile({ user }) {
     navigate("/");
   };
 
+  const handleExit = () => {
+    navigate("/");
+  };
+
   return (
-    <main className="min-h-screen bg-gray-50 px-6 md:px-20 lg:px-0 pt-24 pb-16">
+    <main className="min-h-screen bg-gray-50 md:px-20 lg:px-0 pt-24 pb-16">
       <div className="mx-[50px] items-center lg:mx-[100px] xl:mx-[100px] 2xl:mx-[100px]">
         <div className="flex mt-32">
           {/* Sidebar - Left Column */}
           <aside
-            className={`fixed lg:relative lg:block top-0 left-0 h-full w-64 lg:bg-transparent lg:p-0 z-50 transform transition-transform duration-300 ease-in-out ${
+            className={`fixed lg:relative lg:block top-0 left-0 h-full w-64 lg:bg-transparent lg:p-0 z-20 transform transition-transform duration-300 ease-in-out ${
               isSidebarOpen
-                ? "translate-x-0 bg-gradient-to-b from-gray-800 to-gray-900 shadow-xl"
+                ? "translate-x-0 bg-gradient-to-b from-gray-800 to-gray-900 shadow-xl z-50"
                 : "-translate-x-full lg:translate-x-0"
             } lg:shadow-none rounded-md text-white lg:text-black`}
           >
@@ -329,14 +334,14 @@ function Profile({ user }) {
                 </button>
               </div>
 
-              <form
-                onSubmit={infoForm.handleSubmit}
-                className="px-0 md:px-6 mb-10"
-              >
+              <form onSubmit={infoForm.handleSubmit} className="md:px-6 mb-10">
                 <div className="flex flex-col items-start mb-8">
                   <div className="relative">
                     <img
-                      src={preview || "/default-profile.jpg"}
+                      src={
+                        preview ||
+                        "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                      }
                       alt="profile"
                       className="object-cover w-32 h-32 rounded-full border-4 border-gray-200 shadow-md"
                     />
@@ -377,7 +382,7 @@ function Profile({ user }) {
                       onChange={infoForm.handleChange}
                       onBlur={infoForm.handleBlur}
                       placeholder="Enter username"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(infoForm.values.username) &&
                         !infoForm.errors.username
                           ? "bg-red-50"
@@ -402,7 +407,7 @@ function Profile({ user }) {
                       onChange={infoForm.handleChange}
                       onBlur={infoForm.handleBlur}
                       placeholder="Enter phone number"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(infoForm.values.phoneNumber) &&
                         !infoForm.errors.phoneNumber
                           ? "bg-red-50"
@@ -428,7 +433,7 @@ function Profile({ user }) {
                       onChange={infoForm.handleChange}
                       onBlur={infoForm.handleBlur}
                       placeholder="Enter address line 1"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(infoForm.values.addressLine1) &&
                         !infoForm.errors.addressLine1
                           ? "bg-red-50"
@@ -454,7 +459,7 @@ function Profile({ user }) {
                       onChange={infoForm.handleChange}
                       onBlur={infoForm.handleBlur}
                       placeholder="Enter address line 2"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(infoForm.values.addressLine2) &&
                         !infoForm.errors.addressLine2
                           ? "bg-red-50"
@@ -480,7 +485,7 @@ function Profile({ user }) {
                       onChange={infoForm.handleChange}
                       onBlur={infoForm.handleBlur}
                       placeholder="Enter road"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(infoForm.values.road) && !infoForm.errors.road
                           ? "bg-red-50"
                           : "bg-white"
@@ -504,7 +509,7 @@ function Profile({ user }) {
                       onChange={infoForm.handleChange}
                       onBlur={infoForm.handleBlur}
                       placeholder="Enter Google Map link"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(infoForm.values.linkAddress) &&
                         !infoForm.errors.linkAddress
                           ? "bg-red-50"
@@ -559,7 +564,7 @@ function Profile({ user }) {
                       onChange={passwordFormik.handleChange}
                       onBlur={passwordFormik.handleBlur}
                       placeholder="Enter old password"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(passwordFormik.values.oldPassword) &&
                         !passwordFormik.errors.oldPassword
                           ? "bg-red-50"
@@ -572,9 +577,9 @@ function Profile({ user }) {
                       onClick={() => togglePasswordVisibility("oldPassword")}
                     >
                       {passwordVisible.oldPassword ? (
-                        <FaEyeSlash size={20} />
+                        <FaRegEyeSlash size={20} />
                       ) : (
-                        <FaEye size={20} />
+                        <IoEyeOutline size={20} />
                       )}
                     </button>
                     {passwordFormik.errors.oldPassword &&
@@ -596,7 +601,7 @@ function Profile({ user }) {
                       onChange={passwordFormik.handleChange}
                       onBlur={passwordFormik.handleBlur}
                       placeholder="Enter new password"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(passwordFormik.values.newPassword) &&
                         !passwordFormik.errors.newPassword
                           ? "bg-red-50"
@@ -609,9 +614,9 @@ function Profile({ user }) {
                       onClick={() => togglePasswordVisibility("newPassword")}
                     >
                       {passwordVisible.newPassword ? (
-                        <FaEyeSlash size={20} />
+                        <FaRegEyeSlash size={20} />
                       ) : (
-                        <FaEye size={20} />
+                        <IoEyeOutline size={20} />
                       )}
                     </button>
                     {passwordFormik.errors.newPassword &&
@@ -635,7 +640,7 @@ function Profile({ user }) {
                       onChange={passwordFormik.handleChange}
                       onBlur={passwordFormik.handleBlur}
                       placeholder="Confirm new password"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200 ${
+                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
                         isFilled(passwordFormik.values.confirmPassword) &&
                         !passwordFormik.errors.confirmPassword
                           ? "bg-red-50"
@@ -650,9 +655,9 @@ function Profile({ user }) {
                       }
                     >
                       {passwordVisible.confirmPassword ? (
-                        <FaEyeSlash size={20} />
+                        <FaRegEyeSlash size={20} />
                       ) : (
-                        <FaEye size={20} />
+                        <IoEyeOutline size={20} />
                       )}
                     </button>
                     {passwordFormik.errors.confirmPassword &&
@@ -675,11 +680,20 @@ function Profile({ user }) {
                   <button
                     type="submit"
                     disabled={passwordFormik.isSubmitting}
-                    className="px-6 py-2 text-white font-medium rounded-md border border-gray-300 bg-accent_1 hover:bg-primary transition-colors duration-200"
+                    className="px-4 py-2 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-accent_1 hover:bg-primary transition-colors duration-200"
                   >
                     {passwordFormik.isSubmitting
                       ? "Updating..."
                       : "Update Password"}
+                  </button>
+                </div>
+                <div className="flex gap-6 items-center justify-end mt-16">
+                  <button
+                    type="submit"
+                    onClick={handleExit}
+                    className="px-6 py-3 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-blue-700 hover:bg-primary transition-colors duration-200"
+                  >
+                    Save & Exit
                   </button>
                 </div>
               </form>

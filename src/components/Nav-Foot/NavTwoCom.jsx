@@ -67,7 +67,7 @@ const navLinks = [
 ];
 // Navigation Component that have background primary color and fixed on top
 
-const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
+const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
@@ -75,11 +75,24 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
 
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const userName = user?.username || localStorage.getItem("userName");
+  const userEmil = user?.email || localStorage.getItem("userEmail");
 
   const navigate = useNavigate();
 
   const handleLogin = () => {
     navigate("/login");
+  };
+
+  const handleSignOut = () => {
+    toast.success("Log-Out Successful!", {
+      icon: "✅",
+    });
+    localStorage.removeItem("accessToken");
+    navigate("/");
+    window.location.reload();
   };
   return (
     <>
@@ -99,7 +112,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
             </div>
             <div>
               {/* Desktop Menu */}
-              <ul className="hidden lg:hidden 2xl:flex 2xl:items-center 2xl:space-x-6 xl:ml-10">
+              <ul className="hidden lg:hidden xl:flex xl:items-center xl:space-x-6 xl:ml-10">
                 {navLinks.map((link, index) =>
                   link.isDropdown ? (
                     <li key={index} className="relative">
@@ -192,16 +205,55 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                       </span>
                     )}
                   </a>
-                  <a href="/profile">
-                    <img
-                      src={
-                        profile ??
-                        "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                      }
-                      alt="profile"
-                      className="w-10 h-10 rounded-full border"
-                    />
-                  </a>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        src={
+                          profile ??
+                          "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                        }
+                        alt="profile"
+                        className="w-12 h-12 rounded-full border"
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
+                        <div className="px-4 py-3">
+                          <span className="block text-caption text-gray-900 dark:text-white">
+                            {userName}
+                          </span>
+                          <span className="block text-caption text-gray-500 truncate dark:text-gray-400">
+                            {userEmil}
+                          </span>
+                        </div>
+                        <ul className="py-2">
+                          <li>
+                            <a
+                              href="/profile-setting"
+                              className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            >
+                              Settings
+                            </a>
+                          </li>
+
+                          <li>
+                            <div
+                              onClick={handleSignOut}
+                              className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                            >
+                              Sign out
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <button
@@ -295,12 +347,12 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
             {/* Desktop Search Form */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="w-[400px] px-2"
+              className="xl:w-[400px] lg:w-[300px] px-2"
             >
-              <div className="relative">
+              <div className="relative flex justify-end ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="absolute top-0 bottom-0 w-5 h-5 my-auto text-black_50 left-3"
+                  className="absolute  top-0 bottom-0 w-5 h-5 my-auto text-black_50 xl:left-[10px] lg:left-3"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -315,7 +367,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                 <input
                   type="text"
                   placeholder="Search your product..."
-                  className="w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
+                  className="lg:w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
                 />
               </div>
             </form>
@@ -331,16 +383,55 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems }) => {
                     </span>
                   )}
                 </a>
-                <a href="/profile">
-                  <img
-                    src={
-                      profile ??
-                      "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                    }
-                    alt="profile"
-                    className="w-10 h-10 rounded-full border"
-                  />
-                </a>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      src={
+                        profile ??
+                        "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                      }
+                      alt="profile"
+                      className="w-12 h-12 rounded-full border"
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
+                      <div className="px-4 py-3">
+                        <span className="block text-caption text-gray-900 dark:text-white">
+                          {userName}
+                        </span>
+                        <span className="block text-caption text-gray-500 truncate dark:text-gray-400">
+                          {userEmil}
+                        </span>
+                      </div>
+                      <ul className="py-2">
+                        <li>
+                          <a
+                            href="/profile-setting"
+                            className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            Settings
+                          </a>
+                        </li>
+
+                        <li>
+                          <div
+                            onClick={handleSignOut}
+                            className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            Sign out
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <button
