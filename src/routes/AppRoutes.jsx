@@ -14,6 +14,7 @@ import Profile from "../components/user/Profile";
 import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
+import Brand from "../pages/Brand";
 import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Products from "../pages/products/Products";
@@ -123,6 +124,7 @@ export default function AppRoutes() {
               path="/products"
               element={<Products products={products} />} // Pass products as prop
             />
+            <Route path="/brand" element={<Brand />} />
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/phone" element={<Category />} />
 
