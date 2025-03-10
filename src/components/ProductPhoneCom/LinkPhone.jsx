@@ -1,6 +1,7 @@
 import React from 'react'
 import BannerPhone from './BannerPhone';
-import FilterPhone from './FilterPhone';
+import FilterCom from '../DiscountPageCom/FilterCom';
+
 
 
 export default function LinkPhone() {
@@ -9,7 +10,7 @@ export default function LinkPhone() {
   return (
    <main>
     <BannerPhone/>
-    <FilterPhone/>
+    <FilterCom/>
        <div className="container mx-auto pt-[32px] px-[100px]">
            <h1 className="flex justify-center text-2xl md:text-3xl font-semibold mb-4 mt-8 text-primary">Top Category</h1>
            {/* section1 */}
