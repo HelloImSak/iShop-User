@@ -186,7 +186,7 @@ function Profile({ user }) {
 
         toast.success("Password updated successfully!");
         passwordFormik.resetForm();
-        navigate("/profile-setting");
+        navigate("/login");
       } catch (err) {
         console.error("Update password error:", err);
         // Handle specific error messages from the server
