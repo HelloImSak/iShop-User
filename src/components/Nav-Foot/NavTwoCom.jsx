@@ -98,7 +98,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
     <>
       {/* Main Navbar Container */}
       <div className="fixed left-0 w-full z-40 bg-primary">
-        <nav className="relative py-2 flex justify-between items-center mx-[20px] md:mx-[50px] xl:mx-[100px]">
+        <nav className="relative py-2 flex justify-between items-center mx-4 sm:mx-6 md:mx-10 lg:mx-[50px]">
           {/* Logo */}
           <div className="flex items-center gap-5">
             <div>
@@ -106,13 +106,13 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                 <img
                   src={Logo}
                   alt="iShop Logo"
-                  className="h-10 md:h-12 xl:h-16"
+                  className="h-9 md:h-12 xl:h-14"
                 />
               </NavLink>
             </div>
             <div>
               {/* Desktop Menu */}
-              <ul className="hidden lg:hidden xl:flex xl:items-center xl:space-x-6 xl:ml-10">
+              <ul className="hidden lg:flex xl:items-center xl:space-x-6 xl:ml-10">
                 {navLinks.map((link, index) =>
                   link.isDropdown ? (
                     <li key={index} className="relative">
@@ -177,7 +177,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
               {/* Add search icon here */}
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-white text-xl"
+                className="text-white text-xl md:hidden"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -194,6 +194,32 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                   />
                 </svg>
               </button>
+              <div className="hidden md:block lg:hidden">
+                <form onSubmit={(e) => e.preventDefault()} className="flex-1">
+                  <div className="relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="absolute top-0 bottom-0 w-5 h-5 my-auto text-black_50 left-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder="Search your product..."
+                      className="w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
+                      autoFocus
+                    />
+                  </div>
+                </form>
+              </div>
 
               {isLoggedIn ? (
                 <div className="flex items-center gap-5">
@@ -256,12 +282,44 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                   </div>
                 </div>
               ) : (
-                <button
-                  className="text-white text-sm border border-white rounded-lg px-3 py-1 hover:bg-primary hover:text-white"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                      alt="profile"
+                      className="w-10 h-10 rounded-full border"
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
+                      <ul className="py-2">
+                        <li>
+                          <a
+                            href="/login"
+                            className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            Login
+                          </a>
+                        </li>
+
+                        <li>
+                          <a
+                            href="/register"
+                            className="cursor-pointer block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          >
+                            Sign Up
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
             {/* Mobile Search Popup */}
@@ -335,19 +393,10 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
 
           {/* Desktop Login/Cart/Profile */}
           <div className="hidden lg:flex lg:items-center lg:gap-6">
-            {/* explore text when screen xl */}
-            <div className="2xl:hidden">
-              <button
-                className="navbar-burger flex items-center text-white font-OpenSanBold p-3"
-                onClick={toggleMenu}
-              >
-                Explore
-              </button>
-            </div>
             {/* Desktop Search Form */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="xl:w-[400px] lg:w-[300px] px-2"
+              className="xl:w-[400px] lg:w-[250px] px-2"
             >
               <div className="relative flex justify-end ">
                 <svg
@@ -434,12 +483,44 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                 </div>
               </div>
             ) : (
-              <button
-                className="py-2 px-6 text-white border border-white rounded-xl  hover:text-white"
-                onClick={handleLogin}
-              >
-                Login
-              </button>
+              <div className="relative">
+                <button
+                  type="button"
+                  className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <span className="sr-only">Open user menu</span>
+                  <img
+                    src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                    alt="profile"
+                    className="w-10 h-10 rounded-full border"
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
+                    <ul className="py-2">
+                      <li>
+                        <a
+                          href="/login"
+                          className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                          Login
+                        </a>
+                      </li>
+
+                      <li>
+                        <a
+                          href="/register"
+                          className="cursor-pointer block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                          Sign Up
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </nav>

@@ -10,10 +10,13 @@ import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NoInternet from "../components/NoInternet";
 import NotFoundProductCom from "../components/NotFoundProductCom";
-import Profile from "../components/user/Profile";
+import ProductDetail from "../pages/products/ProductDetail";
+import ShoppingCart from "../pages/cart/ShoppingCart";
+import Profile from "../pages/user/Profile";
 import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
+import Brand from "../pages/Brand";
 import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Products from "../pages/products/Products";
@@ -123,8 +126,11 @@ export default function AppRoutes() {
               path="/products"
               element={<Products products={products} />} // Pass products as prop
             />
+            <Route path="/brand" element={<Brand />} />
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/phone" element={<Category />} />
+            <Route path="/product-details" element={<ProductDetail />} />
+            <Route path="/shopping-cart" element={<ShoppingCart />} />
 
             <Route
               path="/profile-setting"
