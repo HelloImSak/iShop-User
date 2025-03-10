@@ -7,7 +7,7 @@ export default function CardCom({ thumbnail, name, brand, price }) {
       <div className="w-[310px] max-w-sm bg-white border border-gray-200 rounded-[25px] shadow-lg p-5 hover:hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
         <a href="#">
           <img
-            className="rounded-t-lg mx-auto object-contain "
+            className="h-[200px] mx-auto object-contain rounded-t-[25px]"
             src={thumbnail}
             alt={name}
           />
