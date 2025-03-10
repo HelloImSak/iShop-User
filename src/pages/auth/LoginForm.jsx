@@ -227,7 +227,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute text-[18px] rounded-md text-gray-200 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                    className="absolute text-[18px] rounded-md text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                   >
                     Email
                   </label>
@@ -260,7 +260,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder=" "
-                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border-gray-400 text-[18px] text-gray-700 shadow-xs pr-10 ${
+                  className={`peer w-full h-[50px] lg:h-[55px] rounded-md border-primary text-[18px] text-gray-700 shadow-xs pr-10 ${
                     isFilled(formik.values.password) && !formik.errors.password
                       ? "bg-[#e8f0fe]"
                       : "bg-white"
@@ -270,7 +270,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 {/* Floating Label */}
                 <label
                   htmlFor="password"
-                  className="absolute left-3 text-[18px] rounded-md text-gray-300 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                  className="absolute left-3 text-[18px] rounded-md text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                 >
                   Password
                 </label>

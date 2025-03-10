@@ -434,13 +434,13 @@ const RegisterForm = () => {
                       required
                     />
                   </div>
-                  <div className="ml-3 text-sm">
+                  <div className="ml-3 text-caption text-gray-500">
                     By registering, you agree to our{" "}
-                    <a href="#" className="text-blue-600 hover:underline">
+                    <a href="#" className="text-blue-500 hover:underline">
                       Terms of Service
                     </a>{" "}
                     and{" "}
-                    <a href="#" className="text-blue-600 hover:underline">
+                    <a href="#" className="text-blue-500 hover:underline">
                       Privacy Policy
                     </a>
                     .

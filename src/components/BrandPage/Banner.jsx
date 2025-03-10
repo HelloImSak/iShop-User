@@ -1,6 +1,6 @@
 import React from "react";
 import Allphone from "../../assets/Apple/AllApple.png";
-import HeadPhone from "../../assets/Apple/HeadPhone.png";
+import Headphone from "../../assets/Apple/Headphone.png";
 import LogoApple from "../../assets/Apple/Logo-Apple.png";
 import MacBook from "../../assets/Apple/MacBook.png";
 
@@ -54,7 +54,7 @@ const AppleSection = () => {
 
 const Banner = () => {
   const cardData = [
-    { image: HeadPhone, altText: "Headphones", title: "Headphones" },
+    { image: Headphone, altText: "Headphones", title: "Headphones" },
     { image: Allphone, altText: "All Items", title: "All Items" },
     { image: MacBook, altText: "Laptop", title: "Laptop" },
   ];
