@@ -113,7 +113,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
   return (
     <>
       {/* Promotional Banner */}
-      <p className="fixed top-0 w-full text-white text-caption bg-primary text-center py-1 z-20">
+      <p className="fixed top-0 z-40 w-full text-white text-caption bg-primary text-center py-1">
         Get 30% off when you spend over $200.
       </p>
 

@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaBars, FaRegEyeSlash, FaTimes } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import {
@@ -10,7 +11,6 @@ import {
   useUpdateProfileMutation,
 } from "../../redux/features/auth/authSlice";
 import { useUploadImageMutation } from "../../redux/features/images/imgSlice";
-import { IoEyeOutline } from "react-icons/io5";
 
 function Profile({ user }) {
   const [preview, setPreview] = useState(null);
@@ -186,7 +186,7 @@ function Profile({ user }) {
 
         toast.success("Password updated successfully!");
         passwordFormik.resetForm();
-        navigate("/");
+        navigate("/profile-setting");
       } catch (err) {
         console.error("Update password error:", err);
         // Handle specific error messages from the server
@@ -257,15 +257,19 @@ function Profile({ user }) {
     navigate("/");
   };
 
+  const handleExit = () => {
+    navigate("/");
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 md:px-20 lg:px-0 pt-24 pb-16">
       <div className="mx-[50px] items-center lg:mx-[100px] xl:mx-[100px] 2xl:mx-[100px]">
         <div className="flex mt-32">
           {/* Sidebar - Left Column */}
           <aside
-            className={`fixed lg:relative lg:block top-0 left-0 h-full w-64 lg:bg-transparent lg:p-0 z-50 transform transition-transform duration-300 ease-in-out ${
+            className={`fixed lg:relative lg:block top-0 left-0 h-full w-64 lg:bg-transparent lg:p-0 z-20 transform transition-transform duration-300 ease-in-out ${
               isSidebarOpen
-                ? "translate-x-0 bg-gradient-to-b from-gray-800 to-gray-900 shadow-xl"
+                ? "translate-x-0 bg-gradient-to-b from-gray-800 to-gray-900 shadow-xl z-50"
                 : "-translate-x-full lg:translate-x-0"
             } lg:shadow-none rounded-md text-white lg:text-black`}
           >
@@ -681,6 +685,15 @@ function Profile({ user }) {
                     {passwordFormik.isSubmitting
                       ? "Updating..."
                       : "Update Password"}
+                  </button>
+                </div>
+                <div className="flex gap-6 items-center justify-end mt-16">
+                  <button
+                    type="submit"
+                    onClick={handleExit}
+                    className="px-6 py-3 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-blue-700 hover:bg-primary transition-colors duration-200"
+                  >
+                    Save & Exit
                   </button>
                 </div>
               </form>
