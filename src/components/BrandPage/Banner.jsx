@@ -2,7 +2,7 @@ import React from "react";
 import Allphone from "../../assets/Apple/AllApple.png";
 import Headphone from "../../assets/Apple/Headphone.png";
 import LogoApple from "../../assets/Apple/Logo-Apple.png";
-import MacBook from "../../assets/Apple/MacBook.png";
+import MacBook from "../../assets/Apple/Macbook.png";
 
 const SectionTitle = ({ children }) => (
   <h1 className="mb-2 text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white text-center">
