@@ -1,7 +1,7 @@
-import React from "react";  
+import React from "react";
 import Allphone from "../../assets/Apple/AllApple.png";
-import LogoApple from "../../assets/Apple/Logo-Apple.png";
 import HeadPhone from "../../assets/Apple/HeadPhone.png";
+import LogoApple from "../../assets/Apple/Logo-Apple.png";
 import MacBook from "../../assets/Apple/MacBook.png";
 
 const SectionTitle = ({ children }) => (
@@ -19,8 +19,14 @@ const SectionSubtitle = ({ children }) => (
 const ShopCard = ({ image, altText, title }) => {
   return (
     <div className="flex flex-col items-center bg-[#1E2A44] p-2 sm:p-3 md:p-4 lg:p-5 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105 w-[90px] sm:w-[110px] md:w-[130px] lg:w-[200px]">
-      <img src={image} alt={altText} className="h-[50px] sm:h-[60px] md:h-[70px] lg:h-[100px] w-auto mb-2 object-contain" />
-      <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-white mb-2 text-center">{title}</h3>
+      <img
+        src={image}
+        alt={altText}
+        className="h-[50px] sm:h-[60px] md:h-[70px] lg:h-[100px] w-auto mb-2 object-contain"
+      />
+      <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-white mb-2 text-center">
+        {title}
+      </h3>
       <button className="px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 lg:px-5 lg:py-4 bg-transparent border border-orange-400 text-orange-400 rounded-lg font-semibold text-xs sm:text-sm md:text-base lg:text-lg hover:bg-orange-400 hover:text-white transition duration-300">
         Shop Now
       </button>
@@ -66,7 +72,12 @@ const Banner = () => {
           <AppleSection />
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12">
             {cardData.map((card, index) => (
-              <ShopCard key={index} image={card.image} altText={card.altText} title={card.title} /> 
+              <ShopCard
+                key={index}
+                image={card.image}
+                altText={card.altText}
+                title={card.title}
+              />
             ))}
           </div>
         </div>
@@ -76,6 +87,3 @@ const Banner = () => {
 };
 
 export default Banner;
-
-
-
