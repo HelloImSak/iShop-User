@@ -85,7 +85,7 @@ const ResetPassword = () => {
           confirmPassword: values.confirmPassword,
         }).unwrap();
         toast.success("Password reset successfully!");
-        navigate("/");
+        navigate("/login");
       } catch (error) {
         toast.error(error?.data?.message || "Failed to reset password");
       }
