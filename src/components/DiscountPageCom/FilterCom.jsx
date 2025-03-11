@@ -49,7 +49,7 @@ export default function FilterDis() {
 
       {/* Filter Sidebar/Dropdown */}
       <aside
-        className={`absolute top-12 left-0 w-[300px] bg-white rounded-lg p-5 z-50 transition-all duration-300 ${
+        className={`absolute top-12 left-0 w-[300px] bg-white rounded-lg p-5 z-20 transition-all duration-300 ${
           isFilterOpen ? "block" : "hidden"
         } lg:block lg:relative lg:top-0 lg:w-64 lg:max-w-[300px]`}
       >
@@ -107,7 +107,7 @@ export default function FilterDis() {
       {/* Overlay for mobile */}
       {isFilterOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-40"
+          className="fixed inset-0 bg-black opacity-50 z-20"
           onClick={() => setIsFilterOpen(false)}
         />
       )}

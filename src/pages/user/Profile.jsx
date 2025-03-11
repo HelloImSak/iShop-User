@@ -184,7 +184,11 @@ function Profile({ user }) {
 
         toast.success("Password updated successfully!");
         passwordFormik.resetForm();
+<<<<<<< Updated upstream:src/pages/user/Profile.jsx
         navigate("/login");
+=======
+        navigate("/profile-setting");
+>>>>>>> Stashed changes:src/components/user/Profile.jsx
       } catch (err) {
         console.error("Update password error:", err);
         // Handle specific error messages from the server
@@ -259,6 +263,10 @@ function Profile({ user }) {
   const handleExit = () => {
     navigate("/");
     window.location.reload();
+  };
+
+  const handleExit = () => {
+    navigate("/");
   };
 
   return (
