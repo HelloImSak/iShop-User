@@ -9,7 +9,7 @@ export default function CategoryPage() {
   return (
     <main>
       <Banner />
-      <div className="container mx-auto pt-[32px] px-[100px]">
+      <div className="container mx-auto pt-[32px] git px-[100px]">
         <h1 className="flex justify-center text-2xl md:text-3xl font-semibold mb-4 mt-8 text-primary">
           Top Category
         </h1>

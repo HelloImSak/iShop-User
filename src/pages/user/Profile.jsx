@@ -64,13 +64,11 @@ function Profile({ user }) {
         .matches(
           /^[a-zA-Z0-9_]+$/,
           "Username can only contain letters, numbers, and underscores"
-        )
-        .required("Username is required"),
+        ),
       phoneNumber: Yup.string()
         .matches(/^[0-9]+$/, "Phone number must contain only digits")
         .min(8, "Phone Number must be 8 to 16 numbers")
-        .max(16, "Phone Number must be 8 to 16 numbers")
-        .required("Phone Number is required"),
+        .max(16, "Phone Number must be 8 to 16 numbers"),
       addressLine1: Yup.string().required("Address Line 1 is required"),
       addressLine2: Yup.string().required("Address Line 2 is required"),
       road: Yup.string().required("Road is required"),
@@ -255,10 +253,12 @@ function Profile({ user }) {
 
   const handleCancel = () => {
     navigate("/");
+    window.location.reload();
   };
 
   const handleExit = () => {
     navigate("/");
+    window.location.reload();
   };
 
   return (
