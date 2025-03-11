@@ -202,11 +202,11 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
           {/* Mobile: Cart/Profile or Login + Hamburger */}
           <div className="flex items-center gap-10">
             {/* Mobile Login/Cart/Profile (Visible only on mobile) */}
-            <div className="lg:hidden flex items-center gap-6">
+            <div className="siXl:hidden flex items-center gap-6">
               {/* Add search icon here */}
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-primary text-xl md:hidden"
+                className="text-primary text-body block md:hidden lg:block siXl:hidden"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -424,11 +424,11 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
           </div>
 
           {/* Desktop Login/Cart/Profile */}
-          <div className="hidden lg:flex lg:items-center lg:gap-6">
+          <div className="hidden siXl:flex siXl:items-center siXl:gap-6">
             {/* Desktop Search Form */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="xl:w-[400px] lg:w-[250px] px-2"
+              className="xl:w-[300px] siXl:w-[250px] px-2"
             >
               <div className="relative flex justify-end">
                 <svg
@@ -448,7 +448,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
                 <input
                   type="text"
                   placeholder="Search your product..."
-                  className="lg:w-full py-2 h-[40px] pl-12 pr-4 text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
+                  className="lg:w-full py-2 h-[40px] pl-12 pr-4 text-caption text-black_50 font-OpenSan text-base border-[1px] rounded-md outline-none bg-gray-50 focus:bg-white focus:border-primary"
                 />
               </div>
             </form>

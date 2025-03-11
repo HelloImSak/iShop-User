@@ -2,6 +2,7 @@ import React from "react";
 import { BsCart3 } from "react-icons/bs";
 
 export default function CardDisCom({
+  uuid,
   thumbnail,
   name,
   brand,
@@ -12,12 +13,7 @@ export default function CardDisCom({
   return (
     <main className="flex items-center justify-center">
       <div className="w-[310px] max-w-sm bg-white border  rounded-[25px]  p-5 relative hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
-        <div className="absolute top-5 left-5">
-          <span className="bg-red-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-full">
-            {dis}%
-          </span>
-        </div>
-        <a href="#">
+        <a href={`/product-detail/${uuid}`}>
           <img
             className="h-[200px] mx-auto object-contain rounded-t-[25px]"
             src={thumbnail}

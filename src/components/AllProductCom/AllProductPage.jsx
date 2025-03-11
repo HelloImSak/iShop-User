@@ -5,13 +5,13 @@ import FilterDis from "./FilterDis";
 import { useGetAllQuery } from "../../redux/service/product/productSlice";
 
 export default function AllProductPage() {
-  const { data: proAll, isLoading, isError } = useGetAllQuery();
+  const { data: proAll } = useGetAllQuery();
 
   return (
     <main className="min-h-screen pt-8 md:pt-16">
       <BannerAllPro />
 
-      <div className="container mx-auto py-10 px-4 sm:px-8 md:px-12 lg:px-[80px] xl:px-[100px]">
+      <div className="container mx-auto py-10 px-4 sm:px-8 md:px-[50px] lg:px-[80px] xl:px-[100px]">
         <div className="flex flex-col lg:flex-row gap-[30px]">
           {/* Sidebar Filter */}
           <div className="w-full lg:w-1/4 xl:w-1/5">

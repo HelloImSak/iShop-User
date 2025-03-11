@@ -14,20 +14,21 @@ export default function NewArrivals() {
   }
   if (isError) {
     return (
-      <div className="flex justify-center animate-pulse text-6xl">
+      <div className="flex justify-center animate-pulse text-6xl ">
         console.error(error)
       </div>
     );
   }
   return (
-    <main className="px-[50px]">
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">
+    <main className="px-[50px] ">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8 pt-[30px]">
         New Arrivals Products
       </h1>
-      <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 ">
+      <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-[30px] ">
         {data?.content?.map((e) => (
           <CardCom
             key={e?.uuid}
+            uuid={e?.uuid}
             thumbnail={e?.thumbnail}
             name={e?.name}
             brand={e?.brand?.name}

@@ -1,6 +1,6 @@
 import React from "react";
-import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
-import TeacherPhea from "../../assets/MentorImage/teacherPhea.png";
+import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
+import TeacherPhea from "../../assets/MentorImage/teacherPhea.jpg";
 import TeacherPor from "../../assets/MentorImage/teacherPor.png";
 
 const mentors = [
@@ -29,13 +29,12 @@ const mentors = [
 const MentorsSection = () => {
   return (
     <section className="text-center py-12 ">
-      <h2 className="text-4xl font-bold text-primary mb-10">Meet Our Mentors</h2>
+      <h2 className="text-4xl font-bold text-primary mb-10">
+        Meet Our Mentors
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 p-10 lg:grid-cols-2 justify-center max-w-4xl mx-auto gap-y-10">
         {mentors.map((mentor, index) => (
-          <div 
-            key={index} 
-            className="flex flex-col items-center bg-white  "
-          >
+          <div key={index} className="flex flex-col items-center bg-white  ">
             <img
               src={mentor.image}
               alt={mentor.name}
@@ -45,13 +44,19 @@ const MentorsSection = () => {
             <p className="text-primary text-sm mb-2">{mentor.role}</p>
 
             <div className="flex space-x-4 mt-3 text-gray-500">
-              <a href={mentor.social.github} className="text-2xl hover:text-gray-700 transition-colors duration-300">
+              <a href={mentor.social.github} className="text-2xl text-black ">
                 <FaGithub />
               </a>
-              <a href={mentor.social.linkedin} className="text-2xl hover:text-gray-700 transition-colors duration-300">
+              <a
+                href={mentor.social.linkedin}
+                className="text-2xl text-blue-800"
+              >
                 <FaLinkedin />
               </a>
-              <a href={mentor.social.facebook} className="text-2xl hover:text-gray-700 transition-colors duration-300">
+              <a
+                href={mentor.social.facebook}
+                className="text-2xl  text-blue-600 "
+              >
                 <FaFacebook />
               </a>
             </div>

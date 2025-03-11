@@ -9,17 +9,17 @@ export default function DiscountPage() {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading data</div>;
-  
+
   return (
     <>
       <main className="min-h-screen pt-8 md:pt-16">
         <BannerDis />
-        <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-20">
+        <div className="container mx-auto py-10 w-full max-w-[1425px] px-4 sm:px-6 lg:px-8">
           <h2 className="font-bold text-center mb-10 text-primary text-2xl sm:text-3xl md:text-4xl">
             Best Price Products
           </h2>
 
-          <div className="flex flex-col lg:flex-row gap-10">
+          <div className="flex flex-col lg:flex-row gap-16">
             {/* Sidebar Filter */}
             <FilterCom />
 
