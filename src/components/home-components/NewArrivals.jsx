@@ -28,6 +28,7 @@ export default function NewArrivals() {
         {data?.content?.map((e) => (
           <CardCom
             key={e?.uuid}
+            uuid={e?.uuid}
             thumbnail={e?.thumbnail}
             name={e?.name}
             brand={e?.brand?.name}
