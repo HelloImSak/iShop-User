@@ -15,6 +15,7 @@ export default function DiscountProduct() {
           {proDis?.content?.map((e) => (
             <CardDisCom
               key={e?.uuid}
+              uuid={e?.uuid}
               thumbnail={e?.thumbnail}
               name={e?.name}
               brand={e?.brand?.name}
