@@ -1,25 +1,31 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa6";
 import { TiMinus } from "react-icons/ti";
-import { NavLink } from "react-router-dom";
+import { useAddToCartMutation } from "../../redux/service/cart/cartSlice";
 
 const ProductDetail = ({
-  images = [],
-  category,
-  title,
-  availability,
-  brand,
-  price = 0 ,
-  originalPrice = 0 ,
-  description ,
-  colors = [],
+  colorOptions = [],
+  category = "",
+  title = "",
+  availability = "In Stock",
+  brand = "",
+  price = 0,
+  originalPrice = 0,
+  description = "",
   sizes = [],
   memoryOptions = [],
   storageOptions = [],
+  isLoggedIn = false,
+  userUuid,
+  productUuid,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-
+  const [selectedColor, setSelectedColor] = useState(
+    colorOptions[0]?.color || ""
+  );
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
   const increaseQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -28,12 +34,53 @@ const ProductDetail = ({
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
+  const selectedColorOption = colorOptions.find(
+    (option) => option.color === selectedColor
+  );
+  const images = selectedColorOption?.images || [];
+
   const Description = () => (
     <div className="text-gray-600 space-y-4 mx-5 mt-10">
       <h2 className="text-lg font-medium text-primary">Description</h2>
       <p>{description}</p>
     </div>
   );
+
+  const handleColorChange = (e) => {
+    setSelectedColor(e.target.value);
+    setCurrentIndex(0);
+  };
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault(); // Prevent navigation initially
+    if (!isLoggedIn) {
+      toast.error("You not Logged In!", {
+        position: "top-center",
+        duration: 3000,
+      });
+    } else {
+      try {
+        const response = await addToCart({
+          userUuid,
+          productUuid,
+          quantity,
+        }).unwrap();
+        toast.success("Item added to cart!", {
+          position: "top-center",
+          duration: 3000,
+        });
+        console.log("Add to cart response:", response);
+        window.location.reload();
+        // Cart icon will update automatically if useGetUserCartQuery is used elsewhere
+      } catch (error) {
+        toast.error("Failed to add item to cart!", {
+          position: "top-center",
+          duration: 3000,
+        });
+        console.error("Add to cart error:", error);
+      }
+    }
+  };
 
   return (
     <section className="pt-40 pb-14">
@@ -43,13 +90,12 @@ const ProductDetail = ({
           <div className="flex flex-col items-center relative">
             <div className="relative w-full max-w-lg">
               <img
-                src={images[currentIndex]}
-                alt={title}
+                src={images[currentIndex] || "https://via.placeholder.com/400"}
+                alt={`${title} - ${selectedColor}`}
                 className="w-full h-[400px] object-contain rounded-lg"
               />
             </div>
 
-            {/* Images */}
             <div className="flex gap-4 justify-center flex-wrap mt-4">
               {images.map((thumbnail, index) => (
                 <img
@@ -109,10 +155,14 @@ const ProductDetail = ({
                 </label>
                 <select
                   id="color"
+                  value={selectedColor}
+                  onChange={handleColorChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 >
-                  {colors.map((color) => (
-                    <option key={color}>{color}</option>
+                  {colorOptions.map((option) => (
+                    <option key={option.color} value={option.color}>
+                      {option.color}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -191,10 +241,40 @@ const ProductDetail = ({
                   <FaPlus className="h-3 w-3 lg:h-3.5 lg:w-3.5 text-primary" />
                 </button>
               </div>
-              <button className="w-full lg:w-auto lg:flex-1 bg-secondary hover:bg-orange-600 text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-orange-300">
-                <NavLink to="/shopping-cart">Add to Cart</NavLink>
+
+              {/* Add to Cart Button */}
+              <button
+                className={`w-full lg:w-auto lg:flex-1 bg-secondary text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-orange-300 ${
+                  isLoggedIn
+                    ? "hover:bg-orange-600"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+                onClick={handleAddToCart}
+                disabled={isAdding} // Disable while adding to prevent multiple clicks
+              >
+                {isAdding ? "Adding..." : "Add to Cart"}
               </button>
-              <button className="w-full lg:w-auto lg:flex-1 bg-blue-600 hover:bg-primary text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300">
+
+              {/* Buy Now Button */}
+              <button
+                className={`w-full lg:w-auto lg:flex-1 bg-blue-600 text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 ${
+                  isLoggedIn
+                    ? "hover:bg-primary"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!isLoggedIn) {
+                    toast.error("You not Logged In!", {
+                      position: "top-center",
+                      duration: 3000,
+                    });
+                  } else {
+                    // Add Buy Now logic here if needed
+                    console.log("Proceeding to buy now...");
+                  }
+                }}
+              >
                 Buy Now
               </button>
             </div>
@@ -209,26 +289,5 @@ const ProductDetail = ({
     </section>
   );
 };
-
-// Example usage:
-/*
-<ProductDetail
-  images={[
-    "https://example.com/image1.jpg",
-    "https://example.com/image2.jpg",
-  ]}
-  category="Laptop"
-  title="2020 Apple MacBook Pro with Apple M1 Chip"
-  availability="In Stock"
-  brand="Apple"
-  price={1699.00}
-  originalPrice={1999.00}
-  description="The most powerful MacBook Pro ever is here..."
-  colors={["Space Gray", "Silver"]}
-  sizes={["14-inch Liquid Retina XDR Display", "13-inch Liquid Retina Display"]}
-  memoryOptions={["16GB Unified Memory", "8GB Unified Memory"]}
-  storageOptions={["1TB SSD Storage", "256GB SSD Storage"]}
-/>
-*/
 
 export default ProductDetail;

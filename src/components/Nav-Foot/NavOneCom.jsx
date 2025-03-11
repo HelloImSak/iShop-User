@@ -135,7 +135,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
                 <img
                   src={Logo}
                   alt="iShop Logo"
-                  className="h-9 md:h-12 lg:h-14"
+                  className="h-11 md:h-12 lg:h-14"
                 />
               </NavLink>
             </div>
@@ -252,7 +252,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
 
               {isLoggedIn ? (
                 <div className="flex items-center gap-5">
-                  <a href="/cart" className="relative">
+                  <NavLink to="/shopping-cart" className="relative">
                     <BsCart
                       className="text-primary text-xl hover:text-secondary"
                       onClick={() => navigate("/cart")}
@@ -262,7 +262,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
                         {cartItems}
                       </span>
                     )}
-                  </a>
+                  </NavLink>
                   <div className="relative">
                     <button
                       type="button"
@@ -456,14 +456,14 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
             {/* Desktop Login/Cart/Profile */}
             {isLoggedIn ? (
               <div className="flex items-center gap-7">
-                <a href="/cart" className="relative">
+                <NavLink to="/shopping-cart" className="relative">
                   <BsCart className="text-primary text-2xl hover:text-secondary" />
                   {cartItems > 0 && (
                     <span className="absolute -top-2 -right-4 bg-red-500 text-primary text-xs rounded-full px-2">
                       {cartItems}
                     </span>
                   )}
-                </a>
+                </NavLink>
                 <div className="relative">
                   <button
                     type="button"
