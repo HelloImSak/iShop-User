@@ -1,6 +1,6 @@
 import React from "react";
-import CardDisCom from "../cart/CardDisCom";
 import { useGetAllQuery } from "../../redux/service/product/productSlice";
+import CardDisCom from "../cart/CardDisCom";
 
 export default function DiscountProduct() {
   const { data: proDis, isLoading, isError } = useGetAllQuery();
