@@ -15,6 +15,7 @@ import { useGetAllQuery } from '../../redux/service/product/productSlice';
                         {proDis?.content?.map((e) => (
                           <CardDisCom
                             key={e?.uuid}
+                            uuid={e?.uuid}
                             thumbnail={e?.thumbnail}
                             name={e?.name}
                             brand={e?.brand?.name}
