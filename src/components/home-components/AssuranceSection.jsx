@@ -32,8 +32,8 @@ export default function AssuranceSection() {
           className="flex flex-col items-center text-center p-4"
         >
           <div className="mb-4">{feature.icon}</div>
-          <h3 className="font-OpenSanBold text-lg mb-1">{feature.title}</h3>
-          <p className="text-gray-600 text-sm">{feature.description}</p>
+          <h3 className="font-OpenSanBold text-lg mb-1 text-primary">{feature.title}</h3>
+          <p className="text-gray-600 text-body">{feature.description}</p>
         </div>
       ))}
     </div>

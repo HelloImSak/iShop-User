@@ -2,7 +2,7 @@ import React from "react";
 
 export default function BannerDis() {
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center pt-[32px] ">
       <section className="mt-9 w-full max-w-[1425px] px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-6">
           <HeadphonePromo />

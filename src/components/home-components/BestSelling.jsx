@@ -6,7 +6,7 @@ import speaker from "../../assets/BestSellingImages/speaker.png";
 const BestSellingProducts = () => {
   return (
     <section className="w-full px-[50px]">
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8  pt-[30px]">
         Best Selling Products
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 mt-6">
