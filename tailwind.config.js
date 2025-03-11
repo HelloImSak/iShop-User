@@ -7,11 +7,7 @@ export default {
       sm: "640px",
       md: "768px",
       lg: "1024px",
-<<<<<<< Updated upstream
       xl: "1300px",
-=======
-      xl: "1350px",
->>>>>>> Stashed changes
       "2xl": "1540px",
     },
     extend: {

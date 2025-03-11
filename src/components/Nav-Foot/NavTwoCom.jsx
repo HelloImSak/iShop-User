@@ -112,11 +112,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
             </div>
             <div>
               {/* Desktop Menu */}
-<<<<<<< Updated upstream
               <ul className="hidden lg:flex xl:items-center xl:space-x-6 xl:ml-10">
-=======
-              <ul className="hidden lg:hidden xl:flex xl:items-center xl:space-x-6 xl:ml-10">
->>>>>>> Stashed changes
                 {navLinks.map((link, index) =>
                   link.isDropdown ? (
                     <li key={index} className="relative">
@@ -284,7 +280,6 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                       </div>
                     )}
                   </div>
-<<<<<<< Updated upstream
                 </div>
               ) : (
                 <div className="relative">
@@ -324,8 +319,6 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                       </ul>
                     </div>
                   )}
-=======
->>>>>>> Stashed changes
                 </div>
               )}
             </div>
@@ -403,11 +396,7 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
             {/* Desktop Search Form */}
             <form
               onSubmit={(e) => e.preventDefault()}
-<<<<<<< Updated upstream
               className="xl:w-[400px] lg:w-[250px] px-2"
-=======
-              className="xl:w-[400px] lg:w-[300px] px-2"
->>>>>>> Stashed changes
             >
               <div className="relative flex justify-end ">
                 <svg
@@ -492,7 +481,6 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                     </div>
                   )}
                 </div>
-<<<<<<< Updated upstream
               </div>
             ) : (
               <div className="relative">
@@ -532,8 +520,6 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
                     </ul>
                   </div>
                 )}
-=======
->>>>>>> Stashed changes
               </div>
             )}
           </div>

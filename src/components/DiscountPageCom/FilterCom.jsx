@@ -49,11 +49,11 @@ export default function FilterDis() {
 
       {/* Filter Sidebar/Dropdown */}
       <aside
-        className={`absolute top-12 left-0 w-[300px] bg-white rounded-lg p-5 z-20 transition-all duration-300 ${
+        className={`absolute top-0 left-0 w-[300px] bg-white rounded-lg p-5 z-50 shadow-lg transition-all duration-300 mx-[100] pointer-events-auto ${
           isFilterOpen ? "block" : "hidden"
-        } lg:block lg:relative lg:top-0 lg:w-64 lg:max-w-[300px]`}
+        } lg:block lg:relative lg:w-64 lg:max-w-[300px] lg:z-10 lg:shadow-none`}
       >
-        <h3 className="font-semibold text-[20px] text-gray-800 mb-3">
+        <h3 className="font-bold text-[20px] text-primary mb-3">
           Product Categories
         </h3>
         <ul className="space-y-2 text-[16px] text-gray-600">
@@ -69,7 +69,7 @@ export default function FilterDis() {
           ))}
         </ul>
 
-        <h3 className="font-semibold text-[20px] text-gray-800 mt-5 mb-3">
+        <h3 className="font-bold text-[20px] text-primary mt-5 mb-3">
           Product Brands
         </h3>
         <ul className="space-y-2 text-[16px] text-gray-600">
@@ -87,7 +87,7 @@ export default function FilterDis() {
           ))}
         </ul>
 
-        <h3 className="font-semibold text-[20px] text-gray-800 mt-5 mb-3">
+        <h3 className="font-semibold text-[20px] text-primary mt-5 mb-3">
           Choose Price
         </h3>
         <input
@@ -96,7 +96,7 @@ export default function FilterDis() {
           max="4950"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="w-full accent-blue-600"
+          className="w-full accent-primary"
         />
         <div className="flex justify-between font-bold mt-2 text-gray-700">
           <span>$20</span>
@@ -107,7 +107,7 @@ export default function FilterDis() {
       {/* Overlay for mobile */}
       {isFilterOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-20"
+          className="fixed inset-0 bg-black opacity-50 z-40"
           onClick={() => setIsFilterOpen(false)}
         />
       )}
