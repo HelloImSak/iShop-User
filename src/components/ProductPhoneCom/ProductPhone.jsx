@@ -14,7 +14,7 @@ export default function ProductPhone() {
 
   return (
     <>
-      <main className="min-h-screen pt-8 md:pt-16">
+      <main className="min-h-screen px-[32px]">
         <BannerPh />
 
         <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-20">
@@ -27,7 +27,7 @@ export default function ProductPhone() {
 
             <FilterDis />
             {/* Product Grid */}
-            <div className="w-full lg:w-3/4">
+            <div className="w-full lg:w-3/4 mx-[50px]">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {proPro?.content?.map((e) => (
                   <CardCom

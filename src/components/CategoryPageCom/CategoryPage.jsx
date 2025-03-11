@@ -7,7 +7,7 @@ export default function CategoryPage() {
   const { data: proCate, isLoading, isError } = useGetAllQuery();
   console.log("data", proCate);
   return (
-    <main> 
+    <main className="min-h-screen px-[32px] pt-20"> 
       <Banner />
       <div className="container mx-auto pt-[32px] git px-[100px]">
         <h1 className="flex justify-center text-2xl md:text-3xl font-semibold mb-4 mt-8 text-primary">
