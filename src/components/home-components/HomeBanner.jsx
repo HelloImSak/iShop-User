@@ -1,5 +1,5 @@
-
-
+import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 import React, { useState, useEffect } from "react";
 import "./HomeBanner.css";
 import img1 from "../../assets/HomeBannerImages/img1.png";
@@ -30,7 +30,9 @@ const HomeBanner = () => {
         carousel.classList.add("next");
       } else {
         listHTML.prepend(items[items.length - 1]);
-        setActiveIndex((prev) => (prev - 1 + bgColors.length) % bgColors.length); // Update active slide index
+        setActiveIndex(
+          (prev) => (prev - 1 + bgColors.length) % bgColors.length
+        ); // Update active slide index
         carousel.classList.add("prev");
       }
 
@@ -49,61 +51,105 @@ const HomeBanner = () => {
       className="carousel"
       style={{
         backgroundColor: bgColors[activeIndex], // Dynamically changing background color
-        transition: "background-color 0.5s ease-in-out",// Smooth transition
+        transition: "background-color 0.5s ease-in-out", // Smooth transition
       }}
     >
-      <div className="list"
-      >
+      <div className="list">
         <div className="item">
-          <img src={img1} alt="Slide 1" className="responsive-img1 w-auto h-auto object-contain " />
+          <img
+            src={img1}
+            alt="Slide 1"
+            className="responsive-img1 w-auto h-auto object-contain "
+          />
           <div className="introduce">
-            <div className="title">Most comfortable 2025 PS4 gaming headset</div>
+            <div className="title">
+              Most comfortable 2025 PS4 gaming headset
+            </div>
             <div className="topic">HeadPhone</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX Cloud III Wireless gaming headset.
+              Experience ultimate comfort and immersive sound with the HyperX
+              Cloud III Wireless gaming headset.
             </div>
+            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
+              Shop Now
+            </button>
+
           </div>
         </div>
 
         <div className="item ">
-          <img src={img2} alt="Slide 2" className="responsive-img2 w-auto h-auto object-contain " />
+          <img
+            src={img2}
+            alt="Slide 2"
+            className="responsive-img2 w-auto h-auto object-contain "
+          />
           <div className="introduce w-2000">
-            <div className="title">Most comfortable 2025 PS4 gaming headset</div>
+            <div className="title">
+              Most comfortable 2025 PS4 gaming headset
+            </div>
             <div className="topic">HeadPhone</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX Cloud III Wireless gaming headset.
+              Experience ultimate comfort and immersive sound with the HyperX
+              Cloud III Wireless gaming headset.
             </div>
+            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
+              Shop Now
+            </button>
           </div>
         </div>
 
         <div className="item">
-          <img src={img3} alt="Slide 3" className="responsive-img3 h-auto w-huto object-contain  " />
+          <img
+            src={img3}
+            alt="Slide 3"
+            className="responsive-img3 h-auto w-huto object-contain  "
+          />
           <div className="introduce">
-            <div className="title">Most comfortable 2025 PS4 gaming headset</div>
+            <div className="title">
+              Most comfortable 2025 PS4 gaming headset
+            </div>
             <div className="topic">HeadPhone</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX Cloud III Wireless gaming headset.
+              Experience ultimate comfort and immersive sound with the HyperX
+              Cloud III Wireless gaming headset.
             </div>
+            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
+              Shop Now
+            </button>
           </div>
         </div>
 
         <div className="item">
           <div className="w-full flex justify-center">
-          <img src={img4} alt="Slide 4" className="responsive-img4 w-auto h-auto object-contain " />
+            <img
+              src={img4}
+              alt="Slide 4"
+              className="responsive-img4 w-auto h-auto object-contain "
+            />
           </div>
           <div className="introduce">
-            <div className="title">Most comfortable 2025 PS4 gaming headset</div>
+            <div className="title">
+              Most comfortable 2025 PS4 gaming headset
+            </div>
             <div className="topic">HeadPhone</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX Cloud III Wireless gaming headset.
+              Experience ultimate comfort and immersive sound with the HyperX
+              Cloud III Wireless gaming headset.
             </div>
+            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
+              Shop Now
+            </button>
           </div>
         </div>
       </div>
 
       <div className="arrows">
-        <button id="prev">&lt;</button>
-        <button id="next">&gt;</button>
+        <button id="prev" className="ps-3 text-gray-500 ">
+          <FaArrowLeft />
+        </button>
+        <button id="next" className="ps-3 text-gray-500 ">
+          <FaArrowRight />
+        </button>
       </div>
     </div>
   );

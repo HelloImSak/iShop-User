@@ -15,7 +15,7 @@ const products = [
 export default function PopularCategories() {
   return (
     <>
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8 pt-[30px]">
         Popular Categories
       </h1>
       <div className=" flex justify-center w-full px-[50px]">
