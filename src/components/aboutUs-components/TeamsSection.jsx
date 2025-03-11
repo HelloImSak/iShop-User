@@ -22,7 +22,7 @@ const teams = [
   {
     name: "Nov Raksa",
     role: "UI/UX Design and Front-End",
-    image: Raksa, 
+    image: Raksa,
     social: {
       github: "#",
       linkedin: "#",
@@ -32,7 +32,7 @@ const teams = [
   {
     name: "Ey Channim",
     role: "UI/UX Design and Front-End",
-    image: Channim, 
+    image: Channim,
     social: {
       github: "#",
       linkedin: "#",
@@ -42,7 +42,7 @@ const teams = [
   {
     name: "Heng Nita",
     role: "UI/UX Design and Front-End",
-    image: Nita, 
+    image: Nita,
     social: {
       github: "#",
       linkedin: "#",
@@ -52,7 +52,7 @@ const teams = [
   {
     name: "Thouen Vanly",
     role: "Java app console and Front-End",
-    image: Vanly, 
+    image: Vanly,
     social: {
       github: "#",
       linkedin: "#",
@@ -62,7 +62,7 @@ const teams = [
   {
     name: "Dina Pisethi",
     role: "Java app console and Front-End",
-    image: Pisethi, 
+    image: Pisethi,
     social: {
       github: "#",
       linkedin: "#",
@@ -70,9 +70,9 @@ const teams = [
     },
   },
   {
-    name: "Choeun seyla",
+    name: "Choeun Seyla",
     role: "UI/UX Design and Front-End",
-    image: Seyla, 
+    image: Seyla,
     social: {
       github: "#",
       linkedin: "#",
@@ -82,7 +82,7 @@ const teams = [
   {
     name: "Sokhem Vicheka",
     role: "UI/UX Design and Front-End",
-    image: Vicheka, 
+    image: Vicheka,
     social: {
       github: "#",
       linkedin: "#",
