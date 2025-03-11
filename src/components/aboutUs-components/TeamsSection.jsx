@@ -70,7 +70,7 @@ const teams = [
     },
   },
   {
-    name: "Choeun seyla",
+    name: "Choeun Seyla",
     role: "UI/UX Design and Front-End",
     image: Seyla, 
     social: {

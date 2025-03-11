@@ -3,8 +3,8 @@ import React from 'react'
 export default function BannerPh() {
   return (
     <main>
-    <section className="overflow-hidden px-20 pt-12 pb-19 rounded-[25px] bg-stone-950 max-md:px-5 max-md:pb-24 mt-[32px] mx-[100px]">
-      <div className="flex gap-5 max-md:flex-col">
+    <section className="flex justify-center pt-[32px] px-20 pb-19 rounded-[25px] bg-stone-950 max-md:px-5 max-md:pb-24 mt-[32px] mx-[100px]">
+      <div className="flex gap-5 flex-rom max-md:flex-col">
         <div className="w-[26%] max-md:ml-0 max-md:w-full">
           <ProductImage
             imageSrc="https://cdn.builder.io/api/v1/image/assets/TEMP/893f36fb49243b9de1c012f819bac46a33d8db1611019a37a69ea9f1dd539eb1?placeholderIfAbsent=true&apiKey=5cd3de3f08094ca3afe2694744931c58"
@@ -26,9 +26,6 @@ export default function BannerPh() {
         </div>
       </div>
     </section>
-    <h2 className="font-semibold text-center mb-10 text-primary text-4xl sm:text-3xl md:text-4xl">
-      Phone
-    </h2>
   </main>
 );
 }

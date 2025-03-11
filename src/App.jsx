@@ -1,10 +1,12 @@
 import "./App.css";
-import ProductPhone from "./components/ProductPhoneCom/ProductPhone";
+
+
 
 import AppRoutes from "./routes/AppRoutes";
 function App() {
-  // return <AppRoutes />;
-  return <ProductPhone/>
+  return <AppRoutes />;
+ 
+  
 }
 
 export default App;
