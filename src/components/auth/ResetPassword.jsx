@@ -184,7 +184,7 @@ const ResetPassword = () => {
               <button
                 type="button"
                 onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-gray-300"
+                className="absolute right-3 top-[33px] transform -translate-y-1/2 text-gray-600 dark:text-gray-300"
               >
                 {passwordVisible ? (
                   <FaRegEyeSlash size={20} />
@@ -227,7 +227,7 @@ const ResetPassword = () => {
               <button
                 type="button"
                 onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-gray-300"
+                className="absolute right-3 top-[33px] transform -translate-y-1/2 text-gray-600 dark:text-gray-300"
               >
                 {passwordVisible ? (
                   <FaRegEyeSlash size={20} />

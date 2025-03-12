@@ -13,10 +13,39 @@ export const cartApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+    addToCart: builder.mutation({
+      query: ({ userUuid, productUuid, quantity }) => ({
+        url: "/api/v1/carts/add-to-cart",
+        method: "POST",
+        body: { userUuid, productUuid, quantity },
+      }),
+    }),
+
     getUserCart: builder.query({
       query: (userId) => `/api/v1/carts/get-by-user/${userId}`,
+    }),
+
+    removeQtyByOne: builder.mutation({
+      query: (uuid) => ({
+        url: `/api/v1/carts/remove-quantity/${uuid}`,
+        method: "PUT",
+      }),
+    }),
+
+    addQtyByOne: builder.mutation({
+      query: (uuid) => ({
+        url: `/api/v1/carts/add-quantity/${uuid}`,
+        method: "PUT",
+      }),
+    }),
+
+    removeAllItems: builder.mutation({
+      query: (cartUuid) => ({
+        url: `/api/v1/carts/${cartUuid}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
 
-export const {useGetUserCartQuery} = cartApi;
+export const { useGetUserCartQuery, useAddToCartMutation, useRemoveQtyByOneMutation, useAddQtyByOneMutation, useRemoveAllItemsMutation } = cartApi;
