@@ -11,7 +11,7 @@ export default function DiscountProduct() {
         Discount Products
       </h1>
       <div className="w-full px-[50px]">
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-[30px] mb-8">
           {proDis?.content?.map((e) => (
             <CardDisCom
               key={e?.uuid}
