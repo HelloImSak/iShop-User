@@ -129,6 +129,12 @@ export default function AppRoutes() {
             <Route path="/brand" element={<Brand />} />
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/phone" element={<Category />} />
+            <Route path="/laptop" element={<Category />} />
+            <Route path="/desktop" element={<Category />} />
+            <Route path="/keyboard" element={<Category />} />
+            <Route path="/mouse" element={<Category />} />
+            <Route path="/headphone" element={<Category />} />
+            <Route path="/speaker" element={<Category />} />
             <Route path="/product-detail/:uuid" element={<Detail />} />
             <Route
               path="/shopping-cart"
