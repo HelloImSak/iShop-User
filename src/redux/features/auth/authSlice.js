@@ -28,6 +28,14 @@ export const authApi = createApi({
       }),
     }),
 
+    refreshToken: builder.mutation({
+      query: (refreshToken) => ({
+        url: "/api/v1/auth/refresh",
+        method: "POST",
+        body: { refreshToken },
+      }),
+    }),
+
     userRegister: builder.mutation({
       query: ({
         username,

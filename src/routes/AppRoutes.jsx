@@ -43,13 +43,13 @@ export default function AppRoutes() {
   } = useGetAllQuery();
 
   // Fetch cart data using the user's UUID
-  const userId = userData?.uuid; // uuid is in userData
+  const userUuid = userData?.uuid; // uuid is in userData
   const {
     data: cartData,
     error: cartError,
     isLoading: cartLoading,
-  } = useGetUserCartQuery(userId, {
-    skip: !userId || !isLoggedIn, // Skip if no userId or not logged in
+  } = useGetUserCartQuery(userUuid, {
+    skip: !userUuid || !isLoggedIn, // Skip if no userId or not logged in
   });
   useEffect(() => {
     if (error) {
@@ -70,8 +70,8 @@ export default function AppRoutes() {
         0
       );
       setCartItems(totalQuantity);
-      console.log("Cart Data:", cartData);
-      console.log("Total Quantity:", totalQuantity);
+      // console.log("Cart Data:", cartData);
+      // console.log("Total Quantity:", totalQuantity);
     }
     if (cartError) {
       console.error("Failed to fetch cart:", cartError);
@@ -130,7 +130,10 @@ export default function AppRoutes() {
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/phone" element={<Category />} />
             <Route path="/product-detail/:uuid" element={<Detail />} />
-            <Route path="/shopping-cart" element={<ShoppingCart />} />
+            <Route
+              path="/shopping-cart"
+              element={<ShoppingCart userUuid={userUuid} />}
+            />
 
             <Route
               path="/profile-setting"

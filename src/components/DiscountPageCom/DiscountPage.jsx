@@ -1,5 +1,5 @@
 import React from "react";
-import FilterCom from "./FilterCom";
+import FilterDis from "../AllProductCom/FilterDis";
 import CardDisCom from "../cart/CardDisCom";
 import { useGetAllQuery } from "../../redux/service/product/productSlice";
 import BannerDis from "./BannerDis";
@@ -21,7 +21,7 @@ export default function DiscountPage() {
 
           <div className="flex flex-col lg:flex-row gap-16">
             {/* Sidebar Filter */}
-            <FilterCom />
+            <FilterDis />
 
             {/* Product Grid */}
             <div className="w-full lg:w-3/4">
