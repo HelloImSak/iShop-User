@@ -206,7 +206,7 @@ const RegisterForm = () => {
           </div>
           <form
             onSubmit={fieldRegister.handleSubmit}
-            className="mt-8 grid grid-cols-6 gap-6"
+            className="mt-8 grid grid-cols-6 lg:gap-6 gap-4"
           >
             <div className="col-span-6 sm:col-span-3">
               <div className="relative">
@@ -362,7 +362,7 @@ const RegisterForm = () => {
                   )}
                 </button>
               </div>
-              <div className="h-[10px] ml-1 mb-7">
+              <div className="h-[10px] ml-1 lg:mb-7 mb-2">
                 {fieldRegister.errors.password &&
                   fieldRegister.touched.password && (
                     <div className="text-accent_1 lg:text-sm text-tiny">
