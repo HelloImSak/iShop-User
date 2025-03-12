@@ -5,6 +5,7 @@ import { brandApi } from "./features/brand/brandSlice";
 import { imageApi } from "./features/images/imgSlice";
 import { cartApi } from "./service/cart/cartSlice";
 import { productApi } from "./service/product/productSlice";
+import { categoriesApi } from "./service/category/categorySlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     [cartApi.reducerPath]: cartApi.reducer,
     [imageApi.reducerPath]: imageApi.reducer,
     [brandApi.reducerPath]: brandApi.reducer,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -21,7 +23,8 @@ export const store = configureStore({
       brandApi.middleware,
       authApi.middleware,
       cartApi.middleware,
-      imageApi.middleware
+      imageApi.middleware,
+      categoriesApi.middleware
     ),
 });
 setupListeners(store.dispatch);
