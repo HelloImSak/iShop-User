@@ -10,9 +10,8 @@ export default function AllProductPage() {
   return (
     <main className="min-h-screen pt-8 md:pt-16">
       <BannerAllPro />
-
-      <div className="container mx-auto py-10 px-4 sm:px-8 md:px-[50px] lg:px-[80px] xl:px-[100px]">
-        <div className="flex flex-col lg:flex-row gap-[30px]">
+      <div className="container w-full mx-auto py-10  max-w-[1425px] px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row gap-10">
           {/* Sidebar Filter */}
           <div className="w-full lg:w-1/4 xl:w-1/5">
             <FilterDis />
@@ -20,7 +19,7 @@ export default function AllProductPage() {
 
           {/* Product Grid */}
           <div className="w-full lg:w-3/4 xl:w-4/5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {proAll?.content?.map((e) => (
                 <CardCom
                   key={e?.uuid}
