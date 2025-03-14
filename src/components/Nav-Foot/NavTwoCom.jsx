@@ -223,14 +223,14 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
 
               {isLoggedIn ? (
                 <div className="flex items-center gap-5">
-                  <a href="/cart" className="relative">
+                  <NavLink to="/shopping-cart" className="relative">
                     <BsCart className="text-white text-xl hover:text-secondary" />
                     {cartItems > 0 && (
                       <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full px-1.5">
                         {cartItems}
                       </span>
                     )}
-                  </a>
+                  </NavLink>
                   <div className="relative">
                     <button
                       type="button"
@@ -424,14 +424,14 @@ const NavTwoCom = ({ isLoggedIn, profile, cartItems, user }) => {
             {/* Desktop Login/Cart/Profile */}
             {isLoggedIn ? (
               <div className="flex items-center gap-6">
-                <a href="/cart" className="relative">
+                <NavLink to="/shopping-cart" className="relative">
                   <BsCart className="text-white text-2xl hover:text-secondary" />
                   {cartItems > 0 && (
                     <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full px-2">
                       {cartItems}
                     </span>
                   )}
-                </a>
+                </NavLink>
                 <div className="relative">
                   <button
                     type="button"
