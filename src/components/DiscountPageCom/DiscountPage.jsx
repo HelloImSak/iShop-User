@@ -12,20 +12,21 @@ export default function DiscountPage() {
 
   return (
     <>
-      <main className="min-h-screen pt-8 md:pt-16">
+      <main className="w-full min-h-screen pt-8 md:pt-16">
         <BannerDis />
-        <div className="container mx-auto py-10 w-full max-w-[1425px] px-4 sm:px-6 lg:px-8">
-          <h2 className="font-bold text-center mb-10 text-primary text-2xl sm:text-3xl md:text-4xl">
+        <div className=" py-10 w-full  px-4 sm:px-6 lg:px-8">
+          <h2 className="font-bold text-center mb-10 text-primary text-2xl sm:text-3xl md:text-4xl  py-7 ">
             Best Price Products
           </h2>
 
-          <div className="flex flex-col lg:flex-row gap-16">
+          <div className="flex flex-col w-full lg:flex-row gap-10 lg:gap-5 xl:gap-5">
             {/* Sidebar Filter */}
             <FilterDis />
 
             {/* Product Grid */}
-            <div className="w-full lg:w-3/4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+            <div className="w-full ">
+              <div className="grid sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[30px] mb-8">
                 {proDis?.content?.map((e) => (
                   <CardDisCom
                     key={e?.uuid}

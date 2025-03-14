@@ -28,7 +28,7 @@ const mentors = [
 
 const MentorsSection = () => {
   return (
-    <section className="text-center py-12 ">
+    <section className="text-center py-8 ">
       <h2 className="text-4xl font-bold text-primary mb-10">
         Meet Our Mentors
       </h2>

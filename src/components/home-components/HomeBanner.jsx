@@ -144,10 +144,10 @@ const HomeBanner = () => {
       </div>
 
       <div className="arrows">
-        <button id="prev" className="xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[6px] text-gray-500 ">
+        <button id="prev" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[6px] text-gray-500 ">
           <FaArrowLeft />
         </button>
-        <button id="next" className="xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[7px] text-gray-500 ">
+        <button id="next" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[7px] text-gray-500 ">
           <FaArrowRight />
         </button>
       </div>

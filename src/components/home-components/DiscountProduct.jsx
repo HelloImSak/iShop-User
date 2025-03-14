@@ -10,8 +10,8 @@ export default function DiscountProduct() {
       <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-[50px]  pt-[30px]">
         Discount Products
       </h1>
-      <div className="w-full px-[50px]">
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-[30px] mb-8">
+      <div className="w-full px-[50px] pt-[30px]">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6 gap-[30px] mb-8">
           {proDis?.content?.map((e) => (
             <CardDisCom
               key={e?.uuid}

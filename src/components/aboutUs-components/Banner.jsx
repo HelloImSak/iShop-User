@@ -2,42 +2,45 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <section className="overflow-hidden pt-4 pl-16 rounded-3xl bg-neutral-100 max-md:pl-5 mx-[50px]">
-      <div className="flex gap-5 max-md:flex-col">
-        <div className="w-[48%] max-md:ml-0 max-md:w-full">
+    <section className="overflow-hidden rounded-3xl bg-neutral-100 min-w-[300px] mx-[20px] sm:mx-[20px] 2xl:ps-3 sm:p-1 md:p-2 lg:p-3 xl:p-3">
+      <div className="flex gap-3 2xl:gap-8 sm:gap-0 flex-row max-md:flex-row items-center">
+        <div className="w-[65%] 2xl:w-[60%]   max-md:w-[55%] 2xl:ps-20   sm:me-[15px] max-md:ml-0">
           <BannerContent />
         </div>
-        <div className="ml-5 w-[42%] max-md:ml-0 max-md:w-full">
+        <div className="w-[35%] max-md:w-[45%] max-md:flex max-md:justify-center">
           <BannerImage />
         </div>
       </div>
     </section>
   );
 };
+
 function BannerContent() {
   return (
-    <article className="flex flex-col justify-center items-start self-stretch h-[470px] w-full max-md:mt-10 max-md:max-w-full">
-      <h1 className="self-stretch text-4xl font-bold text-blue-950 max-md:max-w-full">
+    <article className="flex flex-col justify-center items-start self-stretch 2xl:h-[400px] xl:h-[400px] lg:h-[290px] md:h-[250px] sm:h-auto w-full max-md:mt-1 max-md:max-w-full">
+      <h1 className="self-stretch font-OpenSanBold 2xl:text-5xl xl:text-4xl lg:text-3xl md:text-3xl sm:text-2xl ps-4 font-bold text-blue-950 max-md:max-w-full">
         Welcome to iShop – Your Ultimate Tech Destination!
       </h1>
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/552ad159bf5a52f8a307fef046abeac3c478bf65f05491367186fb78e52936b5?placeholderIfAbsent=true&apiKey=5cd3de3f08094ca3afe2694744931c58"
-        alt="iShop banner graphic"
-        className="object-contain mt-5 max-w-full aspect-[6.54] w-[600px]"
-      />
-      <button className="bg-primary text-white px-4 py-2  mt-7 sm:px-6 sm:py-3 rounded-md font-semibold hover:bg-secondary text-sm sm:text-lg">
+      <p className="mt-2 text-gray-600 xl:text-[20px] lg:text-[20px] 2xl:text-[20px] sm:text-[12px] text-[10px] font-OpenSan md:text-base max-md:max-w-full ps-4">
+        At iShop, we are passionate about technology and innovation. Our goal is
+        to make the latest and best electronic products accessible to everyone
+        at affordable prices.
+      </p>
+      <button className="bg-primary text-white  sm:ps-4 sm:px-3  sm:py-2 md:text-lg md:text-[16px] sm:text-[10px] font-OpenSan rounded-md font-semibold hover:bg-secondary  max-md:px-4 max-md:py-2 max-md:text-[10px]  sm:my-5  sm:mx-7 mb-4 mx-4 ">
         Shop Now
       </button>
     </article>
   );
 }
+
 function BannerImage() {
   return (
     <img
       src="https://cdn.builder.io/api/v1/image/assets/TEMP/63da7c2c8aa5825125e7a0bf0d77c5612bebf4d4141bd3e5132ae5ce72d84387?placeholderIfAbsent=true&apiKey=5cd3de3f08094ca3afe2694744931c58"
       alt="Tech products showcase"
-      className="object-cover grow w-[80%]  max-md:mt-10 max-md:max-w-full"
+      className="object-contain 2xl:w-[80%] xl:w-[80%] lg:w-[80%] md:w-[80%] sm:w-[90%] max-md:w-[100%] max-md:h-auto max-md:max-w-[200px]"
     />
   );
 }
+
 export default Banner;
