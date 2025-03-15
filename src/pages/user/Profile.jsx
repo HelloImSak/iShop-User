@@ -4,13 +4,15 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaBars, FaRegEyeSlash, FaTimes } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router-dom"; // Import NavLink
 import * as Yup from "yup";
 import {
   useUpdatePasswordMutation,
   useUpdateProfileMutation,
 } from "../../redux/features/auth/authSlice";
 import { useUploadImageMutation } from "../../redux/features/images/imgSlice";
+import { useGetAllOrderQuery } from "../../redux/service/order/orderSlice";
+import OrderHistory from "./OrderHistory"; // Import OrderHistory component (adjust path as needed)
 
 function Profile({ user }) {
   const [preview, setPreview] = useState(null);
@@ -20,11 +22,15 @@ function Profile({ user }) {
     confirmPassword: false,
   });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("profile"); // State to track active section
   const navigate = useNavigate();
 
   const [uploadImage] = useUploadImageMutation();
-  const [updateProfile, { isLoading, isError }] = useUpdateProfileMutation();
-  const [updatePassword, { isLoading: passLoading, isError: passError }] =
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const { data: orderData } = useGetAllOrderQuery(
+    user?.uuid || localStorage.getItem("userUuid")
+  );
+  const [updatePassword, { isLoading: passLoading }] =
     useUpdatePasswordMutation();
   const userUuid = user?.uuid || localStorage.getItem("userUuid");
 
@@ -39,11 +45,7 @@ function Profile({ user }) {
         linkAddress: user.address?.linkAddress || "",
         profile: "",
       });
-
-      // Set profile preview if user has a profile image
-      if (user.profile) {
-        setPreview(user.profile);
-      }
+      if (user.profile) setPreview(user.profile);
     }
   }, [user]);
 
@@ -84,7 +86,6 @@ function Profile({ user }) {
         }
 
         let profileUri = user?.profile || "";
-
         if (values.profile && typeof values.profile !== "string") {
           const formData = new FormData();
           formData.append("file", values.profile);
@@ -104,36 +105,16 @@ function Profile({ user }) {
           profile: profileUri,
         };
 
-        console.log("Sending update data:", { uuid: userUuid, ...updateData });
-
-        const response = await updateProfile({
-          uuid: userUuid,
-          ...updateData,
-        }).unwrap();
-        console.log("Update response:", response);
-
+        await updateProfile({ uuid: userUuid, ...updateData }).unwrap();
         toast.success("Profile Updated Successfully");
-        navigate("/profile-setting");
+        setActiveSection("profile"); // Stay on profile section after save
       } catch (err) {
         console.error("Update profile error:", err);
-        // Handle specific field errors from the server
-        if (err?.data?.error?.description) {
-          const errorDescription = err.data.error.description;
-          if (errorDescription.username) {
-            toast.error(`Username error: ${errorDescription.username}`);
-          } else if (errorDescription.phoneNumber) {
-            toast.error(`Phone number error: ${errorDescription.phoneNumber}`);
-          } else {
-            toast.error("Failed to update profile: Invalid data");
-          }
-        } else {
-          toast.error(err?.data?.message || "Failed to update profile");
-        }
+        toast.error(err?.data?.message || "Failed to update profile");
       }
     },
   });
 
-  // Password Form
   const passwordFormik = useFormik({
     initialValues: {
       oldPassword: "",
@@ -171,51 +152,18 @@ function Profile({ user }) {
 
         const updateData = {
           uuid: userUuid,
-          oldPassword: values.oldPassword, // Fixed: Changed from values.password to values.oldPassword
+          oldPassword: values.oldPassword,
           newPassword: values.newPassword,
           confirmPassword: values.confirmPassword,
         };
 
-        console.log("Submitting password update:", updateData);
-
-        // Call the updatePassword mutation
-        const response = await updatePassword(updateData).unwrap();
-        console.log("Password update response:", response);
-
+        await updatePassword(updateData).unwrap();
         toast.success("Password updated successfully!");
         passwordFormik.resetForm();
-        navigate("/login");
+        navigate("/login"); // Navigate to login after password change
       } catch (err) {
         console.error("Update password error:", err);
-        // Handle specific error messages from the server
-        if (err?.data?.error?.description) {
-          const errorDescription = err.data.error.description;
-          if (errorDescription.oldPassword) {
-            passwordFormik.setFieldError(
-              "oldPassword",
-              errorDescription.oldPassword
-            );
-            toast.error(`Old password error: ${errorDescription.oldPassword}`);
-          } else if (errorDescription.newPassword) {
-            passwordFormik.setFieldError(
-              "newPassword",
-              errorDescription.newPassword
-            );
-            toast.error(`New password error: ${errorDescription.newPassword}`);
-          } else if (errorDescription.confirmPassword) {
-            passwordFormik.setFieldError(
-              "confirmPassword",
-              errorDescription.confirmPassword
-            );
-            toast.error(
-              `Confirm password error: ${errorDescription.confirmPassword}`
-            );
-          } else {
-            toast.error("Failed to update password: Invalid data");
-          }
-        } else {
-          toast.error(err?.data?.message || "Failed to update password");
-        }
+        toast.error(err?.data?.message || "Failed to update password");
       }
     },
   });
@@ -230,21 +178,13 @@ function Profile({ user }) {
 
   const isFilled = (value) => value && value.trim() !== "";
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const togglePasswordVisibility = (field) => {
-    setPasswordVisible((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
-  };
+  const togglePasswordVisibility = (field) =>
+    setPasswordVisible((prev) => ({ ...prev, [field]: !prev[field] }));
 
   const handleSignOut = () => {
-    toast.success("Log-Out Successful!", {
-      icon: "✅",
-    });
+    toast.success("Log-Out Successful!", { icon: "✅" });
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userUuid");
     navigate("/");
@@ -261,8 +201,382 @@ function Profile({ user }) {
     window.location.reload();
   };
 
+  // Render the appropriate section based on activeSection
+  const renderSection = () => {
+    switch (activeSection) {
+      case "profile":
+        return (
+          <form onSubmit={infoForm.handleSubmit} className="md:px-6 mb-10">
+            <div className="flex flex-col items-start mb-8">
+              <div className="relative">
+                <img
+                  src={
+                    preview ||
+                    "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                  }
+                  alt="profile"
+                  className="object-cover w-32 h-32 rounded-full border-4 border-gray-200 shadow-md"
+                />
+                <label
+                  htmlFor="profile-upload"
+                  className="absolute bottom-0 right-0 bg-red-600 text-white text-xs font-medium px-2 py-1 rounded-full cursor-pointer hover:bg-red-700 transition-colors duration-200"
+                >
+                  Edit
+                </label>
+                <input
+                  id="profile-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
+              {infoForm.errors.profile && infoForm.touched.profile && (
+                <div className="text-red-500 text-sm mt-2">
+                  {infoForm.errors.profile}
+                </div>
+              )}
+            </div>
+
+            <h3 className="text-xl md:text-2xl font-semibold text-red-600 mb-6">
+              Edit Your Profile
+            </h3>
+
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  value={infoForm.values.username}
+                  onChange={infoForm.handleChange}
+                  onBlur={infoForm.handleBlur}
+                  placeholder="Enter username"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(infoForm.values.username) &&
+                    !infoForm.errors.username
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                {infoForm.errors.username && infoForm.touched.username && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {infoForm.errors.username}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={infoForm.values.phoneNumber}
+                  onChange={infoForm.handleChange}
+                  onBlur={infoForm.handleBlur}
+                  placeholder="Enter phone number"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(infoForm.values.phoneNumber) &&
+                    !infoForm.errors.phoneNumber
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                {infoForm.errors.phoneNumber &&
+                  infoForm.touched.phoneNumber && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {infoForm.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Address Line 1
+                </label>
+                <input
+                  type="text"
+                  name="addressLine1"
+                  value={infoForm.values.addressLine1}
+                  onChange={infoForm.handleChange}
+                  onBlur={infoForm.handleBlur}
+                  placeholder="Enter address line 1"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(infoForm.values.addressLine1) &&
+                    !infoForm.errors.addressLine1
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                {infoForm.errors.addressLine1 &&
+                  infoForm.touched.addressLine1 && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {infoForm.errors.addressLine1}
+                    </div>
+                  )}
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Address Line 2
+                </label>
+                <input
+                  type="text"
+                  name="addressLine2"
+                  value={infoForm.values.addressLine2}
+                  onChange={infoForm.handleChange}
+                  onBlur={infoForm.handleBlur}
+                  placeholder="Enter address line 2"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(infoForm.values.addressLine2) &&
+                    !infoForm.errors.addressLine2
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                {infoForm.errors.addressLine2 &&
+                  infoForm.touched.addressLine2 && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {infoForm.errors.addressLine2}
+                    </div>
+                  )}
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Road
+                </label>
+                <input
+                  type="text"
+                  name="road"
+                  value={infoForm.values.road}
+                  onChange={infoForm.handleChange}
+                  onBlur={infoForm.handleBlur}
+                  placeholder="Enter road"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(infoForm.values.road) && !infoForm.errors.road
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                {infoForm.errors.road && infoForm.touched.road && (
+                  <div className="text-red-500 text-sm mt-1">
+                    {infoForm.errors.road}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Google Map Link
+                </label>
+                <input
+                  type="text"
+                  name="linkAddress"
+                  value={infoForm.values.linkAddress}
+                  onChange={infoForm.handleChange}
+                  onBlur={infoForm.handleBlur}
+                  placeholder="Enter Google Map link"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(infoForm.values.linkAddress) &&
+                    !infoForm.errors.linkAddress
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                {infoForm.errors.linkAddress &&
+                  infoForm.touched.linkAddress && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {infoForm.errors.linkAddress}
+                    </div>
+                  )}
+              </div>
+            </section>
+
+            <div className="flex gap-6 items-center justify-end mt-10">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="px-6 py-2 text-gray-700 font-medium rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="px-6 py-2 text-white font-medium rounded-md border border-gray-300 bg-accent_1 hover:bg-primary transition-colors duration-200"
+              >
+                {isLoading ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </form>
+        );
+      case "password":
+        return (
+          <form onSubmit={passwordFormik.handleSubmit} className="px-0 md:px-6">
+            <h3 className="text-xl md:text-2xl font-semibold text-red-600 mb-6">
+              Change Password
+            </h3>
+
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="relative">
+                <label className="block text-gray-700 font-medium mb-1">
+                  Old Password
+                </label>
+                <input
+                  type={passwordVisible.oldPassword ? "text" : "password"}
+                  name="oldPassword"
+                  value={passwordFormik.values.oldPassword}
+                  onChange={passwordFormik.handleChange}
+                  onBlur={passwordFormik.handleBlur}
+                  placeholder="Enter old password"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(passwordFormik.values.oldPassword) &&
+                    !passwordFormik.errors.oldPassword
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
+                  onClick={() => togglePasswordVisibility("oldPassword")}
+                >
+                  {passwordVisible.oldPassword ? (
+                    <FaRegEyeSlash size={20} />
+                  ) : (
+                    <IoEyeOutline size={20} />
+                  )}
+                </button>
+                {passwordFormik.errors.oldPassword &&
+                  passwordFormik.touched.oldPassword && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {passwordFormik.errors.oldPassword}
+                    </div>
+                  )}
+              </div>
+
+              <div className="relative">
+                <label className="block text-gray-700 font-medium mb-1">
+                  New Password
+                </label>
+                <input
+                  type={passwordVisible.newPassword ? "text" : "password"}
+                  name="newPassword"
+                  value={passwordFormik.values.newPassword}
+                  onChange={passwordFormik.handleChange}
+                  onBlur={passwordFormik.handleBlur}
+                  placeholder="Enter new password"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(passwordFormik.values.newPassword) &&
+                    !passwordFormik.errors.newPassword
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
+                  onClick={() => togglePasswordVisibility("newPassword")}
+                >
+                  {passwordVisible.newPassword ? (
+                    <FaRegEyeSlash size={20} />
+                  ) : (
+                    <IoEyeOutline size={20} />
+                  )}
+                </button>
+                {passwordFormik.errors.newPassword &&
+                  passwordFormik.touched.newPassword && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {passwordFormik.errors.newPassword}
+                    </div>
+                  )}
+              </div>
+
+              <div className="relative">
+                <label className="block text-gray-700 font-medium mb-1">
+                  Confirm New Password
+                </label>
+                <input
+                  type={passwordVisible.confirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={passwordFormik.values.confirmPassword}
+                  onChange={passwordFormik.handleChange}
+                  onBlur={passwordFormik.handleBlur}
+                  placeholder="Confirm new password"
+                  className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
+                    isFilled(passwordFormik.values.confirmPassword) &&
+                    !passwordFormik.errors.confirmPassword
+                      ? "bg-red-50"
+                      : "bg-white"
+                  }`}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
+                  onClick={() => togglePasswordVisibility("confirmPassword")}
+                >
+                  {passwordVisible.confirmPassword ? (
+                    <FaRegEyeSlash size={20} />
+                  ) : (
+                    <IoEyeOutline size={20} />
+                  )}
+                </button>
+                {passwordFormik.errors.confirmPassword &&
+                  passwordFormik.touched.confirmPassword && (
+                    <div className="text-red-500 text-sm mt-1">
+                      {passwordFormik.errors.confirmPassword}
+                    </div>
+                  )}
+              </div>
+            </section>
+
+            <div className="flex gap-6 items-center justify-end mt-10">
+              <button
+                type="button"
+                onClick={() => {
+                  passwordFormik.resetForm();
+                  setActiveSection("profile");
+                }}
+                className="px-6 py-2 text-gray-700 font-medium rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={passLoading}
+                className="px-4 py-2 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-accent_1 hover:bg-primary transition-colors duration-200"
+              >
+                {passLoading ? "Updating..." : "Update Password"}
+              </button>
+            </div>
+            <div className="flex gap-6 items-center justify-end mt-16">
+              <button
+                type="button"
+                onClick={async () => {
+                  await passwordFormik.submitForm();
+                  if (!passwordFormik.errors && !passLoading) handleExit();
+                }}
+                className="px-6 py-3 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-blue-700 hover:bg-primary transition-colors duration-200"
+              >
+                Save & Exit
+              </button>
+            </div>
+          </form>
+        );
+      case "orders":
+        return <OrderHistory user={user} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-gray-50 md:px-20 lg:px-0 pt-24 pb-16">
+    <main className="min-h-screen md:px-20 lg:px-0 pt-24 pb-16">
       <div className="mx-[50px] items-center lg:mx-[100px] xl:mx-[100px] 2xl:mx-[100px]">
         <div className="flex mt-32">
           {/* Sidebar - Left Column */}
@@ -286,24 +600,59 @@ function Profile({ user }) {
                 </button>
               </div>
               <div className="flex flex-col gap-4">
-                <a
-                  href="#"
-                  className="text-sm font-medium text-accent_1 hover:text-accent_1 transition-colors duration-200"
+                <NavLink
+                  to="#"
+                  onClick={() => setActiveSection("profile")}
+                  className={({ isActive }) =>
+                    `text-sm font-medium transition-colors duration-200 text-left ${
+                      activeSection === "profile"
+                        ? "text-accent_1"
+                        : "text-black_50 hover:text-accent_1"
+                    }`
+                  }
                 >
                   My Profile
-                </a>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-black_50 hover:text-accent_1 transition-colors duration-200"
+                </NavLink>
+                <NavLink
+                  to="#"
+                  onClick={() => setActiveSection("password")}
+                  className={({ isActive }) =>
+                    `text-sm font-medium transition-colors duration-200 text-left ${
+                      activeSection === "password"
+                        ? "text-accent_1"
+                        : "text-black_50 hover:text-accent_1"
+                    }`
+                  }
                 >
-                  Orders History
-                </a>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-black_50 hover:text-accent_1 transition-colors duration-200"
+                  Change Password
+                </NavLink>
+                <NavLink
+                  to="#"
+                  onClick={() => setActiveSection("orders")}
+                  className={({ isActive }) =>
+                    `text-sm font-medium transition-colors duration-200 text-left ${
+                      activeSection === "orders"
+                        ? "text-accent_1"
+                        : "text-black_50 hover:text-accent_1"
+                    }`
+                  }
+                >
+                  Orders History{" "}
+                  {orderData?.length > 0 && `(${orderData.length})`}
+                </NavLink>
+                <NavLink
+                  to="#"
+                  onClick={() => setActiveSection("search")}
+                  className={({ isActive }) =>
+                    `text-sm font-medium transition-colors duration-200 text-left ${
+                      activeSection === "search"
+                        ? "text-accent_1"
+                        : "text-black_50 hover:text-accent_1"
+                    }`
+                  }
                 >
                   Search History
-                </a>
+                </NavLink>
               </div>
               <button
                 onClick={handleSignOut}
@@ -334,369 +683,8 @@ function Profile({ user }) {
                 </button>
               </div>
 
-              <form onSubmit={infoForm.handleSubmit} className="md:px-6 mb-10">
-                <div className="flex flex-col items-start mb-8">
-                  <div className="relative">
-                    <img
-                      src={
-                        preview ||
-                        "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
-                      }
-                      alt="profile"
-                      className="object-cover w-32 h-32 rounded-full border-4 border-gray-200 shadow-md"
-                    />
-                    <label
-                      htmlFor="profile-upload"
-                      className="absolute bottom-0 right-0 bg-red-600 text-white text-xs font-medium px-2 py-1 rounded-full cursor-pointer hover:bg-red-700 transition-colors duration-200"
-                    >
-                      Edit
-                    </label>
-                    <input
-                      id="profile-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                  </div>
-                  {infoForm.errors.profile && infoForm.touched.profile && (
-                    <div className="text-red-500 text-sm mt-2">
-                      {infoForm.errors.profile}
-                    </div>
-                  )}
-                </div>
-
-                <h3 className="text-xl md:text-2xl font-semibold text-red-600 mb-6">
-                  Edit Your Profile
-                </h3>
-
-                <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Username
-                    </label>
-                    <input
-                      type="text"
-                      name="username"
-                      value={infoForm.values.username}
-                      onChange={infoForm.handleChange}
-                      onBlur={infoForm.handleBlur}
-                      placeholder="Enter username"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(infoForm.values.username) &&
-                        !infoForm.errors.username
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    {infoForm.errors.username && infoForm.touched.username && (
-                      <div className="text-red-500 text-sm mt-1">
-                        {infoForm.errors.username}
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      value={infoForm.values.phoneNumber}
-                      onChange={infoForm.handleChange}
-                      onBlur={infoForm.handleBlur}
-                      placeholder="Enter phone number"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(infoForm.values.phoneNumber) &&
-                        !infoForm.errors.phoneNumber
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    {infoForm.errors.phoneNumber &&
-                      infoForm.touched.phoneNumber && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {infoForm.errors.phoneNumber}
-                        </div>
-                      )}
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Address Line 1
-                    </label>
-                    <input
-                      type="text"
-                      name="addressLine1"
-                      value={infoForm.values.addressLine1}
-                      onChange={infoForm.handleChange}
-                      onBlur={infoForm.handleBlur}
-                      placeholder="Enter address line 1"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(infoForm.values.addressLine1) &&
-                        !infoForm.errors.addressLine1
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    {infoForm.errors.addressLine1 &&
-                      infoForm.touched.addressLine1 && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {infoForm.errors.addressLine1}
-                        </div>
-                      )}
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Address Line 2
-                    </label>
-                    <input
-                      type="text"
-                      name="addressLine2"
-                      value={infoForm.values.addressLine2}
-                      onChange={infoForm.handleChange}
-                      onBlur={infoForm.handleBlur}
-                      placeholder="Enter address line 2"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(infoForm.values.addressLine2) &&
-                        !infoForm.errors.addressLine2
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    {infoForm.errors.addressLine2 &&
-                      infoForm.touched.addressLine2 && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {infoForm.errors.addressLine2}
-                        </div>
-                      )}
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Road
-                    </label>
-                    <input
-                      type="text"
-                      name="road"
-                      value={infoForm.values.road}
-                      onChange={infoForm.handleChange}
-                      onBlur={infoForm.handleBlur}
-                      placeholder="Enter road"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(infoForm.values.road) && !infoForm.errors.road
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    {infoForm.errors.road && infoForm.touched.road && (
-                      <div className="text-red-500 text-sm mt-1">
-                        {infoForm.errors.road}
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Google Map Link
-                    </label>
-                    <input
-                      type="text"
-                      name="linkAddress"
-                      value={infoForm.values.linkAddress}
-                      onChange={infoForm.handleChange}
-                      onBlur={infoForm.handleBlur}
-                      placeholder="Enter Google Map link"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(infoForm.values.linkAddress) &&
-                        !infoForm.errors.linkAddress
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    {infoForm.errors.linkAddress &&
-                      infoForm.touched.linkAddress && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {infoForm.errors.linkAddress}
-                        </div>
-                      )}
-                  </div>
-                </section>
-
-                <div className="flex gap-6 items-center justify-end mt-10">
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="px-6 py-2 text-gray-700 font-medium rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="px-6 py-2 text-white font-medium rounded-md border border-gray-300 bg-accent_1 hover:bg-primary transition-colors duration-200"
-                  >
-                    {isLoading ? "Saving..." : "Save Changes"}
-                  </button>
-                </div>
-              </form>
-
-              {/* Password Update Form */}
-              <form
-                onSubmit={passwordFormik.handleSubmit}
-                className="px-0 md:px-6"
-              >
-                <h3 className="text-xl md:text-2xl font-semibold text-red-600 mb-6">
-                  Change Password
-                </h3>
-
-                <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="relative">
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Old Password
-                    </label>
-                    <input
-                      type={passwordVisible.oldPassword ? "text" : "password"}
-                      name="oldPassword"
-                      value={passwordFormik.values.oldPassword}
-                      onChange={passwordFormik.handleChange}
-                      onBlur={passwordFormik.handleBlur}
-                      placeholder="Enter old password"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(passwordFormik.values.oldPassword) &&
-                        !passwordFormik.errors.oldPassword
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
-                      onClick={() => togglePasswordVisibility("oldPassword")}
-                    >
-                      {passwordVisible.oldPassword ? (
-                        <FaRegEyeSlash size={20} />
-                      ) : (
-                        <IoEyeOutline size={20} />
-                      )}
-                    </button>
-                    {passwordFormik.errors.oldPassword &&
-                      passwordFormik.touched.oldPassword && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {passwordFormik.errors.oldPassword}
-                        </div>
-                      )}
-                  </div>
-
-                  <div className="relative">
-                    <label className="block text-gray-700 font-medium mb-1">
-                      New Password
-                    </label>
-                    <input
-                      type={passwordVisible.newPassword ? "text" : "password"}
-                      name="newPassword"
-                      value={passwordFormik.values.newPassword}
-                      onChange={passwordFormik.handleChange}
-                      onBlur={passwordFormik.handleBlur}
-                      placeholder="Enter new password"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(passwordFormik.values.newPassword) &&
-                        !passwordFormik.errors.newPassword
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
-                      onClick={() => togglePasswordVisibility("newPassword")}
-                    >
-                      {passwordVisible.newPassword ? (
-                        <FaRegEyeSlash size={20} />
-                      ) : (
-                        <IoEyeOutline size={20} />
-                      )}
-                    </button>
-                    {passwordFormik.errors.newPassword &&
-                      passwordFormik.touched.newPassword && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {passwordFormik.errors.newPassword}
-                        </div>
-                      )}
-                  </div>
-
-                  <div className="relative">
-                    <label className="block text-gray-700 font-medium mb-1">
-                      Confirm New Password
-                    </label>
-                    <input
-                      type={
-                        passwordVisible.confirmPassword ? "text" : "password"
-                      }
-                      name="confirmPassword"
-                      value={passwordFormik.values.confirmPassword}
-                      onChange={passwordFormik.handleChange}
-                      onBlur={passwordFormik.handleBlur}
-                      placeholder="Confirm new password"
-                      className={`w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition-colors duration-200 ${
-                        isFilled(passwordFormik.values.confirmPassword) &&
-                        !passwordFormik.errors.confirmPassword
-                          ? "bg-red-50"
-                          : "bg-white"
-                      }`}
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
-                      onClick={() =>
-                        togglePasswordVisibility("confirmPassword")
-                      }
-                    >
-                      {passwordVisible.confirmPassword ? (
-                        <FaRegEyeSlash size={20} />
-                      ) : (
-                        <IoEyeOutline size={20} />
-                      )}
-                    </button>
-                    {passwordFormik.errors.confirmPassword &&
-                      passwordFormik.touched.confirmPassword && (
-                        <div className="text-red-500 text-sm mt-1">
-                          {passwordFormik.errors.confirmPassword}
-                        </div>
-                      )}
-                  </div>
-                </section>
-
-                <div className="flex gap-6 items-center justify-end mt-10">
-                  <button
-                    type="button"
-                    onClick={() => passwordFormik.resetForm()}
-                    className="px-6 py-2 text-gray-700 font-medium rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={passwordFormik.isSubmitting}
-                    className="px-4 py-2 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-accent_1 hover:bg-primary transition-colors duration-200"
-                  >
-                    {passwordFormik.isSubmitting
-                      ? "Updating..."
-                      : "Update Password"}
-                  </button>
-                </div>
-                <div className="flex gap-6 items-center justify-end mt-16">
-                  <button
-                    type="submit"
-                    onClick={handleExit}
-                    className="px-6 py-3 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-blue-700 hover:bg-primary transition-colors duration-200"
-                  >
-                    Save & Exit
-                  </button>
-                </div>
-              </form>
+              {/* Render the active section */}
+              {renderSection()}
             </div>
           </section>
         </div>

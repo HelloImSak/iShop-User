@@ -1,13 +1,13 @@
 import React from "react";
-import { useGetAllQuery } from "../redux/service/product/productSlice";
-import Banner from "../components/BrandPage/Banner";
 import FilterDis from "../components/AllProductCom/FilterDis";
-import CardCom from "../components/cart/CardCom";
+import Banner from "../components/BrandPage/Banner";
 import LogoBrand from "../components/BrandPage/LogoBrand";
+import CardCom from "../components/cart/CardCom";
 import CardDisCom from "../components/cart/CardDisCom";
+import { useLazyGetAllQuery } from "../redux/service/product/productSlice";
 
 export default function AllProductPage() {
-  const { data: productBrand } = useGetAllQuery();
+  const { data: productBrand } = useLazyGetAllQuery();
 
   return (
     <main className="min-h-screen pt-8 md:pt-28">
@@ -48,8 +48,8 @@ export default function AllProductPage() {
               ))}
             </div>
             <br />
-            <div >
-              <LogoBrand/>
+            <div>
+              <LogoBrand />
               <br />
             </div>
           </div>

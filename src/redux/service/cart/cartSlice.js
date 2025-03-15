@@ -11,6 +11,7 @@ export const cartApi = createApi({
       }
       return headers;
     },
+    tagTypes: ["Cart"],
   }),
   endpoints: (builder) => ({
     addToCart: builder.mutation({
@@ -19,10 +20,12 @@ export const cartApi = createApi({
         method: "POST",
         body: { userUuid, productUuid, quantity },
       }),
+      invalidatesTags: ["Cart"],
     }),
 
     getUserCart: builder.query({
-      query: (userId) => `/api/v1/carts/get-by-user/${userId}`,
+      query: (userUuid) => `/api/v1/carts/get-by-user/${userUuid}`,
+      providesTags: ["Cart"],
     }),
 
     removeQtyByOne: builder.mutation({
@@ -39,13 +42,29 @@ export const cartApi = createApi({
       }),
     }),
 
+    removeCartItem: builder.mutation({
+      query: ({ cartUuid, cartItemUuid }) => ({
+        url: "/api/v1/carts/remove-cart-item",
+        method: "PUT",
+        body: (cartUuid, cartItemUuid),
+      }),
+    }),
+
     removeAllItems: builder.mutation({
       query: (cartUuid) => ({
         url: `/api/v1/carts/${cartUuid}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Cart"],
     }),
   }),
 });
 
-export const { useGetUserCartQuery, useAddToCartMutation, useRemoveQtyByOneMutation, useAddQtyByOneMutation, useRemoveAllItemsMutation } = cartApi;
+export const {
+  useGetUserCartQuery,
+  useAddToCartMutation,
+  useRemoveQtyByOneMutation,
+  useAddQtyByOneMutation,
+  useRemoveCartItemMutation,
+  useRemoveAllItemsMutation,
+} = cartApi;

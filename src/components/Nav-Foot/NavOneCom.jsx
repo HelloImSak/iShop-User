@@ -27,37 +27,37 @@ const navLinks = [
     isDropdown: true,
     subItems: [
       {
-        to: "/phone",
+        to: "/category/phone",
         label: "Phone",
         icon: <IoIosPhonePortrait className="w-[26px] h-[26px]" />,
       },
       {
-        to: "/laptop",
+        to: "/category/laptop",
         label: "Laptop",
         icon: <IoIosLaptop className="w-[26px] h-[26px]" />,
       },
       {
-        to: "/desktop",
+        to: "/category/desktop",
         label: "Desktop",
         icon: <IoIosDesktop className="w-[26px] h-[26px]" />,
       },
       {
-        to: "/keyboard",
+        to: "/category/keyboard",
         label: "Keyboard",
         icon: <FaRegKeyboard className="w-[26px] h-[26px]" />,
       },
       {
-        to: "/mouse",
+        to: "/category/mouse",
         label: "Mouse",
         icon: <BsMouse3 className="w-[26px] h-[26px]" />,
       },
       {
-        to: "/speaker",
+        to: "/category/speaker",
         label: "Speaker",
         icon: <CiSpeaker className="w-[26px] h-[26px]" />,
       },
       {
-        to: "/headphone",
+        to: "/category/headphone",
         label: "Headphone",
         icon: <GiHeadphones className="w-[26px] h-[26px]" />,
       },

@@ -10,6 +10,7 @@ import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NoInternet from "../components/NoInternet";
 import NotFoundProductCom from "../components/NotFoundProductCom";
+import Order from "../components/payment/Order";
 import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
@@ -19,10 +20,11 @@ import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Detail from "../pages/products/Detail";
 import Products from "../pages/products/Products";
+import OrderHistory from "../pages/user/OrderHistory";
 import Profile from "../pages/user/Profile";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/service/cart/cartSlice";
-import { useGetAllQuery } from "../redux/service/product/productSlice";
+import { useLazyGetAllQuery } from "../redux/service/product/productSlice";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -40,7 +42,7 @@ export default function AppRoutes() {
     data: products,
     isLoading: productLoading,
     error: productError,
-  } = useGetAllQuery();
+  } = useLazyGetAllQuery();
 
   // Fetch cart data using the user's UUID
   const userUuid = userData?.uuid; // uuid is in userData
@@ -72,6 +74,8 @@ export default function AppRoutes() {
       setCartItems(totalQuantity);
       // console.log("Cart Data:", cartData);
       // console.log("Total Quantity:", totalQuantity);
+    } else {
+      setCartItems(0);
     }
     if (cartError) {
       console.error("Failed to fetch cart:", cartError);
@@ -128,13 +132,13 @@ export default function AppRoutes() {
             />
             <Route path="/brand" element={<Brand />} />
             <Route path="/discount-products" element={<DiscountPage />} />
-            <Route path="/phone" element={<Category />} />
-            <Route path="/laptop" element={<Category />} />
-            <Route path="/desktop" element={<Category />} />
-            <Route path="/keyboard" element={<Category />} />
-            <Route path="/mouse" element={<Category />} />
-            <Route path="/headphone" element={<Category />} />
-            <Route path="/speaker" element={<Category />} />
+            <Route path="/category/phone" element={<Category />} />
+            <Route path="/category/laptop" element={<Category />} />
+            <Route path="/category/desktop" element={<Category />} />
+            <Route path="/category/keyboard" element={<Category />} />
+            <Route path="/category/mouse" element={<Category />} />
+            <Route path="/category/headphone" element={<Category />} />
+            <Route path="/category/speaker" element={<Category />} />
             <Route path="/product-detail/:uuid" element={<Detail />} />
             <Route
               path="/shopping-cart"
@@ -144,6 +148,10 @@ export default function AppRoutes() {
             <Route
               path="/profile-setting"
               element={<Profile user={userData} />}
+            />
+            <Route
+              path="/profile-setting/order-history"
+              element={<OrderHistory user={userData} />}
             />
           </Route>
 
@@ -181,6 +189,7 @@ export default function AppRoutes() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/order" element={<Order />} />
           </Route>
         </Routes>
       </Router>

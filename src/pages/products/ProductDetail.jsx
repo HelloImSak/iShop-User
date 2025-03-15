@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa6";
 import { TiMinus } from "react-icons/ti";
+import { useNavigate } from "react-router-dom"; // Corrected import
 import { useAddToCartMutation } from "../../redux/service/cart/cartSlice";
 
 const ProductDetail = ({
@@ -13,12 +14,13 @@ const ProductDetail = ({
   price = 0,
   originalPrice = 0,
   description = "",
-  sizes = [],
+  size = "",
   memoryOptions = [],
   storageOptions = [],
   isLoggedIn = false,
   userUuid,
   productUuid,
+  thumbnail = "https://via.placeholder.com/400",
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -26,6 +28,8 @@ const ProductDetail = ({
     colorOptions[0]?.color || ""
   );
   const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
+  const navigate = useNavigate();
+
   const increaseQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -52,33 +56,87 @@ const ProductDetail = ({
   };
 
   const handleAddToCart = async (e) => {
-    e.preventDefault(); // Prevent navigation initially
+    e.preventDefault();
     if (!isLoggedIn) {
-      toast.error("You not Logged In!", {
+      toast.error("You are not logged in!", {
         position: "top-center",
         duration: 3000,
       });
-    } else {
-      try {
-        const response = await addToCart({
+      return;
+    }
+    try {
+      const response = await addToCart({
+        userUuid,
+        productUuid,
+        quantity,
+      }).unwrap();
+      toast.success("Item added to cart!", {
+        position: "top-center",
+        duration: 3000,
+      });
+      console.log("Add to cart response:", response);
+    } catch (error) {
+      toast.error("Failed to add item to cart!", {
+        position: "top-center",
+        duration: 3000,
+      });
+      console.error("Add to cart error:", error);
+    }
+  };
+
+  const handleBuyNow = async (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      toast.error("You are not logged in!", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    try {
+      // Add to cart and get the response
+      const response = await addToCart({
+        userUuid,
+        productUuid,
+        quantity,
+      }).unwrap();
+
+      toast.success("Item added to cart, proceeding to order!", {
+        position: "top-center",
+        duration: 3000,
+      });
+
+      // Extract cartUuid from response (adjust based on your API response structure)
+      const cartUuid = response?.cartUuid || response?.uuid; // Adjust this based on actual response
+
+      // Prepare cart item data
+      const cartItem = {
+        productUuid,
+        quantity,
+        price,
+        name: title,
+        thumbnail: images[0] || thumbnail,
+        totalPrice: price * quantity,
+        discount: originalPrice > price ? originalPrice - price : 0,
+      };
+
+      navigate("/order", {
+        state: {
           userUuid,
-          productUuid,
-          quantity,
-        }).unwrap();
-        toast.success("Item added to cart!", {
-          position: "top-center",
-          duration: 3000,
-        });
-        console.log("Add to cart response:", response);
-        window.location.reload();
-        // Cart icon will update automatically if useGetUserCartQuery is used elsewhere
-      } catch (error) {
-        toast.error("Failed to add item to cart!", {
-          position: "top-center",
-          duration: 3000,
-        });
-        console.error("Add to cart error:", error);
-      }
+          cartUuid, // Pass the cartUuid
+          cartItems: [cartItem],
+          subtotal: price * quantity,
+          totalDiscountAmount: cartItem.discount * quantity,
+          shippingCost: 0,
+          total: price * quantity - cartItem.discount * quantity,
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to process Buy Now!", {
+        position: "top-center",
+        duration: 3000,
+      });
+      console.error("Buy Now error:", error);
     }
   };
 
@@ -90,7 +148,7 @@ const ProductDetail = ({
           <div className="flex flex-col items-center relative">
             <div className="relative w-full max-w-lg">
               <img
-                src={images[currentIndex] || "https://via.placeholder.com/400"}
+                src={images[currentIndex] || thumbnail}
                 alt={`${title} - ${selectedColor}`}
                 className="w-full h-[400px] object-contain rounded-lg"
               />
@@ -136,10 +194,10 @@ const ProductDetail = ({
               Brand: <span className="text-primary text-caption">{brand}</span>
             </p>
 
-            <p className="text-h3 sm:text-h4 font-OpenSanSemiBold text-gray-900 mt-4">
+            <p className="text-h4 lg:text-h3 font-OpenSanSemiBold text-gray-900 mt-4">
               ${price.toFixed(2)}{" "}
               {originalPrice > price && (
-                <span className="line-through text-red-500 mr-2">
+                <span className="line-through text-red-500 mr-2 text-h6">
                   ${originalPrice.toFixed(2)}
                 </span>
               )}
@@ -168,54 +226,7 @@ const ProductDetail = ({
               </div>
 
               <div>
-                <label
-                  htmlFor="size"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Size
-                </label>
-                <select
-                  id="size"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                >
-                  {sizes.map((size) => (
-                    <option key={size}>{size}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="memory"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Memory
-                </label>
-                <select
-                  id="memory"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                >
-                  {memoryOptions.map((memory) => (
-                    <option key={memory}>{memory}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="storage"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Storage
-                </label>
-                <select
-                  id="storage"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                >
-                  {storageOptions.map((storage) => (
-                    <option key={storage}>{storage}</option>
-                  ))}
-                </select>
+                Size: <span className="text-primary text-caption">{size}</span>
               </div>
             </div>
 
@@ -242,7 +253,6 @@ const ProductDetail = ({
                 </button>
               </div>
 
-              {/* Add to Cart Button */}
               <button
                 className={`w-full lg:w-auto lg:flex-1 bg-secondary text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-orange-300 ${
                   isLoggedIn
@@ -250,30 +260,19 @@ const ProductDetail = ({
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
                 onClick={handleAddToCart}
-                disabled={isAdding} // Disable while adding to prevent multiple clicks
+                disabled={isAdding}
               >
                 {isAdding ? "Adding..." : "Add to Cart"}
               </button>
 
-              {/* Buy Now Button */}
               <button
-                className={`w-full lg:w-auto lg:flex-1 bg-blue-600 text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 ${
+                className={`w-full lg:w-auto lg:flex-1 bg-primary text-white font-medium py-2 px-5 rounded-lg ${
                   isLoggedIn
-                    ? "hover:bg-primary"
+                    ? "hover:bg-blue-600" // Adjusted hover color
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (!isLoggedIn) {
-                    toast.error("You not Logged In!", {
-                      position: "top-center",
-                      duration: 3000,
-                    });
-                  } else {
-                    // Add Buy Now logic here if needed
-                    console.log("Proceeding to buy now...");
-                  }
-                }}
+                onClick={handleBuyNow}
+                disabled={isAdding} // Disable while adding to prevent multiple clicks
               >
                 Buy Now
               </button>

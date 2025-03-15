@@ -1,13 +1,13 @@
 import React from "react";
-import { useGetAllQuery } from "../../redux/service/product/productSlice";
+import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
 import CardCom from "../cart/CardCom";
 import Banner from "./Banner";
 
 export default function CategoryPage() {
-  const { data: proCate, isLoading, isError } = useGetAllQuery();
+  const { data: proCate, isLoading, isError } = useLazyGetAllQuery();
   console.log("data", proCate);
   return (
-    <main className="min-h-screen px-[32px] pt-20"> 
+    <main className="min-h-screen px-[32px] pt-20">
       <Banner />
       <div className="container mx-auto pt-[32px] git px-[100px]">
         <h1 className="flex justify-center text-2xl md:text-3xl font-semibold mb-4 mt-8 text-primary">

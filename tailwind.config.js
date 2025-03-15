@@ -7,7 +7,7 @@ export default {
       sm: "640px",
       md: "768px",
       lg: "1024px",
-      "siXl": "1090px",
+      siXl: "1090px",
       xl: "1200px",
       "2xl": "1540px",
     },
@@ -43,5 +43,24 @@ export default {
       },
     },
   },
-  plugins: [flowbite.plugin()],
+  plugins: [
+    flowbite.plugin(),
+    function ({ addUtilities }) {
+      addUtilities({
+        ".line-clamp-custom-1": {
+          display: "-webkit-box",
+          "-webkit-box-orient": "vertical",
+          "-webkit-line-clamp": "1",
+          overflow: "hidden",
+        },
+        ".line-clamp-custom-2": {
+          display: "-webkit-box",
+          "-webkit-box-orient": "vertical",
+          "-webkit-line-clamp": "2",
+          overflow: "hidden",
+        },
+        // Add more custom line clamp classes if needed
+      });
+    },
+  ],
 };
