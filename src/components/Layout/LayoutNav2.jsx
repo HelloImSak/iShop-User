@@ -4,7 +4,7 @@ import NavTwoCom from "../Nav-Foot/NavTwoCom";
 
 export default function LayoutNav2({ isLoggedIn, profile, cartItems, user }) {
   return (
-    <>
+    <div className="flex flex-col">
       <header>
         <NavTwoCom
           isLoggedIn={isLoggedIn}
@@ -13,12 +13,12 @@ export default function LayoutNav2({ isLoggedIn, profile, cartItems, user }) {
           cartItems={cartItems} // Pass cartItems to NavOneCom
         />
       </header>
-      <main>
+      <main className="mx-auto flex-grow">
         <Outlet />
       </main>
       <footer>
         <FooterComponent />
       </footer>
-    </>
+    </div>
   );
 }

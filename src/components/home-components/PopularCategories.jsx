@@ -9,7 +9,7 @@ const products = [
   { name: "Laptop", image: laptop },
   { name: "Headphone", image: headphone },
   { name: "Mouse", image: mouse },
-  { name: "Keyboard", image: keyboard },
+  { name: "Keyboard", image: keyboard }
 ];
 
 export default function PopularCategories() {

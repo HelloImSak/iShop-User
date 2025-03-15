@@ -8,23 +8,15 @@ import DiscountProduct from "../components/home-components/DiscountProduct";
 
 export default function Home() {
   return (
-    <main className="pt-40 space-y-10">
-      <section>
-        <HomeBanner />
-      </section>
-      <section>
+    <div className="pt-40 space-y-10">
+      <HomeBanner />
+      <main className="space-y-10 max-w-screen-2xl mx-auto md:px-[50px] xl:px-[100px]">
         <AssuranceSection />
-      </section>
-      <section>
         <PopularCategories />
-      </section>
-      <section>
         <NewArrivals />
-      </section>
-      <BestSelling/>
-      <section>
-        <DiscountProduct/>
-      </section>
-    </main>
+        <BestSelling />
+        <DiscountProduct />
+      </main>
+    </div>
   );
 }

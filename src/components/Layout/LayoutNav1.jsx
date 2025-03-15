@@ -4,7 +4,7 @@ import NavOneCom from "../Nav-Foot/NavOneCom";
 
 export default function LayoutNav1({ isLoggedIn, profile, cartItems, user }) {
   return (
-    <>
+    <div className="flex flex-col">
       <header>
         <NavOneCom
           isLoggedIn={isLoggedIn}
@@ -13,12 +13,12 @@ export default function LayoutNav1({ isLoggedIn, profile, cartItems, user }) {
           cartItems={cartItems}
         />
       </header>
-      <main>
+      <main className="mx-auto flex-grow">
         <Outlet />
       </main>
       <footer>
         <FooterComponent />
       </footer>
-    </>
+    </div>
   );
 }

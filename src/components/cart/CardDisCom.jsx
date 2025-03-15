@@ -8,14 +8,13 @@ export default function CardDisCom({
   brand,
   priceOut,
   disPrice,
-  dis,
+  dis
 }) {
   return (
-    <main className="flex items-center justify-center">
-      <div className="w-[310px] max-w-sm bg-white border  rounded-[25px]  p-5 relative hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
+      <div className="bg-white border rounded-[15px]  p-5 relative hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
         <a href={`/product-detail/${uuid}`}>
           <img
-            className="h-[200px] mx-auto object-contain rounded-t-[25px]"
+            className="rounded-t-md h-[300px] w-full object-cover"
             src={thumbnail}
             alt={name}
           />
@@ -42,6 +41,5 @@ export default function CardDisCom({
           </div>
         </div>
       </div>
-    </main>
   );
 }

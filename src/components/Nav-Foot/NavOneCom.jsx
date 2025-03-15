@@ -10,7 +10,7 @@ import {
   IoIosArrowUp,
   IoIosDesktop,
   IoIosLaptop,
-  IoIosPhonePortrait,
+  IoIosPhonePortrait
 } from "react-icons/io";
 
 import toast from "react-hot-toast";
@@ -19,8 +19,8 @@ import Logo from "../../assets/logo/ishop-dark-logo.png";
 
 const navLinks = [
   {
-    to: "/all-products",
-    label: "All Products",
+    to: "/products",
+    label: "Products"
   },
   {
     label: "Categories",
@@ -29,43 +29,42 @@ const navLinks = [
       {
         to: "/phone",
         label: "Phone",
-        icon: <IoIosPhonePortrait className="w-[26px] h-[26px]" />,
+        icon: <IoIosPhonePortrait className="w-[26px] h-[26px]" />
       },
       {
         to: "/laptop",
         label: "Laptop",
-        icon: <IoIosLaptop className="w-[26px] h-[26px]" />,
+        icon: <IoIosLaptop className="w-[26px] h-[26px]" />
       },
       {
         to: "/desktop",
         label: "Desktop",
-        icon: <IoIosDesktop className="w-[26px] h-[26px]" />,
+        icon: <IoIosDesktop className="w-[26px] h-[26px]" />
       },
       {
         to: "/keyboard",
         label: "Keyboard",
-        icon: <FaRegKeyboard className="w-[26px] h-[26px]" />,
+        icon: <FaRegKeyboard className="w-[26px] h-[26px]" />
       },
       {
         to: "/mouse",
         label: "Mouse",
-        icon: <BsMouse3 className="w-[26px] h-[26px]" />,
+        icon: <BsMouse3 className="w-[26px] h-[26px]" />
       },
       {
         to: "/speaker",
         label: "Speaker",
-        icon: <CiSpeaker className="w-[26px] h-[26px]" />,
+        icon: <CiSpeaker className="w-[26px] h-[26px]" />
       },
       {
         to: "/headphone",
         label: "Headphone",
-        icon: <GiHeadphones className="w-[26px] h-[26px]" />,
-      },
-    ],
+        icon: <GiHeadphones className="w-[26px] h-[26px]" />
+      }
+    ]
   },
-  { to: "/brand", label: "Brand" },
   { to: "/discount-products", label: "Discount" },
-  { to: "/about", label: "About Us" },
+  { to: "/about", label: "About Us" }
 ];
 
 // Navigation Component that have background white and fixed on top
@@ -104,7 +103,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
 
   const handleSignOut = () => {
     toast.success("Log-Out Successful!", {
-      icon: "✅",
+      icon: "✅"
     });
     localStorage.removeItem("accessToken");
     navigate("/");
