@@ -10,6 +10,7 @@ import LayoutNav1 from "../components/Layout/LayoutNav1";
 import LayoutNav2 from "../components/Layout/LayoutNav2";
 import NoInternet from "../components/NoInternet";
 import NotFoundProductCom from "../components/NotFoundProductCom";
+import Order from "../components/payment/Order";
 import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
@@ -17,38 +18,29 @@ import ShoppingCart from "../pages/cart/ShoppingCart";
 import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Detail from "../pages/products/Detail";
-import Products from "../pages/products/Products";
+import OrderHistory from "../pages/user/OrderHistory";
 import Profile from "../pages/user/Profile";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/service/cart/cartSlice";
-import { useGetAllQuery } from "../redux/service/product/productSlice";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
   const { data: userData, error } = useUserDataOfTokenQuery(undefined, {
-    skip: !token, // Skip API call if no token
+    skip: !token,
   });
   // console.log("userdata: ", userData);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // Set based on token presence
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token);
 
   const [cartItems, setCartItems] = useState(0);
 
-  // Fetch all products for the entire app
-  const {
-    data: products,
-    isLoading: productLoading,
-    error: productError,
-  } = useGetAllQuery();
-
-  // Fetch cart data using the user's UUID
-  const userUuid = userData?.uuid; // uuid is in userData
+  const userUuid = userData?.uuid;
   const {
     data: cartData,
     error: cartError,
     isLoading: cartLoading,
   } = useGetUserCartQuery(userUuid, {
-    skip: !userUuid || !isLoggedIn, // Skip if no userId or not logged in
+    skip: !userUuid || !isLoggedIn,
   });
   useEffect(() => {
     if (error) {
@@ -60,10 +52,8 @@ export default function AppRoutes() {
     }
   }, [userData, error]);
 
-  // Update cartItems when cart data is fetched
   useEffect(() => {
     if (cartData?.cartItems) {
-      // Sum the quantities of all cart items
       const totalQuantity = cartData.cartItems.reduce(
         (sum, item) => sum + item.quantity,
         0
@@ -71,6 +61,8 @@ export default function AppRoutes() {
       setCartItems(totalQuantity);
       // console.log("Cart Data:", cartData);
       // console.log("Total Quantity:", totalQuantity);
+    } else {
+      setCartItems(0);
     }
     if (cartError) {
       console.error("Failed to fetch cart:", cartError);
@@ -82,7 +74,6 @@ export default function AppRoutes() {
     ? JSON.parse(storedUserData).profile
     : null;
 
-  // get profile from stored profile
   const activeProfile = userData?.profile || storedProfile;
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -121,27 +112,28 @@ export default function AppRoutes() {
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
             <Route path="/products" element={<AllProductPage />} />
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
-            <Route
-              path="/products"
-              element={<Products products={products} />} // Pass products as prop
-            />
+            
             <Route path="/discount-products" element={<DiscountPage />} />
-            <Route path="/phone" element={<Category />} />
-            <Route path="/laptop" element={<Category />} />
-            <Route path="/desktop" element={<Category />} />
-            <Route path="/keyboard" element={<Category />} />
-            <Route path="/mouse" element={<Category />} />
-            <Route path="/headphone" element={<Category />} />
-            <Route path="/speaker" element={<Category />} />
+            <Route path="/category/phone" element={<Category />} />
+            <Route path="/category/laptop" element={<Category />} />
+            <Route path="/category/desktop" element={<Category />} />
+            <Route path="/category/keyboard" element={<Category />} />
+            <Route path="/category/mouse" element={<Category />} />
+            <Route path="/category/headphone" element={<Category />} />
+            <Route path="/category/speaker" element={<Category />} />
             <Route path="/product-detail/:uuid" element={<Detail />} />
             <Route
               path="/shopping-cart"
               element={<ShoppingCart userUuid={userUuid} />}
             />
-
+            <Route path="/order" element={<Order />} />
             <Route
               path="/profile-setting"
               element={<Profile user={userData} />}
+            />
+            <Route
+              path="/profile-setting/order-history"
+              element={<OrderHistory user={userData} />}
             />
           </Route>
 

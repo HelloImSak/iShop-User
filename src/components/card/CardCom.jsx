@@ -7,7 +7,7 @@ export default function CardCom({ uuid, thumbnail, name, brand, price }) {
       <div className="max-w-sm bg-white border border-gray-200 rounded-[15px] p-5 hover:shadow-[0px_1px_5px_rgba(0,0,0,0.10)]">
         <a href={`/product-detail/${uuid}`}>
           <img
-            className="rounded-t-md h-[300px] w-full object-cover "
+            className="rounded-t-md h-[180px] w-full object-contain "
             src={thumbnail}
             alt={name}
           />
@@ -15,7 +15,7 @@ export default function CardCom({ uuid, thumbnail, name, brand, price }) {
         <div className="px-1 pb-3 text-left ">
           <div className="flex items-center justify-between gap-2 mt-4">
             <a href="#">
-              <p className="text-[16px] font-bold text-primary inline">
+              <p className="text-[16px] font-OpenSanBold text-primary inline">
                 {name}
               </p>
             </a>
@@ -24,9 +24,9 @@ export default function CardCom({ uuid, thumbnail, name, brand, price }) {
             </button>
           </div>
 
-          <p className="text-gray-600 text-[14px] mt-1">{brand}</p>
+          <p className="text-gray-600 font-OpenSan text-[14px] mt-1">{brand}</p>
           <div className="flex items-center justify-between mt-2">
-            <span className="text-[17px] font-bold text-gray-900">
+            <span className="text-[17px] font-OpenSanBold text-gray-900">
               ${price}
             </span>
           </div>

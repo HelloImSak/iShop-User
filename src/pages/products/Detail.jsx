@@ -45,7 +45,10 @@ export default function Detail() {
     productData;
 
   const originalPrice = Number(priceOut);
-  const price = discount > 0 ? originalPrice * (1 - discount) : originalPrice;
+  const price = discount > 0 ? originalPrice - (originalPrice *  discount) : originalPrice;
+
+  console.log(originalPrice)
+  console.log(price)
 
   return (
     <ProductDetail
@@ -57,12 +60,12 @@ export default function Detail() {
       price={price}
       originalPrice={originalPrice}
       description={description}
-      sizes={[]}
+      sizes={productData?.computerSpec?.screenSize}
       memoryOptions={[]}
       storageOptions={[]}
       isLoggedIn={isLoggedIn}
-      userUuid={userData?.uuid} // Pass userUuid
-      productUuid={uuid} // Pass productUuid
+      userUuid={userData?.uuid} 
+      productUuid={uuid} 
     />
   );
 }

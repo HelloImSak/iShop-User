@@ -9,7 +9,7 @@ const BestSellingProducts = () => {
       <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl  text-primary text-center font-OpenSanBold mb-8  pt-[30px]">
         Best Selling Products
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2  gap-7 mt-6 max-w-screen-2xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 mt-6 pt-[30px]">
         {/* Laptop Section */}
         <div className="bg-gray-900 text-white rounded-lg p-4 sm:p-6 lg:p-10 flex flex-col items-start space-y-4 relative overflow-hidden w-full">
           <img

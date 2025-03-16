@@ -3,17 +3,18 @@ import toast from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa6";
 import { TiMinus } from "react-icons/ti";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import NoCartCom from "../../components/card/NoCartCom";
 import {
   useAddQtyByOneMutation,
   useGetUserCartQuery,
   useRemoveAllItemsMutation,
+  useRemoveCartItemMutation,
   useRemoveQtyByOneMutation,
 } from "../../redux/service/cart/cartSlice";
 import { useGetByUuidQuery } from "../../redux/service/product/productSlice";
 
-import NoCartCom from "../../components/cart/NoCartCom";
-// Create a separate component for product details
+// Unmodified ProductDetails as requested
 function ProductDetails({ productUuid }) {
   const { data, isLoading } = useGetByUuidQuery(productUuid, {
     skip: !productUuid,
@@ -21,13 +22,13 @@ function ProductDetails({ productUuid }) {
   return {
     name: data?.name || productUuid,
     thumbnail: data?.thumbnail || "https://via.placeholder.com/60",
+    price: data?.price || 0, // Add price from product API
     isLoading,
   };
 }
 
-// Custom hook to fetch multiple products
+// Unmodified useProductDetails as requested
 function useProductDetails(productUuids) {
-  // Create a stable array of product details
   const product1 = ProductDetails({ productUuid: productUuids[0] || "" });
   const product2 = ProductDetails({ productUuid: productUuids[1] || "" });
   const product3 = ProductDetails({ productUuid: productUuids[2] || "" });
@@ -39,7 +40,6 @@ function useProductDetails(productUuids) {
   const product9 = ProductDetails({ productUuid: productUuids[8] || "" });
   const product10 = ProductDetails({ productUuid: productUuids[9] || "" });
 
-  // Create a map of product details
   return useMemo(() => {
     const map = {};
     if (productUuids[0]) map[productUuids[0]] = product1;
@@ -70,66 +70,78 @@ function useProductDetails(productUuids) {
 
 export default function ShoppingCart({ userUuid }) {
   const [selectedItems, setSelectedItems] = useState([]);
-  const shippingCost = 0;
+  const navigate = useNavigate();
 
-  // Get cart data
   const {
     data: cartData,
     isLoading: cartLoading,
     isError: cartError,
-  } = useGetUserCartQuery(userUuid, {
-    skip: !userUuid,
-  });
+    refetch,
+  } = useGetUserCartQuery(userUuid, { skip: !userUuid });
 
   const [addQtyByOne] = useAddQtyByOneMutation();
   const [removeQtyByOne] = useRemoveQtyByOneMutation();
+  const [removeSelectedItem] = useRemoveCartItemMutation();
   const [removeAllItems] = useRemoveAllItemsMutation();
 
-  // Get cart items or empty array if not available
   const cartItems = cartData?.cartItems || [];
   const cartUuid = cartData?.uuid;
-  const totalAmount = cartData?.totalAmount || 0;
 
-  // Extract unique productUuids
   const productUuids = useMemo(
     () => [...new Set(cartItems.map((item) => item.productUuid))],
     [cartItems]
   );
-
-  // Use our custom hook to get product details
   const productDetails = useProductDetails(productUuids);
 
-  // Combine cart items with product details
+  // Updated logic to use cart data for pricing
   const cartItemsWithDetails = useMemo(
     () =>
-      cartItems.map((item) => ({
-        ...item,
-        name: productDetails[item.productUuid]?.name || item.productUuid,
-        thumbnail:
-          productDetails[item.productUuid]?.thumbnail ||
-          "https://via.placeholder.com/60",
-        discount: productDetails[item.productUuid?.discount]?.discount || 0,
-        isLoading: productDetails[item.productUuid]?.isLoading || false,
-      })),
+      cartItems.map((item) => {
+        const productInfo = productDetails[item.productUuid] || {};
+        // Prioritize cart data from ProductDetail
+        const originalPrice =
+          item.originalPrice ||
+          productInfo.price ||
+          item.totalPrice / item.quantity ||
+          0;
+        const discount = item.discount || 0; // Use discount from ProductDetail (e.g., 10%)
+        const price = item.price || originalPrice - discount; // Price after discount from ProductDetail
+
+        return {
+          ...item,
+          name: productInfo.name || item.productUuid,
+          thumbnail: productInfo.thumbnail || "https://via.placeholder.com/60",
+          originalPrice, // From cart or product API
+          discount, // From ProductDetail (10% in your case)
+          price, // Price after discount
+          totalPrice: price * item.quantity, // Total after discount
+          isLoading: productInfo.isLoading || false,
+        };
+      }),
     [cartItems, productDetails]
   );
-  const totalDiscount = cartItemsWithDetails.reduce(
-    (sum, item) => sum + (item.discount || 0),
+
+  const subtotal = cartItemsWithDetails.reduce(
+    (total, item) => total + item.originalPrice * item.quantity,
     0
   );
-  console.log(cartItemsWithDetails.discount);
+  const totalDiscountAmount = cartItemsWithDetails.reduce(
+    (sum, item) => sum + item.discount * item.quantity,
+    0
+  );
+  const shippingCost = 0;
+  const total = subtotal - totalDiscountAmount + shippingCost;
 
   const updateQuantity = async (uuid, change) => {
     try {
       if (change > 0) {
         await addQtyByOne(uuid).unwrap();
         toast.success("Quantity increased!");
-        window.location.reload();
       } else if (change < 1) {
         await removeQtyByOne(uuid).unwrap();
         toast.success("Quantity decreased!");
-        window.location.reload();
       }
+      await refetch();
     } catch (error) {
       toast.error("Failed to update quantity!");
       console.error("Update quantity error:", error);
@@ -148,14 +160,13 @@ export default function ShoppingCart({ userUuid }) {
     );
   };
 
-  const removeSelected = async () => {
+  const handleRemoveItem = async () => {
     try {
       await Promise.all(
-        selectedItems.map((uuid) => removeQtyByOne(uuid).unwrap())
+        selectedItems.map((uuid) => removeSelectedItem(uuid).unwrap())
       );
       toast.success("Selected items removed!");
       setSelectedItems([]);
-      window.location.reload();
     } catch (error) {
       toast.error("Failed to remove selected items!");
       console.error("Remove selected error:", error);
@@ -165,41 +176,53 @@ export default function ShoppingCart({ userUuid }) {
   const handleRemoveAll = async () => {
     if (!cartUuid) {
       toast.error("No cart found to remove!");
-      window.location.reload();
       return;
     }
     try {
       await removeAllItems(cartUuid).unwrap();
       toast.success("All items removed from cart!");
       setSelectedItems([]);
+      refetch();
     } catch (error) {
       toast.error("Failed to remove all items!");
       console.error("Remove all error:", error);
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.totalPrice,
-    0
-  );
-  const discountAmount = subtotal - totalAmount + shippingCost;
-  const total = totalAmount;
+  const handleCheckout = (e) => {
+    e.preventDefault();
+    const orderData = {
+      userUuid,
+      cartUuid,
+      cartItems: cartItemsWithDetails.map((item) => ({
+        productUuid: item.productUuid,
+        quantity: item.quantity,
+        price: item.price, // Price after discount
+        originalPrice: item.originalPrice,
+        discount: item.discount,
+        name: item.name,
+        thumbnail: item.thumbnail,
+        totalPrice: item.totalPrice,
+      })),
+      subtotal,
+      totalDiscountAmount,
+      shippingCost,
+      total,
+    };
+    navigate("/order", { state: orderData });
+  };
 
-  if (!userUuid) {
+  if (!userUuid)
     return (
       <div className="min-h-screen pt-20">Please log in to view your cart.</div>
     );
-  }
-
   if (cartLoading) return <div className="min-h-screen pt-20">Loading...</div>;
-
   if (cartError || !cartData || cartItems.length === 0) return <NoCartCom />;
 
   return (
     <div className="min-h-screen pt-20">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Shopping Cart Section */}
           <div className="lg:col-span-2">
             <div className="rounded-lg p-2 lg:p-6">
               <div className="flex justify-between items-center mb-6">
@@ -207,7 +230,6 @@ export default function ShoppingCart({ userUuid }) {
                   My Shopping Cart
                 </h1>
               </div>
-
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2">
                   <input
@@ -225,23 +247,15 @@ export default function ShoppingCart({ userUuid }) {
                   </label>
                 </div>
                 <div className="flex gap-4">
-                  {/* <button
-                    className="text-sm text-red-500 hover:text-red-700 flex items-center underline"
-                    onClick={removeSelected}
-                    disabled={selectedItems.length === 0}
-                  >
-                    Delete selected items
-                  </button> */}
                   <button
                     className="text-sm text-red-500 hover:text-red-700 flex items-center underline"
                     onClick={handleRemoveAll}
                     disabled={cartItems.length === 0}
                   >
-                    Delete all selected items
+                    Delete selected items
                   </button>
                 </div>
               </div>
-
               <div className="space-y-4">
                 {cartItemsWithDetails.map((item) => (
                   <div
@@ -273,8 +287,12 @@ export default function ShoppingCart({ userUuid }) {
                           {/* Description not included; add if available */}
                         </p>
                         <p className="text-sm font-medium mt-1 text-green-600">
-                          ${(item.totalPrice / item.quantity).toFixed(2)} x{" "}
-                          {item.quantity}
+                          ${item.price.toFixed(2)} x {item.quantity}
+                          {item.discount > 0 && (
+                            <span className="ml-2 text-red-500 line-through">
+                              ${item.originalPrice.toFixed(2)}
+                            </span>
+                          )}
                         </p>
                       </div>
                       <div className="flex items-center justify-center border border-gray-300 rounded-md overflow-hidden">
@@ -299,9 +317,7 @@ export default function ShoppingCart({ userUuid }) {
                       </div>
                       <button
                         className="text-red-500 p-2 hover:bg-red-100 rounded-full"
-                        onClick={() =>
-                          updateQuantity(item.uuid, -item.quantity)
-                        }
+                        onClick={handleRemoveItem}
                       >
                         <AiOutlineDelete className="h-5 w-5" />
                       </button>
@@ -312,7 +328,6 @@ export default function ShoppingCart({ userUuid }) {
             </div>
           </div>
 
-          {/* Order Summary Section */}
           <div className="lg:col-span-1">
             <div className="border border-gray-300 rounded-lg p-6 sticky top-36">
               <h2 className="text-h4 text-center font-OpenSanBold text-gray-800 mb-6">
@@ -326,7 +341,7 @@ export default function ShoppingCart({ userUuid }) {
                 <div className="flex justify-between py-2">
                   <span className="text-gray-600 text-body">Discount</span>
                   <span className="font-medium">
-                    ${discountAmount.toFixed(2)}
+                    ${totalDiscountAmount.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between py-2">
@@ -345,7 +360,7 @@ export default function ShoppingCart({ userUuid }) {
                 </div>
               </div>
               <div className="mt-8 space-y-4">
-                <NavLink to="/">
+                <NavLink to="/products">
                   <button
                     type="button"
                     className="w-full py-3 px-5 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
@@ -355,7 +370,8 @@ export default function ShoppingCart({ userUuid }) {
                 </NavLink>
                 <button
                   type="button"
-                  className="w-full py-3 px-5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors"
+                  className="w-full py-3 px-5 bg-secondary text-white rounded-lg text-sm font-medium transition-colors"
+                  onClick={handleCheckout}
                 >
                   Checkout
                 </button>

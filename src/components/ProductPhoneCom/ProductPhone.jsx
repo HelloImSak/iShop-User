@@ -3,7 +3,6 @@ import { useGetAllQuery } from "../../redux/service/product/productSlice";
 import BannerPh from "./BannerPh";
 import FilterDis from "../DiscountPageCom/FilterCom";
 import CardCom from "../cart/CardCom";
-import CardDisCom from "../cart/CardDisCom";
 
 export default function ProductPhone() {
   const { data: proPro, isLoading, isError } = useGetAllQuery();
@@ -31,13 +30,14 @@ export default function ProductPhone() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {proPro?.content?.map((e) => (
                   <CardCom
-                  key={e?.uuid}
-                  thumbnail={e?.thumbnail}
-                  name={e?.name}
-                  brand={e?.brand?.name}
-                  price={e?.priceOut}
-                />
-              ))}
+                    key={e?.uuid}
+                    uuid={e?.uuid}
+                    thumbnail={e?.thumbnail}
+                    name={e?.name}
+                    brand={e?.brand?.name}
+                    price={e?.priceOut}
+                  />
+                ))}
               </div>
             </div>
           </div>
