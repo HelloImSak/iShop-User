@@ -3,22 +3,24 @@ import { useGetAllBrandQuery } from "../../redux/features/brand/brandSlice";
 import { useGetAllCategoriesQuery } from "../../redux/service/category/categorySlice";
 import { HiOutlineFilter, HiChevronDown, HiChevronUp } from "react-icons/hi";
 
-export default function FilterDis({ onFilterChange }) {
+export default function FilterDis({
+  setSelectedBrands,
+  setSelectedCategories,
+  setPriceRange,
+  setShowDiscountedItems,
+}) {
   const [price, setPrice] = useState(4950);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedBrands, setSelectedBrands] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const [showDiscountedItems, setShowDiscountedItems] = useState(false);
 
   const {
     data: brandData,
     isLoading: isBrandLoading,
-    isError: isBrandError
+    isError: isBrandError,
   } = useGetAllBrandQuery();
   const {
     data: categoryData,
     isLoading: isCategoryLoading,
-    isError: isCategoryError
+    isError: isCategoryError,
   } = useGetAllCategoriesQuery();
 
   // Handle checkbox changes
@@ -29,15 +31,19 @@ export default function FilterDis({ onFilterChange }) {
   };
 
   const handleCategoryChange = (uuid) => {
-    setSelectedCategory((prev) =>
+    setSelectedCategories((prev) =>
       prev.includes(uuid) ? prev.filter((id) => id !== uuid) : [...prev, uuid]
     );
   };
 
   const handleDiscountChange = (e) => {
-    const value = e.target.checked;
-    setShowDiscountedItems(value);
-    onFilterChange({ discount: value }); // Pass the discount filter value to the parent component
+    setShowDiscountedItems(e.target.checked);
+  };
+
+  const handlePriceChange = (e) => {
+    const value = Number(e.target.value);
+    setPrice(value);
+    setPriceRange(value);
   };
 
   if (isBrandLoading || isCategoryLoading)
@@ -61,6 +67,7 @@ export default function FilterDis({ onFilterChange }) {
           <HiChevronDown className="ml-2 text-xl" />
         )}
       </button>
+
       {/* Filter Sidebar/Dropdown */}
       <aside
         className={`absolute top-0 left-0 w-[240px] bg-white rounded-lg pr-7 z-20 shadow-lg transition-all duration-300 ${
@@ -76,7 +83,6 @@ export default function FilterDis({ onFilterChange }) {
               <input
                 type="checkbox"
                 id={category.uuid}
-                checked={selectedCategory.includes(category.uuid)}
                 onChange={() => handleCategoryChange(category.uuid)}
                 className="mr-2 h-4 w-4 checked:bg-blue-500"
               />
@@ -96,7 +102,6 @@ export default function FilterDis({ onFilterChange }) {
               <input
                 type="checkbox"
                 id={brand.uuid}
-                checked={selectedBrands.includes(brand.uuid)}
                 onChange={() => handleBrandChange(brand.uuid)}
                 className="mr-2 h-4 w-4 checked:bg-blue-500"
               />
@@ -114,7 +119,6 @@ export default function FilterDis({ onFilterChange }) {
               type="checkbox"
               id="discount"
               className="mr-2"
-              checked={showDiscountedItems}
               onChange={handleDiscountChange}
             />
             <label htmlFor="discount">Discount</label>
@@ -131,7 +135,7 @@ export default function FilterDis({ onFilterChange }) {
           min="20"
           max="4950"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={handlePriceChange}
           className="w-full accent-primary"
         />
         <div className="flex justify-between font-bold mt-2 text-gray-700">

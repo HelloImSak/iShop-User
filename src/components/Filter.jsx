@@ -9,6 +9,7 @@ export default function Filter({
   setPriceRange,
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [price, setPrice] = useState(4950); // State to track the current price value
 
   const { data: brandData, isLoading: isBrandLoading, isError: isBrandError } =
     useGetAllBrandQuery();
@@ -34,7 +35,9 @@ export default function Filter({
 
   // Handle price range changes
   const handlePriceChange = (e) => {
-    setPriceRange(Number(e.target.value));
+    const value = Number(e.target.value); // Ensure the value is a number
+    setPrice(value); // Update the local price state
+    setPriceRange(value); // Update the priceRange state in the parent component
   };
 
   if (isBrandLoading || isCategoryLoading)
@@ -52,6 +55,7 @@ export default function Filter({
       <button
         onClick={() => setIsFilterOpen(!isFilterOpen)}
         className="lg:hidden flex items-center bg-primary text-white py-2 px-4 rounded-md text-lg font-semibold"
+        aria-label="Toggle filter menu"
       >
         <HiOutlineFilter className="text-xl mr-2" />
         <span>Filter</span>
@@ -69,7 +73,7 @@ export default function Filter({
         } lg:block lg:relative lg:top-20 lg:w-64 lg:max-w-[300px] lg:h-fit lg:overflow-y-auto`}
       >
         {/* Product Categories */}
-        <h3 className="font-semibold text-[20px] text-primary mb-3">
+        <h3 className="font-bold text-[20px] text-primary mb-3">
           Product Categories
         </h3>
         <ul className="space-y-2 text-[16px] text-gray-600">
@@ -77,17 +81,17 @@ export default function Filter({
             <li key={category.uuid} className="flex items-center">
               <input
                 type="checkbox"
-                id={category.uuid}
+                id={`category-${category.uuid}`}
                 onChange={() => handleCategoryChange(category.uuid)}
                 className="mr-2 h-4 w-4 checked:bg-primary"
               />
-              <label htmlFor={category.uuid}>{category.name}</label>
+              <label htmlFor={`category-${category.uuid}`}>{category.name}</label>
             </li>
           ))}
         </ul>
 
         {/* Product Brands */}
-        <h3 className="font-semibold text-[20px] text-gray-800 mt-5 mb-3">
+        <h3 className="font-bold text-[20px] text-primary mt-5 mb-3">
           Product Brands
         </h3>
         <ul className="space-y-2 text-[16px] text-gray-600">
@@ -95,30 +99,31 @@ export default function Filter({
             <li key={brand.uuid} className="flex items-center">
               <input
                 type="checkbox"
-                id={brand.uuid}
+                id={`brand-${brand.uuid}`}
                 onChange={() => handleBrandChange(brand.uuid)}
                 className="mr-2 h-4 w-4 checked:bg-primary"
               />
-              <label htmlFor={brand.uuid}>{brand.name}</label>
+              <label htmlFor={`brand-${brand.uuid}`}>{brand.name}</label>
             </li>
           ))}
         </ul>
 
         {/* Price Range */}
-        <h3 className="font-semibold text-[20px] text-primary mt-5 mb-3">
+        <h3 className="font-bold text-[20px] text-primary mt-5 mb-3">
           Choose Price
         </h3>
         <input
           type="range"
           min="20"
           max="4950"
-          defaultValue="4950"
+          value={price} // Use the local price state
           onChange={handlePriceChange}
           className="w-full accent-primary"
+          aria-label="Price range slider"
         />
         <div className="flex justify-between font-bold mt-2 text-gray-700">
           <span>$20</span>
-          <span>$4950</span>
+          <span>${price}</span> {/* Display the current price value */}
         </div>
       </aside>
 
@@ -127,6 +132,7 @@ export default function Filter({
         <div
           className="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"
           onClick={() => setIsFilterOpen(false)}
+          aria-hidden="true"
         />
       )}
     </div>
