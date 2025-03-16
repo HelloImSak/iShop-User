@@ -1,15 +1,15 @@
 import React from "react";
-import { useGetAllQuery } from "../../redux/features/product/productSlice";
+import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
 import FilterCom from "../DiscountPageCom/FilterCom";
 import CardCom from "../cart/CardCom";
-import Banner from "./Banner";
 import CardDisCom from "../cart/CardDisCom";
+import Banner from "./Banner";
 
 export default function AppleBrand() {
   // const { data: proData, isLoading, isError } = useGetAllQuery();
   // console.log("Apple Brand Data: ", proData);
 
-  const { data: product, isLoading, isError } = useGetAllQuery();
+  const { data: product, isLoading, isError } = useLazyGetAllQuery();
   console.log("Data:", product);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading data</div>;

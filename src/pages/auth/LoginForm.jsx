@@ -154,7 +154,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 toast.success("Registration and Login Successful!", {
                   icon: "✅",
                 });
-                navigate("/");
+                navigate("/products");
                 window.location.reload();
               } catch (registerError) {
                 console.error("Google Registration Error:", registerError);

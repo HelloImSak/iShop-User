@@ -1,11 +1,10 @@
 import React from "react";
-import { useGetAllQuery } from "../../redux/service/product/productSlice";
-import FilterDis from "../AllProductCom/FilterDis";
+import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
 import CardCom from "../cart/CardCom";
 import Banner from "./Banner";
 
 export default function CategoryPage() {
-  const { data: proCate, isLoading, isError } = useGetAllQuery();
+  const { data: proCate, isLoading, isError } = useLazyGetAllQuery();
   console.log("data", proCate);
 
   return (

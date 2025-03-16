@@ -13,22 +13,22 @@ const FooterComponent = () => {
       <div className="w-80%">
         <div className="md:flex md:items-center md:justify-between grid grid-flow-row">
           {/* Logo Section */}
-          <div className="flex flex-col items-center justify-center p-4 py-12 lg:ml-[100px] md:ml-[50px]">
-            <div className="flex flex-col items-center space-y-4">
-              <span className="text-h6 font-OpenSanBold md:text-h5 text-white uppercase dark:text-white mb-2">
+          <div className="grid items-center p-4 py-12 lg:ml-[100px] md:ml-[50px]">
+            <div className="grid items-center space-y-4">
+              <span className="text-h6 font-OpenSanBold md:text-h5 text-white uppercase mb-2">
                 Organized by
               </span>
               <img
                 src={SchoolLogo}
                 alt="iStad"
-                className="w-[300px] md:w-[320px]"
+                className="w-[230px] md:w-[250px]"
               />
             </div>
             <div className="mt-6">
-              <a href="/" className="flex justify-center">
+              <a href="/" className="flex">
                 <img
                   src={logo}
-                  className="w-[250px] md:w-[280px]"
+                  className="w-[230px] md:w-[280px]"
                   alt="iShop Logo"
                 />
               </a>
