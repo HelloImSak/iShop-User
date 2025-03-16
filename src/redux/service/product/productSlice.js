@@ -7,9 +7,10 @@ export const productApi = createApi({
   }),
   endpoints: (builder) => ({
     getAll: builder.query({
-      query: () => ({
+      query: ({ page = 0, size = 12 }) => ({
         url: "/api/v1/products",
         method: "GET",
+        params: { page, size },
       }),
     }),
     getByUuid: builder.query({
@@ -21,4 +22,4 @@ export const productApi = createApi({
   }),
 });
 
-export const { useGetAllQuery, useGetByUuidQuery } = productApi;
+export const { useLazyGetAllQuery, useGetByUuidQuery } = productApi;
