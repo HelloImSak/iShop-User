@@ -14,7 +14,7 @@ export default function CardDisCom({
       <div className="bg-white border rounded-[15px]  p-5 relative hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
         <a href={`/product-detail/${uuid}`}>
           <img
-            className="rounded-t-md h-[300px] w-full object-cover"
+            className="rounded-t-md h-[180px] w-full object-contain"
             src={thumbnail}
             alt={name}
           />

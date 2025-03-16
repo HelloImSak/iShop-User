@@ -7,7 +7,7 @@ export default function CardCom({ uuid, thumbnail, name, brand, price }) {
       <div className="max-w-sm bg-white border border-gray-200 rounded-[15px] p-5 hover:shadow-[0px_1px_5px_rgba(0,0,0,0.10)]">
         <a href={`/product-detail/${uuid}`}>
           <img
-            className="rounded-t-md h-[300px] w-full object-cover "
+            className="rounded-t-md h-[180px] w-full object-contain "
             src={thumbnail}
             alt={name}
           />
