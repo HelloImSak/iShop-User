@@ -24,15 +24,15 @@ function Profile({ user }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("profile"); // State to track active section
   const navigate = useNavigate();
+  const userUuid = user?.uuid || localStorage.getItem("userUuid");
 
   const [uploadImage] = useUploadImageMutation();
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
-  const { data: orderData } = useGetAllOrderQuery(
-    user?.uuid || localStorage.getItem("userUuid")
-  );
+  const { data: orderData } = useGetAllOrderQuery(userUuid, {
+    skip: !userUuid,
+  });
   const [updatePassword, { isLoading: passLoading }] =
     useUpdatePasswordMutation();
-  const userUuid = user?.uuid || localStorage.getItem("userUuid");
 
   useEffect(() => {
     if (user) {
@@ -192,11 +192,6 @@ function Profile({ user }) {
   };
 
   const handleCancel = () => {
-    navigate("/");
-    window.location.reload();
-  };
-
-  const handleExit = () => {
     navigate("/");
     window.location.reload();
   };
@@ -554,18 +549,6 @@ function Profile({ user }) {
                 {passLoading ? "Updating..." : "Update Password"}
               </button>
             </div>
-            <div className="flex gap-6 items-center justify-end mt-16">
-              <button
-                type="button"
-                onClick={async () => {
-                  await passwordFormik.submitForm();
-                  if (!passwordFormik.errors && !passLoading) handleExit();
-                }}
-                className="px-6 py-3 sm:px-6 text-white font-medium rounded-md border border-gray-300 bg-blue-700 hover:bg-primary transition-colors duration-200"
-              >
-                Save & Exit
-              </button>
-            </div>
           </form>
         );
       case "orders":
@@ -639,19 +622,6 @@ function Profile({ user }) {
                 >
                   Orders History{" "}
                   {orderData?.length > 0 && `(${orderData.length})`}
-                </NavLink>
-                <NavLink
-                  to="#"
-                  onClick={() => setActiveSection("search")}
-                  className={({ isActive }) =>
-                    `text-sm font-medium transition-colors duration-200 text-left ${
-                      activeSection === "search"
-                        ? "text-accent_1"
-                        : "text-black_50 hover:text-accent_1"
-                    }`
-                  }
-                >
-                  Search History
                 </NavLink>
               </div>
               <button

@@ -45,7 +45,7 @@ export default function Detail() {
     productData;
 
   const originalPrice = Number(priceOut);
-  const price = discount > 0 ? originalPrice - (discount * 100) : originalPrice;
+  const price = discount > 0 ? originalPrice - (originalPrice *  discount) : originalPrice;
 
   console.log(originalPrice)
   console.log(price)

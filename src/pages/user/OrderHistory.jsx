@@ -8,8 +8,15 @@ import {
   FaQrcode,
   FaTimes,
 } from "react-icons/fa";
+import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useGetAllOrderQuery, useGetOrderByUuidQuery } from "../../redux/service/order/orderSlice";
+import PaymentFailed from "../../components/payment/PaymentFailed";
+import PaymentSuccess from "../../components/payment/PaymentSuccess";
+import {
+  useCancelOrderMutation,
+  useGetAllOrderQuery,
+  useGetOrderByUuidQuery,
+} from "../../redux/service/order/orderSlice";
 import {
   useBakongQrMutation,
   useMakePaymentMutation,
@@ -24,6 +31,8 @@ function OrderHistory({ user }) {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState("");
   const [verificationInterval, setVerificationInterval] = useState(null);
+  const [isPaymentSuccessOpen, setIsPaymentSuccessOpen] = useState(false);
+  const [isPaymentFailedOpen, setIsPaymentFailedOpen] = useState(false);
 
   const userUuid = user?.uuid || localStorage.getItem("userUuid");
 
@@ -43,6 +52,7 @@ function OrderHistory({ user }) {
   const [generateQR, { isLoading: isGeneratingQR }] = useBakongQrMutation();
   const [verifyPayment, { isLoading: isVerifying }] = useMakePaymentMutation();
   const [makePayment] = useMakePaymentMutation();
+  const [cancelOrder, { isLoading: isCanceling }] = useCancelOrderMutation();
 
   // Orders organized by status
   const [orders, setOrders] = useState({
@@ -62,7 +72,7 @@ function OrderHistory({ user }) {
         all: allOrders,
         pending: allOrders.filter((order) => order.status === "PENDING"),
         paid: allOrders.filter((order) => order.status === "PAID"),
-        canceled: allOrders.filter((order) => order.status === "CANCEL"),
+        canceled: allOrders.filter((order) => order.status === "CANCELED"),
       });
     }
   }, [allOrdersData]);
@@ -96,6 +106,23 @@ function OrderHistory({ user }) {
     setSelectedOrder(null);
     setQrCodeImage(null);
     if (verificationInterval) clearInterval(verificationInterval);
+  };
+
+  const handleClosePaymentSuccess = () => {
+    setIsPaymentSuccessOpen(false);
+    setQrCodeImage(null); // Reset QR modal state
+    if (verificationInterval) clearInterval(verificationInterval);
+  };
+
+  const handleClosePaymentFailed = () => {
+    setIsPaymentFailedOpen(false);
+    setQrCodeImage(null);
+    if (verificationInterval) clearInterval(verificationInterval);
+  };
+
+  const handleTryAgain = (orderUuid) => {
+    setIsPaymentFailedOpen(false);
+    generateBakongQr(orderUuid); // Retry QR generation
   };
 
   const formatDate = (dateString) => {
@@ -175,6 +202,8 @@ function OrderHistory({ user }) {
     } catch (error) {
       console.error("Failed to generate QR code:", error);
       toast.error("Failed to generate QR code");
+      setIsQrModalOpen(false);
+      setIsPaymentFailedOpen(true);
     }
   };
 
@@ -182,6 +211,8 @@ function OrderHistory({ user }) {
     const bakongToken = import.meta.env.VITE_BAKONG_TOKEN;
     if (!bakongToken) {
       toast.error("Payment verification unavailable: Token missing");
+      setIsQrModalOpen(false);
+      setIsPaymentFailedOpen(true);
       return;
     }
 
@@ -231,22 +262,31 @@ function OrderHistory({ user }) {
               setSelectedOrder((prev) =>
                 prev ? { ...prev, status: "PAID" } : null
               );
+              setIsQrModalOpen(false);
+              setIsPaymentSuccessOpen(true);
             } catch (paymentError) {
               console.error("Payment processing failed:", paymentError);
               setPaymentStatus(
                 "Payment verified but processing failed. Please contact support."
               );
+              setIsQrModalOpen(false);
+              setIsPaymentFailedOpen(true);
             }
           } else {
             setPaymentStatus(
               `Payment amount (${receivedAmount} USD) does not match order total (${totalAmount} USD).`
             );
             clearInterval(intervalId);
+            setIsQrModalOpen(false);
+            setIsPaymentFailedOpen(true);
           }
         }
       } catch (error) {
         console.error("MD5 verification failed:", error);
-        setPaymentStatus("Waiting for payment...");
+        setPaymentStatus("Payment verification failed. Please try again.");
+        clearInterval(intervalId);
+        setIsQrModalOpen(false);
+        setIsPaymentFailedOpen(true);
       }
     }, 5000);
 
@@ -275,6 +315,24 @@ function OrderHistory({ user }) {
     }
   };
 
+  const handleCancelOrder = async (orderUuid) => {
+    try {
+      await cancelOrder(orderUuid).unwrap();
+      toast.success("Order canceled successfully!");
+      refetchOrders();
+      setSelectedOrder((prev) =>
+        prev && prev.orderUuid === orderUuid
+          ? { ...prev, status: "CANCEL" }
+          : prev
+      );
+    } catch (error) {
+      console.error("Failed to cancel order:", error);
+      toast.error(
+        "Failed to cancel order: " + (error?.data?.message || "Unknown error")
+      );
+    }
+  };
+
   const OrderButtons = ({ order }) => (
     <div className="flex flex-col sm:flex-row gap-2 mt-4">
       <button
@@ -295,12 +353,12 @@ function OrderHistory({ user }) {
             <FaQrcode className="ml-1" />
           </button>
           <button
-            onClick={() => handleVerifyPayment(order.orderUuid)}
-            disabled={isVerifying}
-            className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-green-400 transition-colors duration-200 flex items-center justify-center"
+            onClick={() => handleCancelOrder(order.orderUuid)}
+            disabled={isCanceling}
+            className="px-4 py-2 text-sm font-medium text-white bg-accent_1 rounded-md hover:bg-green-700 disabled:bg-green-400 transition-colors duration-200 flex items-center justify-center"
           >
-            {isVerifying ? "Verifying..." : "Verify Payment"}{" "}
-            <FaCheck className="ml-1" />
+            {isCanceling ? "Canceling..." : "Cancel Order"}{" "}
+            <MdOutlineCancel className="ml-1" />
           </button>
         </>
       )}
@@ -470,12 +528,12 @@ function OrderHistory({ user }) {
                   <FaQrcode className="ml-1" />
                 </button>
                 <button
-                  onClick={() => handleVerifyPayment(selectedOrder.orderUuid)}
-                  disabled={isVerifying}
-                  className="flex-1 px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-green-400 transition-colors duration-200 flex items-center justify-center"
+                  onClick={() => handleCancelOrder(selectedOrder.orderUuid)}
+                  disabled={isCanceling}
+                  className="flex-1 px-4 py-2 text-white bg-accent_1 rounded-md hover:bg-green-700 disabled:bg-green-400 transition-colors duration-200 flex items-center justify-center"
                 >
-                  {isVerifying ? "Verifying..." : "Verify Payment"}{" "}
-                  <FaCheck className="ml-1" />
+                  {isCanceling ? "Canceling..." : "Cancel Order"}{" "}
+                  <MdOutlineCancel className="ml-1" />
                 </button>
               </div>
             )}
@@ -506,6 +564,26 @@ function OrderHistory({ user }) {
                 `Pay $${selectedOrder?.totalAmount?.toFixed(2)}`}
             </p>
           </div>
+        </div>
+      )}
+      {/* Payment Success Popup */}
+      {isPaymentSuccessOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <PaymentSuccess onClose={handleClosePaymentSuccess} />
+        </div>
+      )}
+
+      {/* Payment Failed Popup */}
+      {isPaymentFailedOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <PaymentFailed
+            onClose={handleClosePaymentFailed}
+            onTryAgain={() =>
+              handleTryAgain(
+                selectedOrder?.orderUuid || orders.pending[0]?.orderUuid
+              )
+            }
+          />
         </div>
       )}
     </div>

@@ -83,7 +83,7 @@ export default function AllProductPage() {
                   priceOut={e?.priceOut}
                   disPrice={(
                     e.priceOut -
-                    (e.priceOut * e.discount) / 100
+                    (e.priceOut * e.discount)
                   ).toFixed(2)}
                   dis={e?.discount || 0} // Discount percentage, default to 0 if not present
                 />

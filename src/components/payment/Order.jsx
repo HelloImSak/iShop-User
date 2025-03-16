@@ -1,6 +1,7 @@
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import PaymentSuccess from "../../components/payment/PaymentSuccess";
 import { useUserDataOfTokenQuery } from "../../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../../redux/service/cart/cartSlice";
 import { useMakeOrderMutation } from "../../redux/service/order/orderSlice";
@@ -32,7 +33,16 @@ export default function Order() {
   const [total, setTotal] = useState(initialTotal);
   const [deliveryMethod, setDeliveryMethod] = useState("pickup");
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
-
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [qrCodeImage, setQrCodeImage] = useState(null);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [resolvedOrderUuid, setResolvedOrderUuid] = useState(null);
+  const [verificationInterval, setVerificationInterval] = useState(null);
+  const [isPaymentSuccessOpen, setIsPaymentSuccessOpen] = useState(false);
+  const [isPaymentFailedOpen, setIsPaymentFailedOpen] = useState(false);
+  const [isVerifyPaymentOpen, setIsVerifyPaymentOpen] = useState(false); // New state for verify modal
   const { data: userData, isLoading: userLoading } = useUserDataOfTokenQuery(
     undefined,
     { skip: !token }
@@ -51,14 +61,6 @@ export default function Order() {
   const [bakongQr] = useBakongQrMutation();
   const [makePayment] = useMakePaymentMutation();
 
-  const [orderDetails, setOrderDetails] = useState(null);
-  const [qrCodeImage, setQrCodeImage] = useState(null);
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
-  const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState("");
-  const [resolvedOrderUuid, setResolvedOrderUuid] = useState(null);
-  const [verificationInterval, setVerificationInterval] = useState(null);
-
   // Debug data
   useEffect(() => {
     console.log("Order Data from Source:", orderData);
@@ -70,24 +72,36 @@ export default function Order() {
   // Initialize and sync cart data
   useEffect(() => {
     if (initialCartItems.length > 0 && cartUuid) {
-      // From Buy Now or Shopping Cart with cartUuid
-      setCartItems(initialCartItems);
-      calculateTotals(initialCartItems);
-      refetchCart(); // Sync with backend cart
-    } else if (cartData?.items && cartData.items.length > 0) {
-      // Fallback to API cart
-      const formattedItems = cartData.items.map((item) => ({
+      // From ProductDetail (Buy Now) or ShoppingCart with cartUuid
+      const formattedItems = initialCartItems.map((item) => ({
+        uuid: item.uuid || item.productUuid, // Use productUuid as fallback if no cart item uuid
+        productUuid: item.productUuid,
+        name: item.name || "Unknown Product",
+        price: item.price || 0, // Price from ProductDetail (already discounted if applicable)
+        quantity: item.quantity || 1,
+        totalPrice: (item.price || 0) * (item.quantity || 1), // Total based on price
+        thumbnail: item.thumbnail || "https://via.placeholder.com/64",
+        originalPrice: item.originalPrice || item.price || 0, // Original price before discount
+        discount: item.discount || 0, // Discount amount from ProductDetail
+      }));
+      setCartItems(formattedItems);
+      calculateTotals(formattedItems);
+      refetchCart(); // Sync with cart API if needed
+    } else if (cartData?.cartItems && cartData.cartItems.length > 0) {
+      // Fallback to API cart data if no initial data provided
+      const formattedItems = cartData.cartItems.map((item) => ({
         uuid: item.uuid,
         productUuid: item.productUuid,
-        name: item.product?.name || item.name || "Unknown Product",
-        price: item.price || item.product?.price || 0,
+        name: item.name || item.product?.name || "Unknown Product",
+        price: item.price || item.totalPrice / item.quantity || 0, // Use cart price
         quantity: item.quantity || 1,
-        totalPrice:
-          (item.price || item.product?.price || 0) * (item.quantity || 1),
+        totalPrice: item.totalPrice || (item.price || 0) * (item.quantity || 1),
         thumbnail:
           item.thumbnail ||
           item.product?.thumbnail ||
           "https://via.placeholder.com/64",
+        originalPrice:
+          item.originalPrice || item.totalPrice / item.quantity || 0,
         discount: item.discount || 0,
       }));
       setCartItems(formattedItems);
@@ -96,15 +110,19 @@ export default function Order() {
   }, [cartData, initialCartItems, cartUuid]);
 
   const calculateTotals = (items) => {
-    const newSubtotal = items.reduce((sum, item) => sum + item.totalPrice, 0);
-    const newDiscount = items.reduce(
-      (sum, item) => sum + (item.discount || 0) * item.quantity,
+    const newSubtotal = items.reduce(
+      (sum, item) => sum + item.originalPrice * item.quantity,
       0
     );
+    const newDiscount = items.reduce(
+      (sum, item) => sum + item.discount * item.quantity,
+      0
+    );
+    const newTotal = newSubtotal - newDiscount + initialShipping;
 
     setSubtotal(newSubtotal);
     setTotalDiscountAmount(newDiscount);
-    setTotal(newSubtotal - newDiscount);
+    setTotal(newTotal);
   };
 
   useEffect(() => {
@@ -112,6 +130,29 @@ export default function Order() {
       if (verificationInterval) clearInterval(verificationInterval);
     };
   }, [verificationInterval]);
+
+  const handleClosePaymentSuccess = () => {
+    setIsPaymentSuccessOpen(false);
+    setQrCodeImage(null);
+    if (verificationInterval) clearInterval(verificationInterval);
+    navigate("/profile-setting/order-history");
+  };
+
+  const handleClosePaymentFailed = () => {
+    setIsPaymentFailedOpen(false);
+    setQrCodeImage(null);
+    if (verificationInterval) clearInterval(verificationInterval);
+  };
+
+  const handleTryAgain = () => {
+    setIsPaymentFailedOpen(false);
+    generateBakongQr(resolvedOrderUuid, userUuid);
+  };
+
+  const handleConfirmPayment = () => {
+    setIsVerifyPaymentOpen(false);
+    setIsPaymentSuccessOpen(true); // Show PaymentSuccess after confirmation
+  };
 
   const handleMakeOrder = async () => {
     if (!userUuid || cartItems.length === 0) return;
@@ -161,15 +202,20 @@ export default function Order() {
       }
     } catch (error) {
       console.error("Failed to generate QR code:", error);
+      toast.error("Failed to generate QR code");
+      setIsQrModalOpen(false);
+      setIsPaymentFailedOpen(true);
     }
   };
 
   const startMd5VerificationLoop = async (md5) => {
     const bakongToken = import.meta.env.VITE_BAKONG_TOKEN;
-    console.log(
-      "Using Bakong token:",
-      bakongToken ? "Token exists" : "Token missing"
-    );
+    if (!bakongToken) {
+      toast.error("Payment verification unavailable: Token missing");
+      setIsQrModalOpen(false);
+      setIsPaymentFailedOpen(true);
+      return;
+    }
 
     const checkMd5WithToken = async () => {
       try {
@@ -214,32 +260,31 @@ export default function Order() {
               }).unwrap();
               console.log("Payment processed successfully:", paymentResponse);
               setPaymentStatus("Payment successful! Email confirmation sent.");
+              setIsQrModalOpen(false);
+              setIsPaymentSuccessOpen(true);
             } catch (paymentError) {
               console.error("Payment processing failed:", paymentError);
               setPaymentStatus(
                 "Payment verified but processing failed. Please contact support."
               );
+              setIsQrModalOpen(false);
+              setIsPaymentFailedOpen(true);
             }
           } else {
             setPaymentStatus(
               `Payment amount (${receivedAmount} USD) does not match order total (${total} USD).`
             );
             clearInterval(intervalId);
+            setIsQrModalOpen(false);
+            setIsPaymentFailedOpen(true);
           }
         }
       } catch (error) {
         console.error("MD5 verification failed:", error);
-        if (error.status === 401) {
-          setPaymentStatus(
-            "Payment verification failed: Authentication error."
-          );
-          clearInterval(intervalId);
-        } else if (error.status === 400) {
-          setPaymentStatus("Payment verification failed: Invalid request.");
-          clearInterval(intervalId);
-        } else {
-          setPaymentStatus("Waiting for payment...");
-        }
+        setPaymentStatus("Payment verification failed. Please try again.");
+        clearInterval(intervalId);
+        setIsQrModalOpen(false);
+        setIsPaymentFailedOpen(true);
       }
     }, 5000);
 
@@ -254,7 +299,7 @@ export default function Order() {
     calculateTotals(cartItems);
   };
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 pt-40">
       <h1 className="text-2xl font-bold mb-6">Order Summary</h1>
 
       {userLoading || cartLoading ? (
@@ -273,7 +318,7 @@ export default function Order() {
               cartItems.map((item, index) => (
                 <div
                   key={item.productUuid || index}
-                  className="flex justify-between items-center pb-4 border-b last:border-b-0"
+                  className="flex justify-between items-center pb-4 pt-2 border-b last:border-b-0"
                 >
                   <div className="flex items-center gap-4">
                     <img
@@ -333,7 +378,7 @@ export default function Order() {
                     onChange={() => handleDeliveryMethodChange("delivery")}
                     className="mr-2"
                   />
-                  Delivery ($5)
+                  Delivery (Free)
                 </label>
               </div>
             </div>
@@ -400,6 +445,7 @@ export default function Order() {
             </div>
           )}
 
+          {/* QR Code Modal */}
           {isQrModalOpen && qrCodeImage && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
               <div className="bg-white p-6 rounded-lg shadow-lg relative w-96">
@@ -431,6 +477,21 @@ export default function Order() {
                   </p>
                 )}
               </div>
+            </div>
+          )}
+          {/* Payment Success Popup */}
+          {isPaymentSuccessOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <PaymentSuccess onClose={handleClosePaymentSuccess} />
+            </div>
+          )}
+          {/* Payment Failed Popup */}
+          {isPaymentFailedOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <PaymentFailed
+                onClose={handleClosePaymentFailed}
+                onTryAgain={handleTryAgain}
+              />
             </div>
           )}
         </div>

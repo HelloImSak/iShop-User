@@ -19,7 +19,7 @@ import Logo from "../../assets/logo/ishop-dark-logo.png";
 
 const navLinks = [
   {
-    to: "/all-products",
+    to: "/products",
     label: "All Products",
   },
   {
@@ -255,7 +255,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
                   <NavLink to="/shopping-cart" className="relative">
                     <BsCart
                       className="text-primary text-xl hover:text-secondary"
-                      onClick={() => navigate("/cart")}
+                      onClick={() => navigate("/shopping-cart")}
                     />
                     {cartItems > 0 && (
                       <span className="absolute -top-2 -right-3 bg-red-500 text-primary text-xs rounded-full px-1.5">

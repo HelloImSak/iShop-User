@@ -16,7 +16,7 @@ export default function NoCartCom() {
           Your cart is Empty
         </p>
         <Link
-          to="/"
+          to="/products"
           className="mt-4 px-6 py-3 border border-orange-400 text-orange-400 rounded-lg hover:bg-orange-100 transition"
         >
           Continue Shopping

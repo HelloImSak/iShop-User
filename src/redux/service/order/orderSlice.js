@@ -40,6 +40,9 @@ export const orderApi = createApi({
       query: (orderUuid) => ({
         url: `/api/v1/orders/cancel-order/${orderUuid}`,
         method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       }),
     }),
   }),

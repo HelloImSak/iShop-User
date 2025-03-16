@@ -48,6 +48,7 @@ export const cartApi = createApi({
         method: "PUT",
         body: (cartUuid, cartItemUuid),
       }),
+      invalidatesTags: ["Cart"],
     }),
 
     removeAllItems: builder.mutation({

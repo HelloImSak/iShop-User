@@ -25,7 +25,6 @@ const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
 
   // handle login with google
-
   const googleRegister = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       if (tokenResponse) {

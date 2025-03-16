@@ -19,39 +19,29 @@ import ShoppingCart from "../pages/cart/ShoppingCart";
 import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Detail from "../pages/products/Detail";
-import Products from "../pages/products/Products";
 import OrderHistory from "../pages/user/OrderHistory";
 import Profile from "../pages/user/Profile";
 import { useUserDataOfTokenQuery } from "../redux/features/auth/authSlice";
 import { useGetUserCartQuery } from "../redux/service/cart/cartSlice";
-import { useLazyGetAllQuery } from "../redux/service/product/productSlice";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("accessToken");
   const { data: userData, error } = useUserDataOfTokenQuery(undefined, {
-    skip: !token, // Skip API call if no token
+    skip: !token,
   });
   // console.log("userdata: ", userData);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // Set based on token presence
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token);
 
   const [cartItems, setCartItems] = useState(0);
 
-  // Fetch all products for the entire app
-  const {
-    data: products,
-    isLoading: productLoading,
-    error: productError,
-  } = useLazyGetAllQuery();
-
-  // Fetch cart data using the user's UUID
-  const userUuid = userData?.uuid; // uuid is in userData
+  const userUuid = userData?.uuid;
   const {
     data: cartData,
     error: cartError,
     isLoading: cartLoading,
   } = useGetUserCartQuery(userUuid, {
-    skip: !userUuid || !isLoggedIn, // Skip if no userId or not logged in
+    skip: !userUuid || !isLoggedIn,
   });
   useEffect(() => {
     if (error) {
@@ -63,10 +53,8 @@ export default function AppRoutes() {
     }
   }, [userData, error]);
 
-  // Update cartItems when cart data is fetched
   useEffect(() => {
     if (cartData?.cartItems) {
-      // Sum the quantities of all cart items
       const totalQuantity = cartData.cartItems.reduce(
         (sum, item) => sum + item.quantity,
         0
@@ -87,7 +75,6 @@ export default function AppRoutes() {
     ? JSON.parse(storedUserData).profile
     : null;
 
-  // get profile from stored profile
   const activeProfile = userData?.profile || storedProfile;
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -124,12 +111,8 @@ export default function AppRoutes() {
             }
           >
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-            <Route path="/all-products" element={<AllProductPage />} />
+            <Route path="/products" element={<AllProductPage />} />
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
-            <Route
-              path="/products"
-              element={<Products products={products} />} // Pass products as prop
-            />
             <Route path="/brand" element={<Brand />} />
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/category/phone" element={<Category />} />
@@ -144,7 +127,7 @@ export default function AppRoutes() {
               path="/shopping-cart"
               element={<ShoppingCart userUuid={userUuid} />}
             />
-
+            <Route path="/order" element={<Order />} />
             <Route
               path="/profile-setting"
               element={<Profile user={userData} />}
@@ -189,7 +172,6 @@ export default function AppRoutes() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/order" element={<Order />} />
           </Route>
         </Routes>
       </Router>

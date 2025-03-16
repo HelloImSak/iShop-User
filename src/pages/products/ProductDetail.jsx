@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa6";
 import { TiMinus } from "react-icons/ti";
-import { useNavigate } from "react-router-dom"; // Corrected import
+import { useNavigate } from "react-router-dom";
 import { useAddToCartMutation } from "../../redux/service/cart/cartSlice";
 
 const ProductDetail = ({
@@ -14,9 +14,6 @@ const ProductDetail = ({
   price = 0,
   originalPrice = 0,
   description = "",
-  size = "",
-  memoryOptions = [],
-  storageOptions = [],
   isLoggedIn = false,
   userUuid,
   productUuid,
@@ -30,13 +27,13 @@ const ProductDetail = ({
   const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
   const navigate = useNavigate();
 
-  const increaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
+  // Calculate discount and discounted price
+  const discount = originalPrice > price ? originalPrice - price : 0;
+  const discountedPrice = price; // This is the price after discount passed as 'price'
 
-  const decreaseQuantity = () => {
+  const increaseQuantity = () => setQuantity((prev) => prev + 1);
+  const decreaseQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  };
 
   const selectedColorOption = colorOptions.find(
     (option) => option.color === selectedColor
@@ -69,6 +66,9 @@ const ProductDetail = ({
         userUuid,
         productUuid,
         quantity,
+        price: discountedPrice, // Pass discounted price
+        discount, // Pass discount amount
+        originalPrice, // Pass original price
       }).unwrap();
       toast.success("Item added to cart!", {
         position: "top-center",
@@ -94,11 +94,13 @@ const ProductDetail = ({
       return;
     }
     try {
-      // Add to cart and get the response
       const response = await addToCart({
         userUuid,
         productUuid,
         quantity,
+        price: discountedPrice,
+        discount,
+        originalPrice,
       }).unwrap();
 
       toast.success("Item added to cart, proceeding to order!", {
@@ -106,29 +108,27 @@ const ProductDetail = ({
         duration: 3000,
       });
 
-      // Extract cartUuid from response (adjust based on your API response structure)
-      const cartUuid = response?.cartUuid || response?.uuid; // Adjust this based on actual response
-
-      // Prepare cart item data
+      const cartUuid = response?.cartUuid || response?.uuid;
       const cartItem = {
         productUuid,
         quantity,
-        price,
+        price: discountedPrice,
+        originalPrice,
+        discount,
         name: title,
         thumbnail: images[0] || thumbnail,
-        totalPrice: price * quantity,
-        discount: originalPrice > price ? originalPrice - price : 0,
+        totalPrice: discountedPrice * quantity,
       };
 
       navigate("/order", {
         state: {
           userUuid,
-          cartUuid, // Pass the cartUuid
+          cartUuid,
           cartItems: [cartItem],
-          subtotal: price * quantity,
-          totalDiscountAmount: cartItem.discount * quantity,
+          subtotal: originalPrice * quantity,
+          totalDiscountAmount: discount * quantity,
           shippingCost: 0,
-          total: price * quantity - cartItem.discount * quantity,
+          total: discountedPrice * quantity,
         },
       });
     } catch (error) {
@@ -144,7 +144,6 @@ const ProductDetail = ({
     <section className="pt-40 pb-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-          {/* Product Thumbnail Section */}
           <div className="flex flex-col items-center relative">
             <div className="relative w-full max-w-lg">
               <img
@@ -153,7 +152,6 @@ const ProductDetail = ({
                 className="w-full h-[400px] object-contain rounded-lg"
               />
             </div>
-
             <div className="flex gap-4 justify-center flex-wrap mt-4">
               {images.map((thumbnail, index) => (
                 <img
@@ -169,13 +167,11 @@ const ProductDetail = ({
                 />
               ))}
             </div>
-
             <div className="hidden lg:block">
               <Description />
             </div>
           </div>
 
-          {/* Product Details */}
           <div className="mt-6 sm:mt-8 lg:mt-0">
             <p className="text-sm text-gray-500">
               Category:{" "}
@@ -194,14 +190,21 @@ const ProductDetail = ({
               Brand: <span className="text-primary text-caption">{brand}</span>
             </p>
 
-            <p className="text-h4 lg:text-h3 font-OpenSanSemiBold text-gray-900 mt-4">
-              ${price.toFixed(2)}{" "}
-              {originalPrice > price && (
-                <span className="line-through text-red-500 mr-2 text-h6">
-                  ${originalPrice.toFixed(2)}
-                </span>
-              )}
-            </p>
+            <div className="mt-4">
+              <p className="text-h4 lg:text-h3 font-OpenSanSemiBold text-gray-900">
+                ${discountedPrice.toFixed(2)}
+                {discount > 0 && (
+                  <>
+                    <span className="line-through text-red-500 mr-2 text-h6">
+                      ${originalPrice.toFixed(2)}
+                    </span>
+                    <span className="text-sm text-red-500">
+                      ({((discount / originalPrice) * 100).toFixed(0)}% OFF)
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
 
             <div className="mt-6 space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
               <div>
@@ -224,13 +227,9 @@ const ProductDetail = ({
                   ))}
                 </select>
               </div>
-
-              <div>
-                Size: <span className="text-primary text-caption">{size}</span>
-              </div>
             </div>
 
-            <div className="mt-6 flex flex-col lg:flex-row gap-4 items-center w-full">
+            <div className="mt-6 flex flex-col lg:flex-row gap-4 items-start w-full">
               <div className="flex items-center border border-gray-300 rounded-md">
                 <button
                   className="px-6 py-2 text-gray-500 hover:text-gray-700"
@@ -256,7 +255,7 @@ const ProductDetail = ({
               <button
                 className={`w-full lg:w-auto lg:flex-1 bg-secondary text-white font-medium py-2 px-5 rounded-lg focus:outline-none focus:ring-4 focus:ring-orange-300 ${
                   isLoggedIn
-                    ? "hover:bg-orange-600"
+                    ? "hover:bg-secondary"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
                 onClick={handleAddToCart}
@@ -268,11 +267,11 @@ const ProductDetail = ({
               <button
                 className={`w-full lg:w-auto lg:flex-1 bg-primary text-white font-medium py-2 px-5 rounded-lg ${
                   isLoggedIn
-                    ? "hover:bg-blue-600" // Adjusted hover color
+                    ? "hover:bg-primary"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
                 onClick={handleBuyNow}
-                disabled={isAdding} // Disable while adding to prevent multiple clicks
+                disabled={isAdding}
               >
                 Buy Now
               </button>
