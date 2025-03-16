@@ -312,7 +312,7 @@ export default function Order() {
       ) : (
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Side - Product Details */}
-          <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-md">
+          <div className="lg:w-full bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Items</h2>
             {cartItems.length > 0 ? (
               cartItems.map((item, index) => (

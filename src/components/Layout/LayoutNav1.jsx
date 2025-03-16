@@ -4,7 +4,7 @@ import NavOneCom from "../Nav-Foot/NavOneCom";
 
 export default function LayoutNav1({ isLoggedIn, profile, cartItems, user }) {
   return (
-    <div className="flex flex-col">
+    <div className="">
       <header>
         <NavOneCom
           isLoggedIn={isLoggedIn}

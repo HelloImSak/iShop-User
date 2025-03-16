@@ -68,7 +68,7 @@ export default function DiscountProduct() {
                 dis={e?.discount}
                 disPrice={(
                   e.priceOut -
-                  (e.priceOut * e.discount) / 100
+                  (e.priceOut * e.discount)
                 ).toFixed(2)}
               />
             ))}

@@ -41,22 +41,30 @@ export default function NewArrivals() {
   }
 
   return (
-    <main className="">
+    <main className="px-4 lg:px-0">
       <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-primary text-center font-OpenSanBold mb-8 pt-[30px]">
         New Arrivals Products
       </h1>
-      <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-7 ">
-        {data?.content?.map((e) => (
-          <CardCom
-            key={e?.uuid}
-            uuid={e?.uuid}
-            thumbnail={e?.thumbnail}
-            name={e?.name}
-            brand={e?.brand?.name}
-            price={e?.priceOut}
-          />
-        ))}
-      </section>
+      {newestProducts.length === 0 ? (
+        <div className="text-center py-10 text-gray-500">
+          No new products available
+        </div>
+      ) : (
+        <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-7 ">
+          {newestProducts.map((e) => (
+            <CardDisCom
+              key={e?.uuid}
+              uuid={e?.uuid}
+              thumbnail={e?.thumbnail}
+              name={e?.name}
+              brand={e?.brand?.name}
+              priceOut={e?.priceOut}
+              disPrice={(e.priceOut - e.discount * 100).toFixed(2)}
+              dis={e?.discount || 0}
+            />
+          ))}
+        </section>
+      )}
     </main>
   );
 }
