@@ -4,7 +4,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa6";
 import { TiMinus } from "react-icons/ti";
 import { NavLink, useNavigate } from "react-router";
-import NoCartCom from "../../components/cart/NoCartCom";
+import NoCartCom from "../../components/card/NoCartCom";
 import {
   useAddQtyByOneMutation,
   useGetUserCartQuery,

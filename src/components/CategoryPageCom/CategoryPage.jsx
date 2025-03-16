@@ -1,22 +1,20 @@
 import React from "react";
 import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
-import CardCom from "../cart/CardCom";
+import CardCom from "../card/CardCom";
 import Banner from "./Banner";
+import FilterDis from "../AllProductCom/FilterDis";
 
 export default function CategoryPage() {
   const { data: proCate, isLoading, isError } = useLazyGetAllQuery();
   console.log("data", proCate);
 
   return (
-    <main className="min-h-screen px-[32px] pt-8 md:pt-16">
+    <main className="min-h-screen pt-20">
       <Banner />
       <div className="py-10 w-full px-4 sm:px-6 lg:px-8">
-        <h1 className="font-bold text-center mb-10 text-primary text-2xl sm:text-3xl md:text-4xl py-7">
-          Top Category
-        </h1>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filter Section - Left Side */}
-          <div className="w-full lg:w-1/4 xl:w-1/5">
+          <div className="w-full lg:w-1/4 xl:w-1/5 lg:ml-[50px]">
             <FilterDis />
           </div>
 

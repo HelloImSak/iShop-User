@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
-import CardDisCom from "../cart/CardDisCom";
+import CardDisCom from "../card/CardDisCom";
 
 export default function NewArrivals() {
   const [fetchProducts, { data, isLoading, isError, error }] =
@@ -59,7 +59,7 @@ export default function NewArrivals() {
               name={e?.name}
               brand={e?.brand?.name}
               priceOut={e?.priceOut}
-              disPrice={(e.priceOut - e.discount * 100).toFixed(2)}
+              disPrice={(e.priceOut - e.discount * e.priceOut).toFixed(2)}
               dis={e?.discount || 0}
             />
           ))}

@@ -42,8 +42,8 @@ const ProductDetail = ({
 
   const Description = () => (
     <div className="text-gray-600 space-y-4 mx-5 mt-10">
-      <h2 className="text-lg font-medium text-primary">Description</h2>
-      <p>{description}</p>
+      <h2 className="text-h6 lg:text-h5 font-medium text-primary">Description</h2>
+      <p className="text-body lg:text-lg">{description}</p>
     </div>
   );
 
@@ -177,7 +177,7 @@ const ProductDetail = ({
               Category:{" "}
               <span className="text-primary text-caption">{category}</span>
             </p>
-            <h1 className="text-h6 sm:text-h5 font-semibold text-gray-900 mt-2">
+            <h1 className="text-h5 lg:text-h4 font-semibold text-gray-900 mt-2">
               {title}
             </h1>
             <p className="text-sm text-gray-700 mt-2">
@@ -191,11 +191,11 @@ const ProductDetail = ({
             </p>
 
             <div className="mt-4">
-              <p className="text-h4 lg:text-h3 font-OpenSanSemiBold text-gray-900">
-                ${discountedPrice.toFixed(2)}
+              <p className="text-h5 lg:text-2xl font-OpenSanSemiBold text-gray-900">
+                ${discountedPrice.toFixed(2)} {" "}
                 {discount > 0 && (
                   <>
-                    <span className="line-through text-red-500 mr-2 text-h6">
+                    <span className="line-through text-red-500 mr-2 text-body">
                       ${originalPrice.toFixed(2)}
                     </span>
                     <span className="text-sm text-red-500">
