@@ -69,11 +69,10 @@ const HomeBanner = () => {
             <div className="des">
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px] ">
-              Shop Now
-            </button>
-
           </div>
         </div>
 
@@ -91,10 +90,10 @@ const HomeBanner = () => {
             <div className="des">
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
-              Shop Now
-            </button>
           </div>
         </div>
 
@@ -112,10 +111,10 @@ const HomeBanner = () => {
             <div className="des">
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
-              Shop Now
-            </button>
           </div>
         </div>
 
@@ -135,19 +134,25 @@ const HomeBanner = () => {
             <div className="des">
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 sm-mt-2 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
-              Shop Now
-            </button>
           </div>
         </div>
       </div>
 
       <div className="arrows">
-        <button id="prev" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[6px] text-gray-500 ">
+        <button
+          id="prev"
+          className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[6px]  text-gray-500 "
+        >
           <FaArrowLeft />
         </button>
-        <button id="next" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[7px] text-gray-500 ">
+        <button
+          id="next"
+          className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[7px] text-gray-500 "
+        >
           <FaArrowRight />
         </button>
       </div>

@@ -91,19 +91,46 @@ const FooterComponent = () => {
                 </li>
                 <li>
                   <div className="flex mt-4 sm:justify-center sm:mt-0">
-                    <a href="#" className="text-gray-500">
+                    <a href="#" className="text-blue-600">
                       <FaFacebook className="w-6 h-6" />
                       <span className="sr-only">Facebook page</span>
                     </a>
-                    <a href="#" className="text-gray-500 ms-5">
+                    <a href="#" className="text-black ms-5">
                       <FaSquareXTwitter className="w-6 h-6" />
                       <span className="sr-only">Twitter page</span>
                     </a>
-                    <a href="#" className="text-gray-500 ms-5">
-                      <RiInstagramFill className="w-6 h-6" />
+                    <a href="#" className="ms-5">
+                      <svg
+                        width="37"
+                        height="37"
+                        viewBox="0 0 24 24"
+                        fill="url(#instagramGradient)"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <defs>
+                          <linearGradient
+                            id="instagramGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="100%"
+                          >
+                            <stop offset="0%" stopColor="#f09433" />
+                            <stop offset="25%" stopColor="#e6683c" />
+                            <stop offset="50%" stopColor="#dc2743" />
+                            <stop offset="75%" stopColor="#cc2366" />
+                            <stop offset="100%" stopColor="#bc1888" />
+                          </linearGradient>
+                        </defs>
+                        <RiInstagramFill
+                          className="w-6 h-6"
+                          fill="url(#instagramGradient)"
+                        />
+                      </svg>
                       <span className="sr-only">Instagram account</span>
                     </a>
-                    <a href="#" className="text-gray-500 ms-5">
+
+                    <a href="#" className="text-[#33AAE2] ms-3">
                       <FaTelegram className="w-6 h-6" />
                       <span className="sr-only">Telegram account</span>
                     </a>
@@ -116,8 +143,8 @@ const FooterComponent = () => {
 
         <hr className="my-1 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-1" />
 
-        <div className="text-center">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <div className="text-center p-3">
+          <span className="text-sm text-white  dark:text-white sm:text-center">
             © 2025{" "}
             <a href="#" className="hover:underline">
               iShop™

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import firstCustomer from "../../assets/TeamsImage/Seyla.png";
 import secondCustomer from "../../assets/TeamsImage/Nita.png";
-import thirdCustomer from "../../assets/TeamsImage/Pisethi.png";
-import fourCustomer from "../../assets/TeamsImage/Vanly.png";
+import thirdCustomer from "../../assets/TeamsImage/Pisethi.jpg";
+import fourCustomer from "../../assets/TeamsImage/Vanly.jpg";
 
 const testimonials = [
   {
