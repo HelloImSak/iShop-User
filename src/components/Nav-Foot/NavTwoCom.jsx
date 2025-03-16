@@ -18,7 +18,7 @@ import Logo from "../../assets/logo/ishop-light-logo.png";
 const navLinks = [
   {
     to: "/products",
-    label: "All Products",
+    label: "Products",
   },
   {
     label: "Categories",

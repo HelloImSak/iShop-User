@@ -60,10 +60,10 @@ export default function AllProductPage() {
   }, [hasMore, isFetching, page]); // Add dependencies to re-create observer when these change
 
   return (
-    <main className="min-h-screen pt-8 md:pt-16">
+    <main className="min-h-screen pt-8 md:pt-20">
       <BannerAllPro />
 
-      <div className="container mx-auto py-10 px-4 sm:px-8 md:px-[50px] lg:px-[80px] xl:px-[100px]">
+      <div className="max-w-screen-2xl mx-auto px-[50px] py-10 sm:px-8 md:px-[50px] lg:px-[80px] xl:px-[100px]">
         <div className="flex flex-col lg:flex-row gap-[30px]">
           {/* Sidebar Filter */}
           <div className="w-full lg:w-1/4 xl:w-1/5">

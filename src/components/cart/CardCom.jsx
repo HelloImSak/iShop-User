@@ -4,10 +4,10 @@ import { BsCart3 } from "react-icons/bs";
 export default function CardCom({ uuid, thumbnail, name, brand, price }) {
   return (
     <main className="flex items-center justify-center">
-      <div className="w-[310px] max-w-sm bg-white border border-gray-200 rounded-[25px] p-5 hover:shadow-[0px_1px_5px_rgba(0,0,0,0.15)]">
+      <div className="max-w-sm bg-white border border-gray-200 rounded-[15px] p-5 hover:shadow-[0px_1px_5px_rgba(0,0,0,0.10)]">
         <a href={`/product-detail/${uuid}`}>
           <img
-            className="rounded-t-lg mx-auto object-contain "
+            className="rounded-t-md h-[300px] w-full object-cover "
             src={thumbnail}
             alt={name}
           />

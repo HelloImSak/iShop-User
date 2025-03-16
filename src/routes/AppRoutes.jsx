@@ -14,7 +14,6 @@ import Order from "../components/payment/Order";
 import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
-import Brand from "../pages/Brand";
 import ShoppingCart from "../pages/cart/ShoppingCart";
 import Category from "../pages/Category";
 import Home from "../pages/Home";
@@ -113,7 +112,7 @@ export default function AppRoutes() {
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
             <Route path="/products" element={<AllProductPage />} />
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
-            <Route path="/brand" element={<Brand />} />
+            
             <Route path="/discount-products" element={<DiscountPage />} />
             <Route path="/category/phone" element={<Category />} />
             <Route path="/category/laptop" element={<Category />} />

@@ -13,12 +13,12 @@ export default function FilterDis({ onFilterChange }) {
   const {
     data: brandData,
     isLoading: isBrandLoading,
-    isError: isBrandError,
+    isError: isBrandError
   } = useGetAllBrandQuery();
   const {
     data: categoryData,
     isLoading: isCategoryLoading,
-    isError: isCategoryError,
+    isError: isCategoryError
   } = useGetAllCategoriesQuery();
 
   // Handle checkbox changes
@@ -51,7 +51,7 @@ export default function FilterDis({ onFilterChange }) {
     <div className="relative">
       <button
         onClick={() => setIsFilterOpen(!isFilterOpen)}
-        className="lg:hidden flex items-center bg-primary text-white py-2 px-4 rounded-md text-lg font-semibold"
+        className="lg:hidden flex items-center bg-primary text-white px-4 rounded-md text-lg font-semibold"
       >
         <HiOutlineFilter className="text-xl mr-2" />
         <span>Filter</span>
@@ -63,7 +63,7 @@ export default function FilterDis({ onFilterChange }) {
       </button>
       {/* Filter Sidebar/Dropdown */}
       <aside
-        className={`absolute top-0 left-0 w-[240px] bg-white rounded-lg p-5 z-20 shadow-lg transition-all duration-300 ${
+        className={`absolute top-0 left-0 w-[240px] bg-white rounded-lg pr-7 z-20 shadow-lg transition-all duration-300 ${
           isFilterOpen ? "block" : "hidden"
         } lg:block lg:relative lg:w-64 lg:max-w-[300px] lg:z-10 lg:shadow-none`}
       >

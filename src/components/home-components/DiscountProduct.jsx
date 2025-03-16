@@ -45,8 +45,8 @@ export default function DiscountProduct() {
   }
 
   return (
-    <>
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-primary text-center font-OpenSanBold mb-[50px] pt-[30px]">
+    <section>
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-primary text-center font-OpenSanBold mb-[50px]  pt-[30px]">
         Discount Products
       </h1>
 
@@ -56,7 +56,7 @@ export default function DiscountProduct() {
             No discounted products available
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-7 mb-8">
             {discountedProducts.map((e) => (
               <CardDisCom
                 key={e?.uuid}
@@ -75,6 +75,6 @@ export default function DiscountProduct() {
           </div>
         )}
       </div>
-    </>
+    </section>
   );
 }
