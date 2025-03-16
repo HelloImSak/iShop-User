@@ -61,8 +61,8 @@ const HomeBanner = () => {
             alt="Slide 1"
             className="responsive-img1 w-auto h-auto object-contain "
           />
-          <div className="introduce">
-            <div className="title">
+          <div className="introduce ">
+            <div className="title ">
               Most comfortable 2025 PS4 gaming headset
             </div>
             <div className="topic">HeadPhone</div>
@@ -70,7 +70,7 @@ const HomeBanner = () => {
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
+            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px] ">
               Shop Now
             </button>
 
@@ -144,10 +144,10 @@ const HomeBanner = () => {
       </div>
 
       <div className="arrows">
-        <button id="prev" className="ps-3 text-gray-500 ">
+        <button id="prev" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[6px] text-gray-500 ">
           <FaArrowLeft />
         </button>
-        <button id="next" className="ps-3 text-gray-500 ">
+        <button id="next" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[7px] text-gray-500 ">
           <FaArrowRight />
         </button>
       </div>
