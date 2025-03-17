@@ -18,6 +18,7 @@ export default function AllProductPage() {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState(4950); // Max price
+  const [minPrice, setMinPrice] = useState(0); // Min price
   const [showDiscountedItems, setShowDiscountedItems] = useState(false); // Discount filter
 
   // Initial fetch
@@ -58,7 +59,8 @@ export default function AllProductPage() {
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(product.category?.uuid);
-      const matchesPrice = product.priceOut <= priceRange;
+      const matchesPrice =
+        product.priceOut >= minPrice && product.priceOut <= priceRange;
       const matchesDiscount =
         !showDiscountedItems || (product.discount && product.discount > 0);
 
@@ -66,7 +68,7 @@ export default function AllProductPage() {
     });
 
     setFilteredProducts(filtered);
-  }, [selectedBrands, selectedCategories, priceRange, showDiscountedItems, products]);
+  }, [selectedBrands, selectedCategories, priceRange, minPrice, showDiscountedItems, products]);
 
   // Set up Intersection Observer for infinite scrolling
   useEffect(() => {
@@ -106,6 +108,7 @@ export default function AllProductPage() {
                 setSelectedBrands={setSelectedBrands}
                 setSelectedCategories={setSelectedCategories}
                 setPriceRange={setPriceRange}
+                setMinPrice={setMinPrice} // Pass setMinPrice to the Filter component
                 setShowDiscountedItems={setShowDiscountedItems}
               />
             </div>
