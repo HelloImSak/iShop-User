@@ -121,8 +121,8 @@ export default function AllProductPage() {
             </div>
 
             {/* Product Grid */}
-            <div className="w-full">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <div className="">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 {filteredProducts.length === 0 ? (
                   <div className="text-center font-OpenSanSemiBold py-10 text-primary">
                     No discounted products available
