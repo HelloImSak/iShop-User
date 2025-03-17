@@ -44,7 +44,7 @@ const HomeBanner = () => {
 
     nextButton.onclick = () => showSlider("next");
     prevButton.onclick = () => showSlider("prev");
-  }, []);
+  },);
 
   return (
     <div
