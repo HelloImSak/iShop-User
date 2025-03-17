@@ -20,7 +20,7 @@ export default function CardDisCom({
       )}
       <a href={`/product-detail/${uuid}`}>
         <img
-          className="rounded-t-md h-[300px] w-full object-contain"
+          className="rounded-t-md h-[180px] w-full object-contain"
           src={thumbnail}
           alt={name}
         />
