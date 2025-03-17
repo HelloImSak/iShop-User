@@ -68,7 +68,14 @@ export default function AllProductPage() {
     });
 
     setFilteredProducts(filtered);
-  }, [selectedBrands, selectedCategories, priceRange, minPrice, showDiscountedItems, products]);
+  }, [
+    selectedBrands,
+    selectedCategories,
+    priceRange,
+    minPrice,
+    showDiscountedItems,
+    products,
+  ]);
 
   // Set up Intersection Observer for infinite scrolling
   useEffect(() => {
@@ -117,8 +124,8 @@ export default function AllProductPage() {
             <div className="w-full">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
                 {filteredProducts.length === 0 ? (
-                  <div className="text-center py-10 text-gray-500">
-                    No products found.
+                  <div className="text-center font-OpenSanSemiBold py-10 text-primary">
+                    No discounted products available
                   </div>
                 ) : (
                   filteredProducts.map((e) => (
@@ -129,7 +136,9 @@ export default function AllProductPage() {
                       name={e?.name}
                       brand={e?.brand?.name}
                       priceOut={e?.priceOut}
-                      disPrice={(e.priceOut - e.priceOut * e.discount).toFixed(2)}
+                      disPrice={(e.priceOut - e.priceOut * e.discount).toFixed(
+                        2
+                      )}
                       dis={e?.discount || 0} // Discount percentage, default to 0 if not present
                     />
                   ))
