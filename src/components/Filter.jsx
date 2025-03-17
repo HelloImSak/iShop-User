@@ -85,7 +85,9 @@ export default function Filter({
                 onChange={() => handleCategoryChange(category.uuid)}
                 className="mr-2 h-4 w-4 checked:bg-primary"
               />
-              <label htmlFor={`category-${category.uuid}`}>{category.name}</label>
+              <label htmlFor={`category-${category.uuid}`}>
+                {category.name}
+              </label>
             </li>
           ))}
         </ul>
@@ -138,4 +140,3 @@ export default function Filter({
     </div>
   );
 }
-
