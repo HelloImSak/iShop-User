@@ -313,44 +313,13 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
                   </div>
                 </div>
               ) : (
-                <div className="relative">
-                  <button
-                    type="button"
-                    className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
-                      alt="profile"
-                      className="w-10 h-10 rounded-full border"
-                    />
-                  </button>
-
-                  {isOpen && (
-                    <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
-                      <ul className="py-2">
-                        <li>
-                          <a
-                            href="/login"
-                            className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                          >
-                            Login
-                          </a>
-                        </li>
-
-                        <li>
-                          <a
-                            href="/register"
-                            className="cursor-pointer block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                          >
-                            Sign Up
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                <button
+                  type="button"
+                  class="flex items-center py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-primary hover:text-white"
+                  onClick={handleLogin}
+                >
+                  Login
+                </button>
               )}
             </div>
             {/* Mobile Search Popup */}
@@ -514,44 +483,13 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
                 </div>
               </div>
             ) : (
-              <div className="relative">
-                <button
-                  type="button"
-                  className="flex text-caption bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
-                    alt="profile"
-                    className="w-10 h-10 rounded-full border"
-                  />
-                </button>
-
-                {isOpen && (
-                  <div className="absolute right-1 mt-3 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
-                    <ul className="py-2">
-                      <li>
-                        <a
-                          href="/login"
-                          className="block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >
-                          Login
-                        </a>
-                      </li>
-
-                      <li>
-                        <a
-                          href="/register"
-                          className="cursor-pointer block px-4 py-2 text-caption text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >
-                          Sign Up
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </div>
+              <button
+                type="button"
+                class="flex items-center py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-primary hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                onClick={handleLogin}
+              >
+                Login
+              </button>
             )}
           </div>
         </nav>
