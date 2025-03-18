@@ -24,13 +24,13 @@ function HeadphonePromo() {
           Wireless
         </h3>
         <div className="mt-6">
-          <span className="text-xl  md:text-[18px] sm:text-[16px] font-bold text-black">
+          <span className="text-xl lg:text-[25px]    md:text-[18px] sm:text-[13px] font-bold text-black">
             Up to
           </span>
-          <span className="ml-4 sm:ml-1 text-9xl  md:text-4xl sm:text-3xl  font-bold text-blue-400 max-md:text-6xl max-sm:text-5xl">
+          <span className="ml-4  text-9xl  md:text-4xl sm:text-3xl  font-bold text-blue-400 max-md:text-6xl max-sm:text-5xl">
             30%
           </span>
-          <span className="ml-4 sm:ml-1 text-xl  md:text-[18px] sm:text-[16px] font-bold text-black">
+          <span className="ml-4  text-xl lg:text-[25px]  md:text-[18px] sm:text-[13px] font-bold text-black">
             Off
           </span>
         </div>
@@ -40,7 +40,7 @@ function HeadphonePromo() {
       </div>
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/69a5bc490837e9a80ba63f758730f85c232a0aef"
-        className="absolute 2xl:top-[-50px] 2xl:left-40 xl:top-[-50px] xl:left-40 2xl:h-[580px] xl:h-[580px] h-[580px]lg:top-[-50px] lg:left-40 lg:h-[500px] md:top-[-36px] md:left-24 md:h-[370px]  top-[36px] left-24 sm:h-[390px] w-auto max-md:h-auto max-md:w-full"
+        className="absolute 2xl:top-[-50px] 2xl:left-40 xl:top-[-70px] xl:left-40 2xl:h-[580px] xl:h-[580px] h-[580px] lg:top-[-50px] lg:left-40 lg:h-[500px] md:top-[-36px] md:left-24 md:h-[370px]  top-[36px] left-24 sm:h-[400px] w-auto max-md:h-auto max-md:w-full"
         alt="Wireless Headphones"
       />
     </article>
@@ -59,9 +59,9 @@ function SpeakerPromo() {
         <p className="sm:text-sm">Hot Offer</p>
       </div>
 
-      <div className="text-5xl md:text-3xl  sm:text-2xl font-bold text-blue-400">
+      <div className="text-5xl md:text-3xl pt-6 sm:text-2xl font-bold text-blue-400">
         <span>50%</span>
-        <span className="ml-3 text-xl md:text-[16px] sm:text-[13px] text-black">
+        <span className="ml-3  text-xl md:text-[16px] sm:text-[13px] text-black">
           Off
         </span>
       </div>
