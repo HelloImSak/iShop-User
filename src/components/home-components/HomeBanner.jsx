@@ -1,14 +1,13 @@
-import { FaArrowLeft } from "react-icons/fa6";
-import { FaArrowRight } from "react-icons/fa6";
-import React, { useState, useEffect } from "react";
-import "./HomeBanner.css";
+import React, { useEffect, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import img1 from "../../assets/HomeBannerImages/img1.png";
 import img2 from "../../assets/HomeBannerImages/img2.png";
 import img3 from "../../assets/HomeBannerImages/img3.png";
 import img4 from "../../assets/HomeBannerImages/img4.png";
+import "./HomeBanner.css";
 
 const HomeBanner = () => {
-  const bgColors = ["#FAE8FF", "#E3DCDB", "#B9DCF7", "#A9A9A9"];
+  const bgColors = ["#FAE8FF", "#FAE8FF", "#FAE8FF", "#FAE8FF"];
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const HomeBanner = () => {
 
     nextButton.onclick = () => showSlider("next");
     prevButton.onclick = () => showSlider("prev");
-  }, []);
+  });
 
   return (
     <div
@@ -62,18 +61,15 @@ const HomeBanner = () => {
             className="responsive-img1 w-auto h-auto object-contain "
           />
           <div className="introduce ">
-            <div className="title ">
-              Most comfortable 2025 PS4 gaming headset
-            </div>
-            <div className="topic">HeadPhone</div>
+            <div className="title ">JBL Powerful Sound, Anytime, Anywhere</div>
+            <div className="topic">Speaker</div>
             <div className="des">
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px] ">
-              Shop Now
-            </button>
-
           </div>
         </div>
 
@@ -85,16 +81,17 @@ const HomeBanner = () => {
           />
           <div className="introduce w-2000">
             <div className="title">
-              Most comfortable 2025 PS4 gaming headset
+              iMac – Sleek Design, Powerful Performance
             </div>
-            <div className="topic">HeadPhone</div>
+            <div className="topic">Desktop</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX
-              Cloud III Wireless gaming headset.
+              Experience the perfect blend of power and elegance with the iMac.
+              Stunning Retina display, seamless performance, and an all-in-one
+              design for work and creativity
+              <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
-              Shop Now
-            </button>
           </div>
         </div>
 
@@ -106,16 +103,17 @@ const HomeBanner = () => {
           />
           <div className="introduce">
             <div className="title">
-              Most comfortable 2025 PS4 gaming headset
+              Beat Solo – Pure Sound, Ultimate Comfort
             </div>
             <div className="topic">HeadPhone</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX
-              Cloud III Wireless gaming headset.
+              Experience rich, immersive audio with the Beat Solo headphones.
+              Designed for comfort and built for superior sound quality,
+              wherever you go.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
-              Shop Now
-            </button>
           </div>
         </div>
 
@@ -128,26 +126,30 @@ const HomeBanner = () => {
             />
           </div>
           <div className="introduce">
-            <div className="title">
-              Most comfortable 2025 PS4 gaming headset
-            </div>
-            <div className="topic">HeadPhone</div>
+            <div className="title">ASUS ZenBook – Power Meets Elegance</div>
+            <div className="topic">Laptop</div>
             <div className="des">
-              Experience ultimate comfort and immersive sound with the HyperX
-              Cloud III Wireless gaming headset.
+              Sleek, powerful, and ultra-portable – the ASUS ZenBook is designed
+              for those who demand style and performance on the go.
+              <button className="bg-primary hover:bg-accent_1 block mt-4 sm-mt-2 text-white font-semibold py-2 px-5 rounded-[8px]">
+                Shop Now
+              </button>
             </div>
-            <button className="bg-primary hover:bg-accent_1 text-white font-semibold py-2 px-5 rounded-[8px]">
-              Shop Now
-            </button>
           </div>
         </div>
       </div>
 
       <div className="arrows">
-        <button id="prev" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[6px] text-gray-500 ">
+        <button
+          id="prev"
+          className="2xl:ps-2.5 xl:ps-3 lg:ps-3 md:ps-1.5  sm:w-1   text-gray-500 "
+        >
           <FaArrowLeft />
         </button>
-        <button id="next" className="2xl:ps-5 xl:ps-3 lg:ps-3 md:ps-3 sm:ps-[7px] text-gray-500 ">
+        <button
+          id="next"
+          className="2xl:ps-2.5 xl:ps-3 lg:ps-3 md:ps-1.5 sm:ps-2 sm:text-xs text-gray-500 "
+        >
           <FaArrowRight />
         </button>
       </div>

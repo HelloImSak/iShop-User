@@ -1,13 +1,13 @@
 import React from "react";
 import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
-import Matra from "../../assets/TeamsImage/Matra.png";
-import Raksa from "../../assets/TeamsImage/Raksa.png";
-import Channim from "../../assets/TeamsImage/Channim.JPG";
-import Nita from "../../assets/TeamsImage/Nita.png";
-import Vanly from "../../assets/TeamsImage/Vanly.png";
-import Pisethi from "../../assets/TeamsImage/Pisethi.png";
+import Matra from "../../assets/TeamsImage/Matra.jpg";
+import Raksa from "../../assets/TeamsImage/Raksa.jpg";
+import Channim from "../../assets/TeamsImage/Channim.jpg";
+import Nita from "../../assets/TeamsImage/Nita.jpg";
+import Vanly from "../../assets/TeamsImage/Vanly.jpg";
+import Pisethi from "../../assets/TeamsImage/Pisethi.jpg";
 import Seyla from "../../assets/TeamsImage/Seyla.png";
-import Vicheka from "../../assets/TeamsImage/Vicheka.png";
+import Vicheka from "../../assets/TeamsImage/Vicheka.jpg";
 const teams = [
   {
     name: "Chey Somatra",

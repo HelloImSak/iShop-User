@@ -92,7 +92,7 @@ export default function AllProductPage() {
 
   return (
     <>
-      <main className="min-h-screen pt-8 md:pt-20">
+      <main className="min-h-screen pt-8 md:pt-20 sm-pt-90">
         <BannerAllPro />
         <div className="py-10 w-full px-4 sm:px-6 lg:px-8">
           <h2 className="font-bold text-center mb-10 text-primary text-2xl sm:text-3xl md:text-4xl py-7">
