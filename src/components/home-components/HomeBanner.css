@@ -88,8 +88,8 @@
 }
 
 .carousel .list .item .introduce .des {
-  font-size: 1em;
-  color: rgba(0, 0, 0, 0.6);
+  /* font-size: 20px; */
+  color: #193370;
 }
 
 .carousel .list .item:nth-child(1) {
@@ -295,8 +295,8 @@
   }
 
   .carousel .list .item:nth-child(2) .introduce .des {
-    font-size: smaller;
-    height: 100px;
+    /* font-size: smaller; */
+    height: 150px;
     overflow: auto;
   }
 }
@@ -362,8 +362,8 @@
   }
 
   .carousel .list .item:nth-child(2) .introduce .des {
-    font-size: smaller;
-    height: 100px;
+    /* font-size: smaller; */
+    height: 150px;
     overflow: auto;
   }
 }
@@ -429,8 +429,8 @@
   }
 
   .carousel .list .item:nth-child(2) .introduce .des {
-    font-size: smaller;
-    height: 100px;
+    /* font-size: smaller; */
+    height: 150px;
     overflow: auto;
   }
 }
@@ -497,8 +497,8 @@
   }
 
   .carousel .list .item:nth-child(2) .introduce .des {
-    font-size: smaller;
-    height: 100px;
+    /* font-size: smaller; */
+    height: 150px;
     overflow: auto;
   }
 }
@@ -564,8 +564,8 @@
   }
 
   .carousel .list .item:nth-child(2) .introduce .des {
-    font-size: smaller;
-    height: 130px;
+    /* font-size: smaller; */
+    height: 150px;
     overflow: auto;
   }
 
