@@ -3,7 +3,7 @@ import React from "react";
 export default function Banner() {
   return (
     <main className="flex justify-center pt-[32px] ">
-      <div lassName="flex flex-col gap-10 px-12 py-10 max-md:px-5 max-sm:px-4  ">
+      <div lassName="flex flex-col gap-10 px-6 py-10 md:px-8 lg:px-12 xl:px-16 ">
         <div className="bg-primary w-full max-w-[1300px] max-md:max-w-full p-[30px] rounded-[20px] ">
           <div className="flex gap-5 max-md:flex-col">
             <div className="w-6/12 max-md:ml-0 max-md:w-full">
