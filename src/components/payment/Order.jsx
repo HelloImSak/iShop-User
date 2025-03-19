@@ -42,10 +42,12 @@ export default function Order() {
   const [verificationInterval, setVerificationInterval] = useState(null);
   const [isPaymentSuccessOpen, setIsPaymentSuccessOpen] = useState(false);
   const [isPaymentFailedOpen, setIsPaymentFailedOpen] = useState(false);
-  const [isVerifyPaymentOpen, setIsVerifyPaymentOpen] = useState(false); // New state for verify modal
+
   const { data: userData, isLoading: userLoading } = useUserDataOfTokenQuery(
     undefined,
-    { skip: !token }
+    {
+      skip: !token,
+    }
   );
   const userUuid = initialUserUuid || userData?.uuid;
 
@@ -61,51 +63,82 @@ export default function Order() {
   const [bakongQr] = useBakongQrMutation();
   const [makePayment] = useMakePaymentMutation();
 
-  // Debug data
+  // Enhanced debug data
   useEffect(() => {
     console.log("Order Data from Source:", orderData);
     console.log("Cart Data from API:", cartData);
     console.log("Current Cart Items:", cartItems);
+    console.log("Calculated Totals:", { subtotal, totalDiscountAmount, total });
     if (cartError) console.error("Cart Error:", cartErrorDetails);
-  }, [orderData, cartData, cartItems, cartError, cartErrorDetails]);
+  }, [
+    orderData,
+    cartData,
+    cartItems,
+    cartError,
+    cartErrorDetails,
+    subtotal,
+    totalDiscountAmount,
+    total,
+  ]);
 
   // Initialize and sync cart data
   useEffect(() => {
     if (initialCartItems.length > 0 && cartUuid) {
-      // From ProductDetail (Buy Now) or ShoppingCart with cartUuid
-      const formattedItems = initialCartItems.map((item) => ({
-        uuid: item.uuid || item.productUuid, // Use productUuid as fallback if no cart item uuid
-        productUuid: item.productUuid,
-        name: item.name || "Unknown Product",
-        price: item.price || 0, // Price from ProductDetail (already discounted if applicable)
-        quantity: item.quantity || 1,
-        totalPrice: (item.price || 0) * (item.quantity || 1), // Total based on price
-        thumbnail: item.thumbnail || "https://via.placeholder.com/64",
-        originalPrice: item.originalPrice || item.price || 0, // Original price before discount
-        discount: item.discount || 0, // Discount amount from ProductDetail
-      }));
+      const formattedItems = initialCartItems.map((item) => {
+        const originalPrice = item.originalPrice || item.price || 0;
+        const discount = item.discount || 0; // Percentage (e.g., 0.07 for 7%)
+        const price =
+          item.price !== undefined
+            ? item.price
+            : discount > 0
+            ? originalPrice * (1 - discount)
+            : originalPrice;
+
+        return {
+          uuid: item.uuid || item.productUuid,
+          productUuid: item.productUuid,
+          name: item.name || "Unknown Product",
+          price, // Discounted price
+          quantity: item.quantity || 1,
+          totalPrice: price * (item.quantity || 1),
+          thumbnail: item.thumbnail || "https://via.placeholder.com/64",
+          originalPrice,
+          discount,
+        };
+      });
       setCartItems(formattedItems);
       calculateTotals(formattedItems);
-      refetchCart(); // Sync with cart API if needed
+      refetchCart();
     } else if (cartData?.cartItems && cartData.cartItems.length > 0) {
-      // Fallback to API cart data if no initial data provided
-      const formattedItems = cartData.cartItems.map((item) => ({
-        uuid: item.uuid,
-        productUuid: item.productUuid,
-        name: item.name || item.product?.name || "Unknown Product",
-        price: item.price || item.totalPrice / item.quantity || 0, // Use cart price
-        quantity: item.quantity || 1,
-        totalPrice: item.totalPrice || (item.price || 0) * (item.quantity || 1),
-        thumbnail:
-          item.thumbnail ||
-          item.product?.thumbnail ||
-          "https://via.placeholder.com/64",
-        originalPrice:
-          item.originalPrice || item.totalPrice / item.quantity || 0,
-        discount: item.discount || 0,
-      }));
+      const formattedItems = cartData.cartItems.map((item) => {
+        const originalPrice = item.originalPrice || item.price || 0;
+        const discount = item.discount || 0;
+        const price =
+          item.price !== undefined
+            ? item.price
+            : discount > 0
+            ? originalPrice * (1 - discount)
+            : originalPrice;
+
+        return {
+          uuid: item.uuid,
+          productUuid: item.productUuid,
+          name: item.name || item.product?.name || "Unknown Product",
+          price,
+          quantity: item.quantity || 1,
+          totalPrice: price * (item.quantity || 1),
+          thumbnail:
+            item.thumbnail ||
+            item.product?.thumbnail ||
+            "https://via.placeholder.com/64",
+          originalPrice,
+          discount,
+        };
+      });
       setCartItems(formattedItems);
       calculateTotals(formattedItems);
+    } else {
+      console.warn("No cart items available from source or API.");
     }
   }, [cartData, initialCartItems, cartUuid]);
 
@@ -115,7 +148,7 @@ export default function Order() {
       0
     );
     const newDiscount = items.reduce(
-      (sum, item) => sum + item.discount * item.quantity,
+      (sum, item) => sum + item.originalPrice * item.discount * item.quantity,
       0
     );
     const newTotal = newSubtotal - newDiscount + initialShipping;
@@ -149,13 +182,11 @@ export default function Order() {
     generateBakongQr(resolvedOrderUuid, userUuid);
   };
 
-  const handleConfirmPayment = () => {
-    setIsVerifyPaymentOpen(false);
-    setIsPaymentSuccessOpen(true); // Show PaymentSuccess after confirmation
-  };
-
   const handleMakeOrder = async () => {
-    if (!userUuid || cartItems.length === 0) return;
+    if (!userUuid || cartItems.length === 0) {
+      console.error("Cannot place order: Missing userUuid or cartItems");
+      return;
+    }
 
     try {
       const response = await makeOrder({
@@ -169,8 +200,10 @@ export default function Order() {
       }).unwrap();
       setResolvedOrderUuid(response.orderUuid);
       setOrderDetails(response);
+      console.log("Order placed successfully:", response);
     } catch (error) {
       console.error("Failed to place order:", error);
+      toast.error("Failed to place order");
     }
   };
 
@@ -298,6 +331,7 @@ export default function Order() {
     }
     calculateTotals(cartItems);
   };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 pt-40">
       <h1 className="text-2xl font-bold mb-6">Order Summary</h1>
@@ -333,6 +367,11 @@ export default function Order() {
                       <h3 className="font-medium">{item.name}</h3>
                       <p className="text-sm text-gray-600">
                         Unit Price: ${item.price.toFixed(2)}
+                        {item.discount > 0 && (
+                          <span className="ml-2 text-red-500 line-through">
+                            ${item.originalPrice.toFixed(2)}
+                          </span>
+                        )}
                       </p>
                       <p className="text-sm text-gray-600">
                         Qty: {item.quantity}
@@ -392,7 +431,10 @@ export default function Order() {
                 <span className="text-gray-600">Discount</span>
                 <span>-${totalDiscountAmount.toFixed(2)}</span>
               </div>
-
+              <div className="flex justify-between">
+                <span className="text-gray-600">Shipping</span>
+                <span>${initialShipping.toFixed(2)}</span>
+              </div>
               <div className="flex justify-between pt-2 border-t font-semibold">
                 <span>Total</span>
                 <span className="text-green-600 text-xl">
@@ -425,7 +467,7 @@ export default function Order() {
             </div>
           </div>
 
-          {/* Modals remain the same */}
+          {/* Modals */}
           {isDeliveryModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
               <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -445,7 +487,6 @@ export default function Order() {
             </div>
           )}
 
-          {/* QR Code Modal */}
           {isQrModalOpen && qrCodeImage && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
               <div className="bg-white p-6 rounded-lg shadow-lg relative w-96">
@@ -479,19 +520,35 @@ export default function Order() {
               </div>
             </div>
           )}
-          {/* Payment Success Popup */}
+
           {isPaymentSuccessOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <PaymentSuccess onClose={handleClosePaymentSuccess} />
             </div>
           )}
-          {/* Payment Failed Popup */}
+
           {isPaymentFailedOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <PaymentFailed
-                onClose={handleClosePaymentFailed}
-                onTryAgain={handleTryAgain}
-              />
+              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h2 className="text-xl font-semibold mb-4">Payment Failed</h2>
+                <p className="mb-4">
+                  {paymentStatus || "An error occurred during payment."}
+                </p>
+                <div className="flex gap-4">
+                  <button
+                    onClick={handleClosePaymentFailed}
+                    className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={handleTryAgain}
+                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -42,7 +42,9 @@ const ProductDetail = ({
 
   const Description = () => (
     <div className="text-gray-600 space-y-4 mx-5 mt-10">
-      <h2 className="text-h6 lg:text-h5 font-medium text-primary">Description</h2>
+      <h2 className="text-h6 lg:text-h5 font-medium text-primary">
+        Description
+      </h2>
       <p className="text-body lg:text-lg">{description}</p>
     </div>
   );
@@ -192,7 +194,7 @@ const ProductDetail = ({
 
             <div className="mt-4">
               <p className="text-h5 lg:text-2xl font-OpenSanSemiBold text-gray-900">
-                ${discountedPrice.toFixed(2)} {" "}
+                ${discountedPrice.toFixed(2)}{" "}
                 {discount > 0 && (
                   <>
                     <span className="line-through text-red-500 mr-2 text-body">

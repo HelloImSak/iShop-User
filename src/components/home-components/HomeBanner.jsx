@@ -1,11 +1,10 @@
-import { FaArrowLeft } from "react-icons/fa6";
-import { FaArrowRight } from "react-icons/fa6";
-import React, { useState, useEffect } from "react";
-import "./HomeBanner.css";
+import React, { useEffect, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import img1 from "../../assets/HomeBannerImages/img1.png";
 import img2 from "../../assets/HomeBannerImages/img2.png";
 import img3 from "../../assets/HomeBannerImages/img3.png";
 import img4 from "../../assets/HomeBannerImages/img4.png";
+import "./HomeBanner.css";
 
 const HomeBanner = () => {
   const bgColors = ["#00000", "#00000", "#00000", "#00000"];
@@ -82,7 +81,7 @@ const HomeBanner = () => {
           />
           <div className="introduce w-2000">
             <div className="title">
-            iMac – Sleek Design, Powerful Performance
+              iMac – Sleek Design, Powerful Performance
             </div>
             <div className="topic">Desktop</div>
             <div className="des">
