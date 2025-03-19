@@ -483,9 +483,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
 import { useLocation } from "react-router-dom";
 import CardDisCom from "../card/CardDisCom";
+import ScrollToTopButton from "../ScrollToTopButton";
 import BannerAllPro from "./BannerAllPro";
 import FilterDis from "./FilterDis";
-import ScrollToTopButton from "../ScrollToTopButton";
 
 export default function AllProductPage() {
   const [products, setProducts] = useState([]);
@@ -621,10 +621,15 @@ export default function AllProductPage() {
           <div className="w-full">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-4">
               {filteredProducts.length === 0 ? (
+<<<<<<< HEAD
                 <div className="flex items-center justify-center sm:w-[250px] md:w-[500px] lg:w-[1000px] xl:w-[1200px]">
                   <p className="text-lg sm:text-xl md:text-2xl text-primary text-center font-OpenSanBold">
                     No products available
                   </p>
+=======
+                <div className="flex items-center justify-center min-h-screen text-primary text-center font-OpenSanBold">
+                  No discounted products available
+>>>>>>> 7bab5c3072f2538162f55b5237bcb878c23699aa
                 </div>
               ) : (
                 filteredProducts.map((e) => (

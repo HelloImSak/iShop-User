@@ -14,20 +14,24 @@ import {
 } from "../../redux/service/cart/cartSlice";
 import { useGetByUuidQuery } from "../../redux/service/product/productSlice";
 
-// Unmodified ProductDetails as requested
+// Updated ProductDetails to use priceOut
 function ProductDetails({ productUuid }) {
   const { data, isLoading } = useGetByUuidQuery(productUuid, {
     skip: !productUuid,
   });
+
+  console.log(`Product Data for UUID ${productUuid}:`, data);
+
   return {
     name: data?.name || productUuid,
     thumbnail: data?.thumbnail || "https://via.placeholder.com/60",
-    price: data?.price || 0, // Add price from product API
+    price: data?.priceOut || 0, // Use priceOut from API instead of price
+    discount: data?.discount || 0, // Include discount for consistency
     isLoading,
   };
 }
 
-// Unmodified useProductDetails as requested
+// Updated useProductDetails
 function useProductDetails(productUuids) {
   const product1 = ProductDetails({ productUuid: productUuids[0] || "" });
   const product2 = ProductDetails({ productUuid: productUuids[1] || "" });
@@ -93,51 +97,65 @@ export default function ShoppingCart({ userUuid }) {
   );
   const productDetails = useProductDetails(productUuids);
 
-  // Updated logic to use cart data for pricing
+  // Pricing logic: Use priceOut and discount from product API if cart data is missing
   const cartItemsWithDetails = useMemo(
     () =>
       cartItems.map((item) => {
         const productInfo = productDetails[item.productUuid] || {};
-        // Prioritize cart data from ProductDetail
-        const originalPrice =
-          item.originalPrice ||
-          productInfo.price ||
-          item.totalPrice / item.quantity ||
-          0;
-        const discount = item.discount || 0; // Use discount from ProductDetail (e.g., 10%)
-        const price = item.price || originalPrice - discount; // Price after discount from ProductDetail
+        const originalPrice = item.originalPrice || productInfo.price || 0; // priceOut from API
+        const discount =
+          item.discount !== undefined
+            ? item.discount
+            : productInfo.discount || 0; // Use cart discount if available, else product discount
+        const price =
+          item.price !== undefined
+            ? item.price
+            : discount > 0
+            ? originalPrice * (1 - discount)
+            : originalPrice;
 
         return {
           ...item,
           name: productInfo.name || item.productUuid,
           thumbnail: productInfo.thumbnail || "https://via.placeholder.com/60",
-          originalPrice, // From cart or product API
-          discount, // From ProductDetail (10% in your case)
-          price, // Price after discount
-          totalPrice: price * item.quantity, // Total after discount
+          originalPrice,
+          discount,
+          price,
+          totalPrice: price * item.quantity,
           isLoading: productInfo.isLoading || false,
         };
       }),
     [cartItems, productDetails]
   );
 
+  // Calculate totals
   const subtotal = cartItemsWithDetails.reduce(
     (total, item) => total + item.originalPrice * item.quantity,
     0
   );
   const totalDiscountAmount = cartItemsWithDetails.reduce(
-    (sum, item) => sum + item.discount * item.quantity,
+    (sum, item) => sum + item.originalPrice * item.discount * item.quantity,
     0
   );
   const shippingCost = 0;
   const total = subtotal - totalDiscountAmount + shippingCost;
+
+  console.log("Cart Items with Details:", cartItemsWithDetails);
+  console.log(
+    "Subtotal:",
+    subtotal,
+    "Discount:",
+    totalDiscountAmount,
+    "Total:",
+    total
+  );
 
   const updateQuantity = async (uuid, change) => {
     try {
       if (change > 0) {
         await addQtyByOne(uuid).unwrap();
         toast.success("Quantity increased!");
-      } else if (change < 1) {
+      } else if (change < 0) {
         await removeQtyByOne(uuid).unwrap();
         toast.success("Quantity decreased!");
       }
@@ -167,6 +185,7 @@ export default function ShoppingCart({ userUuid }) {
       );
       toast.success("Selected items removed!");
       setSelectedItems([]);
+      refetch();
     } catch (error) {
       toast.error("Failed to remove selected items!");
       console.error("Remove selected error:", error);
@@ -197,7 +216,7 @@ export default function ShoppingCart({ userUuid }) {
       cartItems: cartItemsWithDetails.map((item) => ({
         productUuid: item.productUuid,
         quantity: item.quantity,
-        price: item.price, // Price after discount
+        price: item.price,
         originalPrice: item.originalPrice,
         discount: item.discount,
         name: item.name,
@@ -220,7 +239,7 @@ export default function ShoppingCart({ userUuid }) {
   if (cartError || !cartData || cartItems.length === 0) return <NoCartCom />;
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-32">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
