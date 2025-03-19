@@ -55,6 +55,6 @@ const BestSellingProducts = () => {
         </div>
       </div>
     </section>
-  );
+  );  
 };
 export default BestSellingProducts;

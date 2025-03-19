@@ -21,7 +21,7 @@ export default function ScrollToTopButton() {
     showButton && (
       <button
         onClick={scrollToTop}
-        className="fixed bottom-5 right-5 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-secondary transition-all"
+        className="fixed bottom-5 right-5 p-3 bg-orange-500 text-white rounded-full shadow-lg hover:bg-secondary transition-all"
       >
         <FiArrowUp size={24} />
       </button>
