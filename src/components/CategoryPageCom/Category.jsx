@@ -1,30 +1,20 @@
 import React, { useState } from "react";
-import { useGetAllBrandQuery } from "../redux/features/brand/brandSlice";
-import { useGetAllCategoriesQuery } from "../redux/service/category/categorySlice";
+// import { useGetAllCategoriesQuery } from "../redux/service/category/categorySlice";
+import {useGetAllCategoriesQuery} from "../../redux/service/category/categorySlice"
 import { HiOutlineFilter, HiChevronDown, HiChevronUp } from "react-icons/hi";
 
 export default function Filter({
-  setSelectedBrands,
   setSelectedCategories,
   setPriceRange,
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [price, setPrice] = useState(4950); // State to track the current price value
 
-  const { data: brandData, isLoading: isBrandLoading, isError: isBrandError } =
-    useGetAllBrandQuery();
   const {
     data: categoryData,
     isLoading: isCategoryLoading,
     isError: isCategoryError,
   } = useGetAllCategoriesQuery();
-
-  // Handle brand checkbox changes
-  const handleBrandChange = (uuid) => {
-    setSelectedBrands((prev) =>
-      prev.includes(uuid) ? prev.filter((id) => id !== uuid) : [...prev, uuid]
-    );
-  };
 
   // Handle category checkbox changes
   const handleCategoryChange = (uuid) => {
@@ -40,12 +30,12 @@ export default function Filter({
     setPriceRange(value); // Update the priceRange state in the parent component
   };
 
-  if (isBrandLoading || isCategoryLoading)
+  if (isCategoryLoading)
     return <aside className="w-1/4 rounded-lg">Loading...</aside>;
-  if (isBrandError || isCategoryError)
+  if (isCategoryError)
     return (
       <aside className="w-1/4 rounded-lg text-red-500">
-        Error loading filters
+        Error loading categories
       </aside>
     );
 
@@ -73,10 +63,10 @@ export default function Filter({
         } lg:block lg:relative lg:top-20 lg:w-64 lg:max-w-[300px] lg:h-fit lg:overflow-y-auto`}
       >
         {/* Product Categories */}
-        <h3 className="font-bold text-[18px] text-primary mb-1">
+        <h3 className="font-bold text-[20px] text-primary mb-3">
           Product Categories
         </h3>
-        <ul className="space-y-1.5 text-[15px] text-gray-600">
+        <ul className="space-y-2 text-[16px] text-gray-600">
           {categoryData?.content?.map((category) => (
             <li key={category.uuid} className="flex items-center">
               <input
@@ -92,30 +82,8 @@ export default function Filter({
           ))}
         </ul>
 
-        <hr className="my-1 border-gray-200" />
-
-        {/* Product Brands */}
-        <h3 className="font-bold text-[18px] text-primary mb-1">
-          Product Brands
-        </h3>
-        <ul className="space-y-1.5 text-[15px] text-gray-600">
-          {brandData?.content?.map((brand) => (
-            <li key={brand.uuid} className="flex items-center">
-              <input
-                type="checkbox"
-                id={`brand-${brand.uuid}`}
-                onChange={() => handleBrandChange(brand.uuid)}
-                className="mr-2 h-4 w-4 checked:bg-primary"
-              />
-              <label htmlFor={`brand-${brand.uuid}`}>{brand.name}</label>
-            </li>
-          ))}
-        </ul>
-
-        <hr className="my-1 border-gray-200" />
-
         {/* Price Range */}
-        <h3 className="font-bold text-[18px] text-primary">
+        <h3 className="font-bold text-[20px] text-primary mt-5 mb-3">
           Choose Price
         </h3>
         <input
@@ -127,7 +95,7 @@ export default function Filter({
           className="w-full accent-primary"
           aria-label="Price range slider"
         />
-        <div className="flex justify-between font-bold text-gray-700">
+        <div className="flex justify-between font-bold mt-2 text-gray-700">
           <span>$20</span>
           <span>${price}</span> {/* Display the current price value */}
         </div>

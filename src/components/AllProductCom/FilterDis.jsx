@@ -57,7 +57,8 @@ export default function FilterDis({
     <div className="relative">
       <button
         onClick={() => setIsFilterOpen(!isFilterOpen)}
-        className="lg:hidden flex items-center bg-primary text-white px-4 rounded-md text-lg font-semibold"
+        className="lg:hidden flex items-center bg-primary text-white py-2 px-4 rounded-md text-lg font-semibold"
+        aria-label="toggle filter Menu"
       >
         <HiOutlineFilter className="text-xl mr-2" />
         <span>Filter</span>
@@ -70,33 +71,33 @@ export default function FilterDis({
 
       {/* Filter Sidebar/Dropdown */}
       <aside
-        className={`absolute top-0 left-0 w-[240px] bg-white rounded-lg pr-7 z-20 shadow-lg transition-all duration-300 ${
+        className={`fixed lg:sticky top-0 left-0 w-[240px] bg-white rounded-lg p-5 z-50 transition-all duration-300 ${
           isFilterOpen ? "block" : "hidden"
         } lg:block lg:relative lg:w-64 lg:max-w-[300px] lg:z-10 lg:shadow-none`}
       >
-        <h3 className="font-bold text-[20px] text-primary mb-3">
+        <h3 className="font-bold text-[18px] text-primary mb-1">
           Product Categories
         </h3>
-        <ul className="space-y-2 text-[16px] text-gray-600">
+        <ul className="space-y-1 text-[15px] text-gray-600">
           {categoryData?.content?.map((category) => (
             <li key={category.uuid} className="flex items-center">
               <input
                 type="checkbox"
                 id={category.uuid}
                 onChange={() => handleCategoryChange(category.uuid)}
-                className="mr-2 h-4 w-4 checked:bg-blue-500"
+                className="mr-2 h-4 w-4 checked:bg-primary"
               />
               <label htmlFor={category.uuid}>{category.name}</label>
             </li>
           ))}
         </ul>
 
-        <hr className="my-5 border-gray-200" />
+        <hr className="my-1 border-gray-200" />
 
-        <h3 className="font-bold text-[20px] text-primary mt-5 mb-3">
+        <h3 className="font-bold text-[18px] text-primary mb-1">
           Product Brands
         </h3>
-        <ul className="space-y-2 text-[16px] text-gray-600">
+        <ul className="space-y-1 text-[15px] text-gray-600">
           {brandData?.content?.map((brand) => (
             <li key={brand.uuid} className="flex items-center">
               <input
@@ -110,11 +111,11 @@ export default function FilterDis({
           ))}
         </ul>
 
-        <hr className="my-5 border-gray-200" />
+        <hr className="my-1 border-gray-200" />
 
-        <h3 className="font-semibold text-xl text-primary">Discount Product</h3>
+        <h3 className="font-bold text-xl text-primary">Discount Product</h3>
         <ul className="space-y-4 text-gray-600">
-          <li className="flex items-center mb-4">
+          <li className="flex items-center">
             <input
               type="checkbox"
               id="discount"
@@ -125,20 +126,20 @@ export default function FilterDis({
           </li>
         </ul>
 
-        <hr className="my-5 border-gray-200" />
+        <hr className="my-1 border-gray-200" />
 
-        <h3 className="font-semibold text-[20px] text-primary mt-5 mb-3">
+        <h3 className="font-bold text-[18px] text-primary ">
           Choose Price
         </h3>
         <input
-          type="range"
+          type="range"  
           min="20"
           max="4950"
           value={price}
           onChange={handlePriceChange}
           className="w-full accent-primary"
         />
-        <div className="flex justify-between font-bold mt-2 text-gray-700">
+        <div className="flex justify-between font-bold text-gray-700">
           <span>$20</span>
           <span>${price}</span>
         </div>

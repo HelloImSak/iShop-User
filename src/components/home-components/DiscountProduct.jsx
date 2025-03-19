@@ -15,16 +15,15 @@ export default function DiscountProduct() {
     });
   }, [fetchProducts]);
 
-  // Filter products with discounts when data changes
   useEffect(() => {
     if (data?.content) {
-      // Filter products that have a discount > 0
+      // Filter products that have a valid discount
       const productsWithDiscount = data.content.filter(
         (product) => product.discount && product.discount > 0
       );
 
-      // Take only the first 10
-      setDiscountedProducts(productsWithDiscount.slice(0, 10));
+      // Set only the first 10 discounted products
+      setDiscountedProducts(productsWithDiscount.slice(0, 12));
     }
   }, [data]);
 
@@ -45,18 +44,18 @@ export default function DiscountProduct() {
   }
 
   return (
-    <section>
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl text-primary text-center font-OpenSanBold mb-[50px]  pt-[30px]">
+    <main className="min-h-screen pt-20">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-primary text-center font-OpenSanBold mb-8">
         Discount Products
       </h1>
 
-      <div className="w-full px-4 sm:px-[50px]">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         {discountedProducts.length === 0 ? (
-          <div className="text-center py-10 text-gray-500">
+          <div className="flex items-center justify-center min-h-[300px] text-gray-500 text-xl">
             No discounted products available
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-7 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
             {discountedProducts.map((e) => (
               <CardDisCom
                 key={e?.uuid}
@@ -72,6 +71,6 @@ export default function DiscountProduct() {
           </div>
         )}
       </div>
-    </section>
+    </main>
   );
 }

@@ -28,7 +28,7 @@ export default function CardDisCom({
       <div className="px-1 pb-3 text-left ">
         <div className="flex items-center justify-between gap-2 mt-4 relative">
           <a href="#">
-            <p className="text-[16px] font-bold text-primary inline line-clamp-custom-1">
+            <p className="text-[16px] font-OpenSanBold text-primary inline line-clamp-custom-1">
               {name}
             </p>
           </a>
@@ -38,11 +38,14 @@ export default function CardDisCom({
         </div>
         <p className="text-gray-600 mt-1 text-[14px]">{brand}</p>
         <div className="flex items-center mt-2">
-          <span className="text-[18px] font-bold text-gray-900">
+          <span className=" font-OpenSanBold sm:text-base md:text-base  text-gray-900 
+         md:mx-0 xl:mx-0 2xl:mx-0">
             ${disPrice}
           </span>
           {dis > 0 && (
-            <del className="text-[15px] text-accent_1 mx-5">${priceOut}</del>
+           <del del className="text-sm font-OpenSanBold sm:font sm:text-base md:text-base text-accent_1 mx-2 sm:mx-8 md:mx-5 lg:mx-24 xl:mx-16 2xl:mx-20">
+              ${priceOut}
+            </del>
           )}
         </div>
       </div>
