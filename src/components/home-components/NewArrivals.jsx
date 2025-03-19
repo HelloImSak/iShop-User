@@ -3,28 +3,28 @@ import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
 import CardDisCom from "../card/CardDisCom";
 
 export default function NewArrivals() {
-  const [fetchProducts, { data, isLoading, isError, error }] =
-    useLazyGetAllQuery();
+  // Destructure fetchProducts and its result (data, isLoading, isError, error)
+  const [fetchProducts, { data, isLoading, isError, error }] = useLazyGetAllQuery();
   const [newestProducts, setNewestProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch products with sorting by creation date (if your API supports it)
+    // Trigger the lazy query to fetch products with sorting by creation date (newest first)
     fetchProducts({
       page: 0,
       size: 50,
-      sort: "createdAt,desc", // Assuming your API supports this sorting parameter
+      sort: "createdAt,desc", // Sort products by creation date in descending order
     });
   }, [fetchProducts]);
 
-  // Update products state when data changes
   useEffect(() => {
     if (data?.content) {
-      // If API already sorts by creation date, just take the first 10
+      // Assuming the API returns sorted data, take the top 12 products
       setNewestProducts(data.content.slice(0, 12));
     }
-  }, [data]);
+  }, [data]); // Update state when the data changes
 
   if (isLoading) {
+    // Display loading spinner when data is being fetched
     return (
       <div className="flex justify-center animate-pulse text-6xl py-20">
         Loading...
@@ -33,6 +33,7 @@ export default function NewArrivals() {
   }
 
   if (isError) {
+    // Display error message if there's an issue with the fetch
     return (
       <div className="flex justify-center text-2xl text-red-500 py-20">
         Error loading products: {error?.message || "Unknown error"}
@@ -50,7 +51,7 @@ export default function NewArrivals() {
           No new products available
         </div>
       ) : (
-        <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+        <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {newestProducts.map((e) => (
             <CardDisCom
               key={e?.uuid}

@@ -43,7 +43,7 @@ export default function CardDisCom({
             ${disPrice}
           </span>
           {dis > 0 && (
-           <del del className="text-sm font-OpenSanBold sm:font sm:text-base md:text-base text-accent_1 mx-2 sm:mx-8 md:mx-5 lg:mx-24 xl:mx-16 2xl:mx-20">
+           <del del className="text-sm font-OpenSanBold sm:font sm:text-base md:text-base text-accent_1 mx-2 sm:mx-8 md:mx-5 lg:mx-24 xl:mx-16 2xl:mx-24">
               ${priceOut}
             </del>
           )}
