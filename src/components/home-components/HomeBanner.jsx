@@ -8,7 +8,7 @@ import img3 from "../../assets/HomeBannerImages/img3.png";
 import img4 from "../../assets/HomeBannerImages/img4.png";
 
 const HomeBanner = () => {
-  const bgColors = ["#FAE8FF", "#FAE8FF", "#FAE8FF", "#FAE8FF"];
+  const bgColors = ["#00000", "#00000", "#00000", "#00000"];
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {

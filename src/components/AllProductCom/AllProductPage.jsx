@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLazyGetAllQuery } from "../../redux/service/product/productSlice";
 import CardDisCom from "../card/CardDisCom";
+import ScrollToTopButton from "../ScrollToTopButton";
 import BannerAllPro from "./BannerAllPro";
 import FilterDis from "./FilterDis";
-import ScrollToTopButton from "../ScrollToTopButton";
 
 export default function AllProductPage() {
   const [products, setProducts] = useState([]);
@@ -93,10 +93,6 @@ export default function AllProductPage() {
     <main className="min-h-screen pt-8 md:pt-20">
       <BannerAllPro />
       <div className=" w-full px-4 sm:px-6 lg:px-8">
-        <h2 className="font-bold text-center text-primary text-2xl sm:text-3xl md:text-4xl ">
-          Best Price Products
-        </h2>
-
         <div className="flex flex-col w-full lg:flex-row gap-10 lg:gap-5 xl:gap-5 py-10">
           {/* Sidebar Filter */}
           <div className="w-full lg:w-[300px] sticky top-24 h-fit">
@@ -114,8 +110,8 @@ export default function AllProductPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-4">
               {filteredProducts.length === 0 ? (
                 <div className="flex items-center justify-center min-h-screen text-primary text-center font-OpenSanBold">
-                No discounted products available
-              </div>              
+                  No discounted products available
+                </div>
               ) : (
                 filteredProducts.map((e) => (
                   <CardDisCom
