@@ -1,8 +1,8 @@
 import React from "react";
 import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
-import Matra from "../../assets/TeamsImage/Matra.jpg";
+import Matra from "../../assets/TeamsImage/Matra.JPG";
 import Raksa from "../../assets/TeamsImage/Raksa.jpg";
-import Channim from "../../assets/TeamsImage/Channim.jpg";
+import Channim from "../../assets/TeamsImage/Channim.JPG";
 import Nita from "../../assets/TeamsImage/Nita.jpg";
 import Vanly from "../../assets/TeamsImage/Vanly.jpg";
 import Pisethi from "../../assets/TeamsImage/Pisethi.jpg";
