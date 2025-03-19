@@ -104,7 +104,7 @@ export default function FilterDis({
                 type="checkbox"
                 id={brand.uuid}
                 onChange={() => handleBrandChange(brand.uuid)}
-                className="mr-2 h-4 w-4 checked:bg-blue-500"
+                className="mr-2 h-4 w-4 checked:bg-primary"
               />
               <label htmlFor={brand.uuid}>{brand.name}</label>
             </li>
