@@ -168,12 +168,13 @@ export default function Order() {
     setIsPaymentSuccessOpen(false);
     setQrCodeImage(null);
     if (verificationInterval) clearInterval(verificationInterval);
-    navigate("/profile-setting/order-history");
+    navigate("/products");
   };
 
   const handleClosePaymentFailed = () => {
     setIsPaymentFailedOpen(false);
     setQrCodeImage(null);
+    window.location.reload();
     if (verificationInterval) clearInterval(verificationInterval);
   };
 

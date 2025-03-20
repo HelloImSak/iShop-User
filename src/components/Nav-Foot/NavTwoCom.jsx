@@ -20,47 +20,6 @@ const navLinks = [
     to: "/products",
     label: "Products",
   },
-  {
-    label: "Categories",
-    isDropdown: true,
-    subItems: [
-      {
-        to: "/phone",
-        label: "Phone",
-        icon: <IoIosPhonePortrait className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/laptop",
-        label: "Laptop",
-        icon: <IoIosLaptop className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/desktop",
-        label: "Desktop",
-        icon: <IoIosDesktop className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/keyboard",
-        label: "Keyboard",
-        icon: <FaRegKeyboard className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/mouse",
-        label: "Mouse",
-        icon: <BsMouse3 className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/speaker",
-        label: "Speaker",
-        icon: <CiSpeaker className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/headphone",
-        label: "Headphone",
-        icon: <GiHeadphones className="w-[26px] h-[26px]" />,
-      },
-    ],
-  },
   { to: "/brand", label: "Brand" },
   { to: "/discount-products", label: "Discount" },
   { to: "/about", label: "About Us" },

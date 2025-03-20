@@ -7,6 +7,7 @@ const PaymentSuccess = ({ onClose }) => {
 
   const handleContinueShopping = () => {
     onClose();
+    window.location.reload();
     navigate("/products");
   };
 

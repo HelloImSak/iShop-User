@@ -15,7 +15,6 @@ import About from "../pages/About";
 import LoginForm from "../pages/auth/LoginForm";
 import RegisterForm from "../pages/auth/RegisterForm";
 import ShoppingCart from "../pages/cart/ShoppingCart";
-import Category from "../pages/Category";
 import Home from "../pages/Home";
 import Detail from "../pages/products/Detail";
 import OrderHistory from "../pages/user/OrderHistory";
