@@ -114,14 +114,6 @@ export default function AppRoutes() {
             <Route path="/about" element={<About isLoggedIn={isLoggedIn} />} />
             
             <Route path="/discount-products" element={<DiscountPage />} />
-            <Route path="/category/phone" element={<Category />} />
-            <Route path="/category/laptop" element={<Category />} />
-            <Route path="/category/desktop" element={<Category />} />
-            <Route path="/category/keyboard" element={<Category />} />
-            <Route path="/category/mouse" element={<Category />} />
-            <Route path="/category/headphone" element={<Category />} />
-            <Route path="/category/speaker" element={<Category />} />
-            <Route path="/product-detail/:uuid" element={<Detail />} />
             <Route
               path="/shopping-cart"
               element={<ShoppingCart userUuid={userUuid} />}

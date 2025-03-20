@@ -1,5 +1,5 @@
 import React from "react";
-import CategoryPage from "../components/CategoryPageCom/CategoryPage";
+// import CategoryPage from "../components/CategoryPageCom/CategoryPage";
 
 const Category = () => {
   return (
@@ -10,3 +10,4 @@ const Category = () => {
   );
 };
 export default Category;
+  
