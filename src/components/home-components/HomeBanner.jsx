@@ -61,9 +61,11 @@ const HomeBanner = () => {
             className="responsive-img1 w-auto h-auto object-contain "
           />
           <div className="introduce ">
-            <div className="title ">JBL Powerful Sound, Anytime, Anywhere</div>
-            <div className="topic">Speaker</div>
-            <div className="des">
+            <div className="title text-primary font-OpenSanBold">
+              JBL Powerful Sound, Anytime, Anywhere
+            </div>
+            <div className="topic text-primary">Speaker</div>
+            <div className="des text-body">
               Experience ultimate comfort and immersive sound with the HyperX
               Cloud III Wireless gaming headset.
               <button className="bg-primary hover:bg-accent_1 block mt-4 text-white font-semibold py-2 px-5 rounded-[8px]">
@@ -80,11 +82,11 @@ const HomeBanner = () => {
             className="responsive-img2 w-auto h-auto object-contain "
           />
           <div className="introduce w-2000">
-            <div className="title">
+            <div className="title text-primary font-OpenSanBold">
               iMac – Sleek Design, Powerful Performance
             </div>
-            <div className="topic">Desktop</div>
-            <div className="des">
+            <div className="topic text-primary">Desktop</div>
+            <div className="des text-body">
               Experience the perfect blend of power and elegance with the iMac.
               Stunning Retina display, seamless performance, and an all-in-one
               design for work and creativity
@@ -102,11 +104,11 @@ const HomeBanner = () => {
             className="responsive-img3 h-auto w-huto object-contain  "
           />
           <div className="introduce">
-            <div className="title">
+            <div className="title text-primary font-OpenSanBold">
               Beat Solo – Pure Sound, Ultimate Comfort
             </div>
-            <div className="topic">HeadPhone</div>
-            <div className="des">
+            <div className="topic text-primary">HeadPhone</div>
+            <div className="des text-body">
               Experience rich, immersive audio with the Beat Solo headphones.
               Designed for comfort and built for superior sound quality,
               wherever you go.
@@ -126,9 +128,11 @@ const HomeBanner = () => {
             />
           </div>
           <div className="introduce">
-            <div className="title">ASUS ZenBook – Power Meets Elegance</div>
-            <div className="topic">Laptop</div>
-            <div className="des">
+            <div className="title text-primary font-OpenSanBold">
+              ASUS ZenBook – Power Meets Elegance
+            </div>
+            <div className="topic text-primary">Laptop</div>
+            <div className="des text-body">
               Sleek, powerful, and ultra-portable – the ASUS ZenBook is designed
               for those who demand style and performance on the go.
               <button className="bg-primary hover:bg-accent_1 block mt-4 sm-mt-2 text-white font-semibold py-2 px-5 rounded-[8px]">

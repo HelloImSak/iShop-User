@@ -1,17 +1,6 @@
 import "flowbite";
 import { useEffect, useState } from "react";
-import { BsCart, BsMouse3 } from "react-icons/bs";
-import { CiSpeaker } from "react-icons/ci";
-import { FaRegKeyboard } from "react-icons/fa";
-import { GiHeadphones } from "react-icons/gi";
-import {
-  IoIosArrowDown,
-  IoIosArrowForward,
-  IoIosArrowUp,
-  IoIosDesktop,
-  IoIosLaptop,
-  IoIosPhonePortrait,
-} from "react-icons/io";
+import { BsCart } from "react-icons/bs";
 
 import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router";
@@ -22,47 +11,7 @@ const navLinks = [
     to: "/products",
     label: "Products",
   },
-  {
-    label: "Categories",
-    isDropdown: true,
-    subItems: [
-      {
-        to: "/category/phone",
-        label: "Phone",
-        icon: <IoIosPhonePortrait className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/category/laptop",
-        label: "Laptop",
-        icon: <IoIosLaptop className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/category/desktop",
-        label: "Desktop",
-        icon: <IoIosDesktop className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/category/keyboard",
-        label: "Keyboard",
-        icon: <FaRegKeyboard className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/category/mouse",
-        label: "Mouse",
-        icon: <BsMouse3 className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/category/speaker",
-        label: "Speaker",
-        icon: <CiSpeaker className="w-[26px] h-[26px]" />,
-      },
-      {
-        to: "/category/headphone",
-        label: "Headphone",
-        icon: <GiHeadphones className="w-[26px] h-[26px]" />,
-      },
-    ],
-  },
+
   { to: "/discount-products", label: "Discount" },
   { to: "/about", label: "About Us" },
 ];
@@ -141,59 +90,20 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
             <div>
               {/* Desktop Menu */}
               <ul className="hidden lg:flex xl:items-center xl:space-x-6 xl:ml-10">
-                {navLinks.map((link, index) =>
-                  link.isDropdown ? (
-                    <li key={index} className="relative">
-                      <button
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="flex items-center lg:font-OpenSanBold justify-between w-full py-2 px-3 text-primary hover:text-secondary"
-                      >
-                        {link.label}
-                        {isDropdownOpen ? (
-                          <IoIosArrowUp className="w-5 h-5 ms-2.5 transition-transform duration-300" />
-                        ) : (
-                          <IoIosArrowDown className="w-5 h-5 ms-2.5 transition-transform duration-300" />
-                        )}
-                      </button>
-                      {isDropdownOpen && (
-                        <div className="z-40 absolute bg-white/70 backdrop-blur-md divide-y w-[400px] divide-gray-100 rounded-lg shadow-sm mt-[20px]">
-                          <ul className="py-2 text-caption text-primary">
-                            {link.subItems.map((subItem, subIndex) => (
-                              <li
-                                key={subIndex}
-                                className="hover:bg-gray-100 hover:text-secondary"
-                              >
-                                <NavLink
-                                  to={subItem.to}
-                                  className="flex items-center gap-2.5 px-4 py-2 justify-between w-full"
-                                >
-                                  <div className="flex items-center gap-2.5">
-                                    {subItem.icon}
-                                    <span>{subItem.label}</span>
-                                  </div>
-                                  <IoIosArrowForward className="w-[18px] h-[18px]" />
-                                </NavLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </li>
-                  ) : (
-                    <li key={index}>
-                      <NavLink
-                        to={link.to}
-                        className={({ isActive }) =>
-                          isActive
-                            ? "text-secondary block py-2 px-3 lg:font-OpenSanBold"
-                            : "block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
-                        }
-                      >
-                        {link.label}
-                      </NavLink>
-                    </li>
-                  )
-                )}
+                {navLinks.map((link, index) => (
+                  <li key={index}>
+                    <NavLink
+                      to={link.to}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary block py-2 px-3 lg:font-OpenSanBold"
+                          : "block py-2 px-3 lg:font-OpenSanBold text-primary hover:text-secondary"
+                      }
+                    >
+                      {link.label}
+                    </NavLink>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -315,7 +225,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
               ) : (
                 <button
                   type="button"
-                  class="flex items-center py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-primary hover:text-white"
+                  className="flex items-center py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-primary hover:text-white"
                   onClick={handleLogin}
                 >
                   Login
@@ -485,7 +395,7 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
             ) : (
               <button
                 type="button"
-                class="flex items-center py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-primary hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                className="flex items-center py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-primary hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 onClick={handleLogin}
               >
                 Login
@@ -553,61 +463,16 @@ const NavOneCom = ({ isLoggedIn, profile, cartItems, user }) => {
             {/* Mobile Menu Links */}
             <div>
               <ul>
-                {navLinks.map((link, index) =>
-                  link.isDropdown ? (
-                    <li key={index} className="mb-1 relative">
-                      <div
-                        className="p-4 text-caption font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded cursor-pointer flex justify-between items-center"
-                        onClick={toggleCategories}
-                      >
-                        {link.label}
-                        <svg
-                          className={`w-4 h-4 transform transition-transform ${
-                            isCategoriesOpen ? "rotate-180" : ""
-                          }`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </div>
-                      {isCategoriesOpen && (
-                        <ul className="ml-4 bg-white/80 backdrop-blur-md rounded shadow-lg">
-                          {link.subItems.map((subItem, subIndex) => (
-                            <li
-                              key={subIndex}
-                              className="hover:bg-gray-100 hover:text-secondary"
-                            >
-                              <NavLink
-                                to={subItem.to}
-                                className="flex items-center rounded gap-2.5 px-4 py-2 justify-between w-full"
-                              >
-                                {subItem.icon}
-                                <span>{subItem.label}</span>
-                              </NavLink>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ) : (
-                    <li key={index} className="mb-1">
-                      <NavLink
-                        to={link.to}
-                        className="block p-4 text-caption font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
-                      >
-                        {link.label}
-                      </NavLink>
-                    </li>
-                  )
-                )}
+                {navLinks.map((link, index) => (
+                  <li key={index} className="mb-1">
+                    <NavLink
+                      to={link.to}
+                      className="block p-4 text-caption font-semibold text-primary hover:bg-blue-50 hover:text-primary rounded"
+                    >
+                      {link.label}
+                    </NavLink>
+                  </li>
+                ))}
               </ul>
             </div>
 
